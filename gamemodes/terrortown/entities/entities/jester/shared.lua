@@ -45,6 +45,7 @@ hook.Add("TTT2_FinishedSync", "JesterInitT", function(first)
 		LANG.AddToLanguage("English", "body_found_" .. ROLES.JESTER.abbr, "This was a Jester...")
 		LANG.AddToLanguage("English", "search_role_" .. ROLES.JESTER.abbr, "This person was a Jester!")
         LANG.AddToLanguage("English", "ev_win_" .. ROLES.JESTER.abbr, "The goofy Jester won the round!")
+		LANG.AddToLanguage("English", "target_" .. ROLES.JESTER.name, "Jester")
 	    
 	    -- optional for toggling whether player can avoid the role
 		LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr, "Avoid being selected as Jester!")
@@ -61,6 +62,7 @@ hook.Add("TTT2_FinishedSync", "JesterInitT", function(first)
 		LANG.AddToLanguage("Deutsch", "body_found_" .. ROLES.JESTER.abbr, "Er war ein Narr...")
 		LANG.AddToLanguage("Deutsch", "search_role_" .. ROLES.JESTER.abbr, "Diese Person war ein Narr!")
         LANG.AddToLanguage("Deutsch", "ev_win_" .. ROLES.JESTER.abbr, "Der trottelige Narr hat die Runde gewonnen!")
+		LANG.AddToLanguage("Deutsch", "target_" .. ROLES.JESTER.name, "Narr")
 	    
 		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr, "Vermeide als Narr ausgewählt zu werden!")
 		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
