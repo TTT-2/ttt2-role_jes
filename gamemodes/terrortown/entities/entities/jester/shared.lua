@@ -33,7 +33,7 @@ AddCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JES
 })
 
 -- if sync of roles has finished
-hook.Add("TTT2_FinishedSync", "JesterInitT", function(first)
+hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
 	if CLIENT and first then -- just on client and first init !
 
 		-- setup here is not necessary but if you want to access the role data, you need to start here
@@ -169,7 +169,9 @@ if SERVER then
 	end)
 
 	hook.Add("OnPlayerHitGround", "JesterHitGround", function(ply, in_water, on_floater, speed)
-		return false
+		if ply:GetRole() == ROLES.JESTER.index then
+            return false
+        end
 	end)
 
 	hook.Add("PlayerCanPickupWeapon", "JesterPickupWeapon", function(ply, wep)
