@@ -75,23 +75,19 @@ if SERVER then
 
 	--------
 
-	killedJester = false
-
 	hook.Add("PlayerDeath", "JesterDeath", function(victim, infl, attacker)
 	    if victim:GetRole() == ROLES.JESTER.index and attacker:IsPlayer() and infl:GetClass() ~= env_fire and attacker:GetRole() ~= ROLES.JESTER.index then
-            killedJester = true
+            if victim:GetRole() == ROLES.JESTER.index and not attacker:HasTeamRole(TEAM_TRAITOR) then
+                for _,v in pairs(player.GetAll()) do
+                    v:PrintMessage(HUD_PRINTCENTER, "'" .. attacker:Nick() .. "' killed the Jester...")
+                end
+            end
+        else
+            -- revive
         end
-
-		if victim:GetRole() == ROLES.JESTER.index and not attacker:HasTeamRole(TEAM_TRAITOR) then
-			for _,v in pairs(player.GetAll()) do
-				v:PrintMessage(HUD_PRINTCENTER, "'" .. attacker:Nick() .. "' killed the Jester...")
-			end
-		end
 	end)
 
 	hook.Add("TTTPrepareRound", "JesterInit", function()
-		killedJester = false
-
 		for _, v in pairs(player.GetAll()) do
 			v:ChatPrint("Don't kill the Jester!")
 		end
@@ -120,12 +116,8 @@ if SERVER then
 	end)
 
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
-		if killedJester then 
-			return WIN_ROLE, GetTeamRoles(ROLES.JESTER.team)[1].index
-		end
-
 		for _, v in pairs(player.GetAll()) do
-			if v:GetRole() == ROLES.JESTER and not v:Alive() then
+			if v:GetRole() == ROLES.JESTER.index and not v:Alive() then
 				return WIN_ROLE, GetTeamRoles(ROLES.JESTER.team)[1].index
 			end
 		end
@@ -148,14 +140,19 @@ if SERVER then
 		if ply:GetRole() == ROLES.JESTER.index then
 			if not (dmginfo:IsBulletDamage() 
 			  or dmginfo:IsFallDamage() 
-			  or dmginfo:IsDamageType(1) 
-			  or dmginfo:IsDamageType(128)) 
-			or dmginfo:IsExplosionDamage() then
+			  or dmginfo:IsDamageType(DMG_CRUSH) and IsValid(dmginfo:GetAttacker()) and dmginfo:GetAttacker():IsPlayer() and dmginfo:GetAttacker() ~= ply
+			  or dmginfo:IsDamageType(DMG_CLUB)) 
+			or dmginfo:IsExplosionDamage()
+            or dmginfo:IsDamageType(DMG_BURN) then
 				dmginfo:ScaleDamage(0)
 			end
 		end
 
-		if ply:IsPlayer() and dmginfo:GetAttacker():IsPlayer() and dmginfo:GetAttacker():GetRole() == ROLES.JESTER.index then
+		if ply:IsPlayer() 
+        and dmginfo:GetAttacker()
+        and IsValid(dmginfo:GetAttacker())
+        and dmginfo:GetAttacker():IsPlayer() 
+        and dmginfo:GetAttacker():GetRole() == ROLES.JESTER.index then
 			dmginfo:ScaleDamage(0)
 		end
 	end)
@@ -165,6 +162,14 @@ if SERVER then
 			if dmginfo:IsExplosionDamage() or dmginfo:IsDamageType(DMG_BURN) then -- check its burn or explosion.
 				dmginfo:ScaleDamage(0) -- no damages
 			end
+		end
+        
+        if ent:IsPlayer() 
+        and dmginfo:GetAttacker() 
+        and IsValid(dmginfo:GetAttacker()) 
+        and dmginfo:GetAttacker():IsPlayer() 
+        and dmginfo:GetAttacker():GetRole() == ROLES.JESTER.index then
+			dmginfo:ScaleDamage(0)
 		end
 	end)
 
