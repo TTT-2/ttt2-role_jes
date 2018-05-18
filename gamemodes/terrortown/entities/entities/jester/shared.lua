@@ -180,11 +180,7 @@ if SERVER then
 	end)
 
 	hook.Add("PlayerCanPickupWeapon", "JesterPickupWeapon", function(ply, wep)
-		if not IsValid(wep) or not IsValid(ply) then return end
-   
-   		if ply:IsSpec() then return false end
-
-   		if ply:GetRole() == ROLES.JESTER.index then
+		if IsValid(ply) and IsValid(wep) and ply:GetRole() == ROLES.JESTER.index then
 			if wep:GetClass() == "weapon_zm_molotov" then
 				return false
 			end
