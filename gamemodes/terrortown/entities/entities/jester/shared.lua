@@ -46,6 +46,8 @@ hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
 		LANG.AddToLanguage("English", "search_role_" .. ROLES.JESTER.abbr, "This person was a Jester!")
         LANG.AddToLanguage("English", "ev_win_" .. ROLES.JESTER.abbr, "The goofy Jester won the round!")
 		LANG.AddToLanguage("English", "target_" .. ROLES.JESTER.name, "Jester")
+        LANG.AddToLanguage("English", "ttt2_desc_" .. ROLES.JESTER.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
+The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
 	    
 	    -- optional for toggling whether player can avoid the role
 		LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr, "Avoid being selected as Jester!")
@@ -63,6 +65,8 @@ hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
 		LANG.AddToLanguage("Deutsch", "search_role_" .. ROLES.JESTER.abbr, "Diese Person war ein Narr!")
         LANG.AddToLanguage("Deutsch", "ev_win_" .. ROLES.JESTER.abbr, "Der trottelige Narr hat die Runde gewonnen!")
 		LANG.AddToLanguage("Deutsch", "target_" .. ROLES.JESTER.name, "Narr")
+        LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. ROLES.JESTER.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
+Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]])
 	    
 		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr, "Vermeide als Narr ausgewählt zu werden!")
 		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
@@ -107,7 +111,7 @@ if SERVER then
 	  			v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
 	  		else
 	  			for _, ply in pairs(jesters) do
-                    if v:GetRoleData().team == TEAM_TRAITOR then
+                    if v:HasTeamRole(TEAM_TRAITOR) then
                         v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
                     end
 	  			end
@@ -118,7 +122,7 @@ if SERVER then
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
 		for _, v in pairs(player.GetAll()) do
 			if v:GetRole() == ROLES.JESTER.index and not v:Alive() then
-				return WIN_ROLE, GetTeamRoles(ROLES.JESTER.team)[1].index
+				return WIN_ROLE, GetWinningRole(ROLES.JESTER.team).index
 			end
 		end
 	end)
