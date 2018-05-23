@@ -141,38 +141,48 @@ if SERVER then
 	end)
 
 	hook.Add("ScalePlayerDamage", "JesterDmgScale", function(ply, hitgroup, dmginfo)
+		local attacker = dmginfo:GetAttacker()
+		
 		if ply:GetRole() == ROLES.JESTER.index then
 			if not (dmginfo:IsBulletDamage() 
 			  or dmginfo:IsFallDamage() 
-			  or dmginfo:IsDamageType(DMG_CRUSH) and IsValid(dmginfo:GetAttacker()) and dmginfo:GetAttacker():IsPlayer() and dmginfo:GetAttacker() ~= ply
+			  or dmginfo:IsDamageType(DMG_CRUSH) and IsValid(attacker) and attacker:IsPlayer() and attacker ~= ply
 			  or dmginfo:IsDamageType(DMG_CLUB)) 
 			or dmginfo:IsExplosionDamage()
-            or dmginfo:IsDamageType(DMG_BURN) then
+			or dmginfo:IsDamageType(DMG_DROWN)
+            or dmginfo:IsDamageType(DMG_BURN) 
+			then
 				dmginfo:ScaleDamage(0)
 			end
 		end
-
+		
 		if ply:IsPlayer() 
-        and dmginfo:GetAttacker()
-        and IsValid(dmginfo:GetAttacker())
-        and dmginfo:GetAttacker():IsPlayer() 
-        and dmginfo:GetAttacker():GetRole() == ROLES.JESTER.index then
+        and attacker
+        and IsValid(attacker)
+        and attacker:IsPlayer() 
+        and attacker:GetRole() == ROLES.JESTER.index 
+		then
 			dmginfo:ScaleDamage(0)
 		end
 	end)
 
 	hook.Add("EntityTakeDamage", "JesterGivesDmg", function(ent, dmginfo)
 		if ent:IsPlayer() and ent:GetRole() == ROLES.JESTER.index then
-			if dmginfo:IsExplosionDamage() or dmginfo:IsDamageType(DMG_BURN) then -- check its burn or explosion.
+			if dmginfo:IsExplosionDamage() 
+			or dmginfo:IsDamageType(DMG_BURN) 
+			or dmginfo:IsDamageType(DMG_DROWN) 
+			then -- check its burn, explosion or drown.
 				dmginfo:ScaleDamage(0) -- no damages
 			end
 		end
+		
+		local attacker = dmginfo:GetAttacker()
         
         if ent:IsPlayer() 
-        and dmginfo:GetAttacker() 
-        and IsValid(dmginfo:GetAttacker()) 
-        and dmginfo:GetAttacker():IsPlayer() 
-        and dmginfo:GetAttacker():GetRole() == ROLES.JESTER.index then
+        and attacker 
+        and IsValid(attacker) 
+        and attacker:IsPlayer() 
+        and attacker:GetRole() == ROLES.JESTER.index then
 			dmginfo:ScaleDamage(0)
 		end
 	end)
