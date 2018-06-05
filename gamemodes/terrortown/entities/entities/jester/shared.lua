@@ -1,36 +1,40 @@
-AddCSLuaFile()
-
 if SERVER then
-   resource.AddFile("sound/ttt2/birthdayparty.mp3")
-    
-   resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
-   resource.AddFile("materials/vgui/ttt/sprite_jes.vmt")
-   resource.AddFile("materials/confetti.png")
+	AddCSLuaFile()
+
+	resource.AddFile("sound/ttt2/birthdayparty.mp3")
+
+	resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
+	resource.AddFile("materials/vgui/ttt/sprite_jes.vmt")
+	resource.AddFile("materials/confetti.png")
 end
 
--- important to add roles with this function,
--- because it does more than just access the array ! e.g. updating other arrays
-AddCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER
-	color = Color(255, 105, 180, 200), -- ...
-	dkcolor = Color(255, 51, 153, 255), -- ...
-	bgcolor = Color(255, 85, 100, 200), -- ...
-	name = "jester", -- just a unique name for the script to determine
-	printName = "Jester", -- The text that is printed to the player, e.g. in role alert
-	abbr = "jes", -- abbreviation
-	shop = false, -- can the role access the [C] shop ?
-	team = "jesters", -- the team name: roles with same team name are working together
-	defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
-	visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
-    surviveBonus = 0, -- bonus multiplier for every survive while another player was killed
-    scoreKillsMultiplier = 1, -- multiplier for kill of player of another team
-    scoreTeamKillsMultiplier = -8, -- multiplier for teamkill
-    preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
-}, {
-    pct = 0.17, -- necessary: percentage of getting this role selected (per player)
-    maximum = 1, -- maximum amount of roles in a round
-    minPlayers = 6, -- minimum amount of players until this role is able to get selected
-    togglable = true -- option to toggle a role for a client if possible (F1 menu)
-})
+CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+
+hook.Add("Initialize", "TTT2InitCRoleJes", function()
+	-- important to add roles with this function,
+	-- because it does more than just access the array ! e.g. updating other arrays
+	AddCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER
+		color = Color(255, 105, 180, 200), -- ...
+		dkcolor = Color(255, 51, 153, 255), -- ...
+		bgcolor = Color(255, 85, 100, 200), -- ...
+		name = "jester", -- just a unique name for the script to determine
+		printName = "Jester", -- The text that is printed to the player, e.g. in role alert
+		abbr = "jes", -- abbreviation
+		shop = false, -- can the role access the [C] shop ?
+		team = "jesters", -- the team name: roles with same team name are working together
+		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
+		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
+		surviveBonus = 0, -- bonus multiplier for every survive while another player was killed
+		scoreKillsMultiplier = 1, -- multiplier for kill of player of another team
+		scoreTeamKillsMultiplier = -8, -- multiplier for teamkill
+		preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
+	}, {
+		pct = 0.17, -- necessary: percentage of getting this role selected (per player)
+		maximum = 1, -- maximum amount of roles in a round
+		minPlayers = 6, -- minimum amount of players until this role is able to get selected
+		togglable = true -- option to toggle a role for a client if possible (F1 menu)
+	})
+end)
 
 -- if sync of roles has finished
 hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
@@ -39,12 +43,9 @@ hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
 		-- setup here is not necessary but if you want to access the role data, you need to start here
 		-- setup basic translation !
 		LANG.AddToLanguage("English", ROLES.JESTER.name, "Jester")
-		LANG.AddToLanguage("English", "hilite_win_" .. ROLES.JESTER.name, "THE JES WON") -- name of base role of a team -> maybe access with GetTeamRoles(ROLES["JESTER"].team)[1].name
-		LANG.AddToLanguage("English", "win_" .. ROLES.JESTER.team, "The Jester has won!") -- teamname
 		LANG.AddToLanguage("English", "info_popup_" .. ROLES.JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
 		LANG.AddToLanguage("English", "body_found_" .. ROLES.JESTER.abbr, "This was a Jester...")
 		LANG.AddToLanguage("English", "search_role_" .. ROLES.JESTER.abbr, "This person was a Jester!")
-        LANG.AddToLanguage("English", "ev_win_" .. ROLES.JESTER.abbr, "The goofy Jester won the round!")
 		LANG.AddToLanguage("English", "target_" .. ROLES.JESTER.name, "Jester")
         LANG.AddToLanguage("English", "ttt2_desc_" .. ROLES.JESTER.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
 The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
@@ -58,12 +59,9 @@ The Jester can't do any damage or kill himself. But if he dies, he will WIN. So 
 
 		-- maybe this language as well...
 		LANG.AddToLanguage("Deutsch", ROLES.JESTER.name, "Narr")
-		LANG.AddToLanguage("Deutsch", "hilite_win_" .. ROLES.JESTER.name, "THE JES WON")
-		LANG.AddToLanguage("Deutsch", "win_" .. ROLES.JESTER.team, "Der Narr hat gewonnen!")
 		LANG.AddToLanguage("Deutsch", "info_popup_" .. ROLES.JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
 		LANG.AddToLanguage("Deutsch", "body_found_" .. ROLES.JESTER.abbr, "Er war ein Narr...")
 		LANG.AddToLanguage("Deutsch", "search_role_" .. ROLES.JESTER.abbr, "Diese Person war ein Narr!")
-        LANG.AddToLanguage("Deutsch", "ev_win_" .. ROLES.JESTER.abbr, "Der trottelige Narr hat die Runde gewonnen!")
 		LANG.AddToLanguage("Deutsch", "target_" .. ROLES.JESTER.name, "Narr")
         LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. ROLES.JESTER.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
 Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]])
@@ -80,51 +78,139 @@ if SERVER then
 	--------
 
 	hook.Add("PlayerDeath", "JesterDeath", function(victim, infl, attacker)
-	    if victim:GetRole() == ROLES.JESTER.index and attacker:IsPlayer() and infl:GetClass() ~= env_fire and attacker:GetRole() ~= ROLES.JESTER.index then
-            if victim:GetRole() == ROLES.JESTER.index and not attacker:HasTeamRole(TEAM_TRAITOR) then
-                for _,v in pairs(player.GetAll()) do
-                    v:PrintMessage(HUD_PRINTCENTER, "'" .. attacker:Nick() .. "' killed the Jester...")
-                end
-            end
-        else
-            -- revive
+	    if victim:GetRole() == ROLES.JESTER.index and IsValid(attacker) and attacker:IsPlayer() and infl:GetClass() ~= env_fire and attacker:GetRole() ~= ROLES.JESTER.index then
+            victim.jesterKiller = attacker
+			
+			if hook.Run("TTT2PreventJesterDeath", victim) then
+				victim.jesterKiller = nil
+			
+				return 
+			end
+			
+			for _,v in ipairs(player.GetAll()) do
+				v:PrintMessage(HUD_PRINTCENTER, "'" .. attacker:Nick() .. "' killed the Jester...")
+			end
+			
+			victim:AddFrags(GetConVar("ttt2_jes_winpoints"):GetInt())
+        end
+	end)
+
+	hook.Add("PostPlayerDeath", "JesterPostDeath", function(ply)
+		if hook.Run("TTT2PreventJesterDeath", ply) then return end
+	
+	    if ply:GetRole() == ROLES.JESTER.index then
+			ply:SetRole(ROLES.INNOCENT.index)
+			ply:SpawnForRound(true)
+			
+			local killer = IsValid(ply.jesterKiller)
+			
+			ply.jesterKiller = nil
+			
+			if IsValid(killer) then
+				local rd = killer:GetRoleData()
+				local newRolesEnabled = GetConVar("ttt_newroles_enabled"):GetBool()
+				local tbl = {}
+				local roleCount = {}
+				local choices_i = 0
+				
+				-- prevent endless loop
+				if rd.team == TEAM_TRAITOR then
+					table.insert(tbl, ROLES.INNOCENT)
+				else
+					table.insert(tbl, ROLES.TRAITOR)
+				end
+				
+				for _, v in ipairs(player.GetAll()) do
+					if v:IsActive() then
+						choices_i = choices_i + 1
+					end
+				end
+				
+				for _, v in pairs(ROLES) do
+					if v ~= ROLES.INNOCENT and v ~= ROLES.TRAITOR and not v.notSelectable and v.team ~= rd.team and (v == ROLES.DETECTIVE or newRolesEnabled) and GetConVar("ttt_" .. v.name .. "_enabled"):GetBool() then
+						local b = true
+						local r = (ConVarExists("ttt_" .. v.name .. "_random") and GetConVar("ttt_" .. v.name .. "_random"):GetInt() or 0)
+						
+						if r > 0 and r < 100 then
+							b = math.random(1, 100) <= r
+						end
+						
+						if b then
+							local tmp = GetEachRoleCount(choice_count, v.name)
+							
+							if tmp > 0 then
+								roleCount[v.index] = tmp
+								
+								table.insert(tbl, v)
+							end
+						end
+					end
+				end
+				
+				-- set random available role
+				while true do
+					local vpick = math.random(1, #tbl)
+					local v = tbl[vpick]
+					
+					local type_count = roleCount[v.index] or 0
+					local min_karmas = 0
+					
+					if ConVarExists("ttt_" .. v.name .. "_karma_min") then
+						min_karmas = GetConVar("ttt_" .. v.name .. "_karma_min"):GetInt() or 0
+					end
+					
+					-- if player was last round innocent, he will be another role (if he has enough karma)
+					if IsValid(ply) and (
+						choices_i <= type_count
+						or ply:GetBaseKarma() > min_karmas and GAMEMODE.LastRole[ply:SteamID()] == ROLES.INNOCENT.index
+						or math.random(1, 3) == 2
+					) then
+					
+						-- if a player has specified he does not want to be detective, we skip
+						-- him here (he might still get it if we don't have enough
+						-- alternatives
+						-- TODO improve that first the player get checked whether he could get ANOTHER special role (not disabled) instead just deleting him from list
+						if choices_i <= type_count or not ply:GetAvoidRole(v.index) then
+							ply:UpdateRole(v.index)
+							
+							break
+						end
+					end
+				end
+			end
         end
 	end)
 
 	hook.Add("TTTPrepareRound", "JesterInit", function()
-		for _, v in pairs(player.GetAll()) do
-			v:ChatPrint("Don't kill the Jester!")
+		local minPlayers = GetConVar("ttt_" .. ROLES.JESTER.name .. "_min_players"):GetInt()
+		
+		if #player.GetAll() >= minPlayers then
+			for _, v in ipairs(player.GetAll()) do
+				v:ChatPrint("Don't kill the Jester!")
+			end
 		end
 	end)
 
 	hook.Add("TTT2_TellTraitors", "JesterTraitorMsg", function()
 		local jesters = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in ipairs(player.GetAll()) do
 			if v:GetRole() == ROLES.JESTER.index then
 		        table.insert(jesters, v:Nick())
 		    end
 		end
 
-	    for _, v in pairs(player.GetAll()) do
+	    for _, v in ipairs(player.GetAll()) do
 	  		if #jesters < 1 then
 	  			v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
 	  		else
-	  			for _, ply in pairs(jesters) do
+	  			for _, ply in ipairs(jesters) do
                     if v:HasTeamRole(TEAM_TRAITOR) then
                         v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
                     end
 	  			end
 	        end
 	    end
-	end)
-
-	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
-		for _, v in pairs(player.GetAll()) do
-			if v:GetRole() == ROLES.JESTER.index and not v:Alive() then
-				return WIN_ROLE, GetWinningRole(ROLES.JESTER.team).index
-			end
-		end
 	end)
 
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
