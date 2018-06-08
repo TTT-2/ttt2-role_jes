@@ -8,6 +8,7 @@ if SERVER then
 	resource.AddFile("materials/confetti.png")
 end
 
+CreateConVar("ttt2_jes_winstate", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
 
 hook.Add("Initialize", "TTT2InitCRoleJes", function()
@@ -38,37 +39,50 @@ end)
 
 -- if sync of roles has finished
 hook.Add("TTT2_FinishedSync", "JesterInitT", function(ply, first)
-	if CLIENT and first then -- just on client and first init !
-
-		-- setup here is not necessary but if you want to access the role data, you need to start here
-		-- setup basic translation !
-		LANG.AddToLanguage("English", ROLES.JESTER.name, "Jester")
-		LANG.AddToLanguage("English", "info_popup_" .. ROLES.JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
-		LANG.AddToLanguage("English", "body_found_" .. ROLES.JESTER.abbr, "This was a Jester...")
-		LANG.AddToLanguage("English", "search_role_" .. ROLES.JESTER.abbr, "This person was a Jester!")
-		LANG.AddToLanguage("English", "target_" .. ROLES.JESTER.name, "Jester")
-        LANG.AddToLanguage("English", "ttt2_desc_" .. ROLES.JESTER.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
+	if first then		
+		hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
+			tbl[ROLES.JESTER.index] = tbl[ROLES.JESTER.index] or {}
+		
+			table.insert(tbl[ROLES.JESTER.index], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1)"})
+		end)
+		
+		if CLIENT then
+			-- setup here is not necessary but if you want to access the role data, you need to start here
+			-- setup basic translation !
+			LANG.AddToLanguage("English", ROLES.JESTER.name, "Jester")
+			LANG.AddToLanguage("English", "hilite_win_" .. ROLES.JESTER.name, "THE JES WON") -- name of base role of a team -> maybe access with GetTeamRoles(ROLES["JESTER"].team)[1].name
+			LANG.AddToLanguage("English", "win_" .. ROLES.JESTER.team, "The Jester has won!") -- teamname
+			LANG.AddToLanguage("English", "info_popup_" .. ROLES.JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
+			LANG.AddToLanguage("English", "body_found_" .. ROLES.JESTER.abbr, "This was a Jester...")
+			LANG.AddToLanguage("English", "search_role_" .. ROLES.JESTER.abbr, "This person was a Jester!")
+			LANG.AddToLanguage("English", "ev_win_" .. ROLES.JESTER.abbr, "The goofy Jester won the round!")
+			LANG.AddToLanguage("English", "target_" .. ROLES.JESTER.name, "Jester")
+			LANG.AddToLanguage("English", "ttt2_desc_" .. ROLES.JESTER.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
 The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
-	    
-	    -- optional for toggling whether player can avoid the role
-		LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr, "Avoid being selected as Jester!")
-		LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
-	        [[Enable this to ask the server not to select you as Jester if possible. Does not mean you are Traitor more often.]])
-	    
-	    ---------------------------------
+			
+			-- optional for toggling whether player can avoid the role
+			LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr, "Avoid being selected as Jester!")
+			LANG.AddToLanguage("English", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
+				[[Enable this to ask the server not to select you as Jester if possible. Does not mean you are Traitor more often.]])
+			
+			---------------------------------
 
-		-- maybe this language as well...
-		LANG.AddToLanguage("Deutsch", ROLES.JESTER.name, "Narr")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. ROLES.JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. ROLES.JESTER.abbr, "Er war ein Narr...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. ROLES.JESTER.abbr, "Diese Person war ein Narr!")
-		LANG.AddToLanguage("Deutsch", "target_" .. ROLES.JESTER.name, "Narr")
-        LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. ROLES.JESTER.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
+			-- maybe this language as well...
+			LANG.AddToLanguage("Deutsch", ROLES.JESTER.name, "Narr")
+			LANG.AddToLanguage("Deutsch", "hilite_win_" .. ROLES.JESTER.name, "THE JES WON")
+			LANG.AddToLanguage("Deutsch", "win_" .. ROLES.JESTER.team, "Der Narr hat gewonnen!")
+			LANG.AddToLanguage("Deutsch", "info_popup_" .. ROLES.JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
+			LANG.AddToLanguage("Deutsch", "body_found_" .. ROLES.JESTER.abbr, "Er war ein Narr...")
+			LANG.AddToLanguage("Deutsch", "search_role_" .. ROLES.JESTER.abbr, "Diese Person war ein Narr!")
+			LANG.AddToLanguage("Deutsch", "ev_win_" .. ROLES.JESTER.abbr, "Der trottelige Narr hat die Runde gewonnen!")
+			LANG.AddToLanguage("Deutsch", "target_" .. ROLES.JESTER.name, "Narr")
+			LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. ROLES.JESTER.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
 Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]])
-	    
-		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr, "Vermeide als Narr ausgewählt zu werden!")
-		LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
-	        [[Aktivieren, um beim Server anzufragen, nicht als Narr ausgewählt zu werden. Das bedeuted nicht, dass du öfter Traitor wirst!]])
+			
+			LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr, "Vermeide als Narr ausgewählt zu werden!")
+			LANG.AddToLanguage("Deutsch", "set_avoid_" .. ROLES.JESTER.abbr .. "_tip", 
+				[[Aktivieren, um beim Server anzufragen, nicht als Narr ausgewählt zu werden. Das bedeuted nicht, dass du öfter Traitor wirst!]])
+		end
 	end
 end)
 
@@ -76,6 +90,16 @@ if SERVER then
 	util.AddNetworkString("NewConfetti")
 
 	--------
+	
+	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
+		if GetConVar("ttt2_jes_winstate"):GetInt() == 0 then
+			for _, v in pairs(player.GetAll()) do
+				if v:GetRole() == ROLES.JESTER.index and not v:Alive() then
+					return WIN_ROLE, GetWinningRole(ROLES.JESTER.team).index
+				end
+			end
+		end
+	end)
 
 	hook.Add("PlayerDeath", "JesterDeath", function(victim, infl, attacker)
 	    if victim:GetRole() == ROLES.JESTER.index and IsValid(attacker) and attacker:IsPlayer() and infl:GetClass() ~= env_fire and attacker:GetRole() ~= ROLES.JESTER.index then
@@ -87,18 +111,26 @@ if SERVER then
 				return 
 			end
 			
-			for _,v in ipairs(player.GetAll()) do
+			for _, v in ipairs(player.GetAll()) do
 				v:PrintMessage(HUD_PRINTCENTER, "'" .. attacker:Nick() .. "' killed the Jester...")
 			end
 			
-			victim:AddFrags(GetConVar("ttt2_jes_winpoints"):GetInt())
+			if GetConVar("ttt2_jes_winstate"):GetInt() == 1 then
+				victim:AddFrags(GetConVar("ttt2_jes_winpoints"):GetInt())
+			end
         end
+	end)
+	
+	hook.Add("TTT2PreventJesterDeath", "JesterMainPreventDeath", function(ply)
+		if GetConVar("ttt2_jes_winstate"):GetInt() == 0 then
+			return true
+		end
 	end)
 
 	hook.Add("PostPlayerDeath", "JesterPostDeath", function(ply)
 		if hook.Run("TTT2PreventJesterDeath", ply) then return end
 	
-	    if ply:GetRole() == ROLES.JESTER.index then
+		if ply:GetRole() == ROLES.JESTER.index then
 			ply:SetRole(ROLES.INNOCENT.index)
 			ply:SpawnForRound(true)
 			
@@ -178,14 +210,15 @@ if SERVER then
 					end
 				end
 			end
-        end
+		end
 	end)
 
 	hook.Add("TTTPrepareRound", "JesterInit", function()
 		local minPlayers = GetConVar("ttt_" .. ROLES.JESTER.name .. "_min_players"):GetInt()
+		local players = player.GetAll()
 		
-		if #player.GetAll() >= minPlayers then
-			for _, v in ipairs(player.GetAll()) do
+		if #players >= minPlayers then
+			for _, v in ipairs(players) do
 				v:ChatPrint("Don't kill the Jester!")
 			end
 		end
@@ -299,7 +332,7 @@ if CLIENT then
 	net.Receive("NewConfetti", function()
 		local ent = net.ReadEntity()
 
-		ent:EmitSound("BirthdayParty.mp3") --Play the sound
+		ent:EmitSound("BirthdayParty.mp3") -- Play the sound
 
 		local pos = ent:GetPos() + Vector(0, 0, ent:OBBMaxs().z)
 
@@ -315,7 +348,7 @@ if CLIENT then
 		--Handles particles
 		local emitter = ParticleEmitter(pos, true)
         
-		for I = 1, 150 do
+		for i = 1, 150 do
 			local p = emitter:Add(confetti, pos)
 			p:SetStartSize(math.random(6, 10))
 			p:SetEndSize(0)
