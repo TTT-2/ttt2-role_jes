@@ -19,9 +19,7 @@ hook.Add("Initialize", "TTT2InitCRoleJes", function()
 		dkcolor = Color(255, 51, 153, 255), -- ...
 		bgcolor = Color(255, 85, 100, 200), -- ...
 		name = "jester", -- just a unique name for the script to determine
-		printName = "Jester", -- The text that is printed to the player, e.g. in role alert
 		abbr = "jes", -- abbreviation
-		shop = false, -- can the role access the [C] shop ?
 		team = "jesters", -- the team name: roles with same team name are working together
 		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
 		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
