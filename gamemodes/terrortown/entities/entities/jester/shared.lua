@@ -93,7 +93,7 @@ if SERVER then
 		if GetConVar("ttt2_jes_winstate"):GetInt() == 0 then
 			for _, v in pairs(player.GetAll()) do
 				if v:GetRole() == ROLES.JESTER.index and not v:Alive() then
-					return WIN_ROLE, GetWinningRole(ROLES.JESTER.team).index
+					return GetWinningRole(ROLES.JESTER.team).index
 				end
 			end
 		end
