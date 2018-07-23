@@ -236,7 +236,7 @@ if SERVER then
 	  			v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
 	  		else
 	  			for _, ply in ipairs(jesters) do
-                    if v:HasTeamRole(TEAM_TRAITOR) then
+                    if v:HasTeamRole(TEAM_TRAITOR) or ROLES.JACKAL and v:GetRole() == ROLES.JACKAL.index then
                         v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
                     end
 	  			end
