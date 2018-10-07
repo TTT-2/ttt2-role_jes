@@ -132,7 +132,7 @@ if ply:GetRole() == ROLES.JESTER.index then
 ply:SetRole(ROLES.INNOCENT.index)
 ply:SpawnForRound(true)
 
-local killer = IsValid(ply.jesterKiller)
+local killer = ply.jesterKiller
 
 ply.jesterKiller = nil
 
@@ -148,7 +148,6 @@ if rd.team == TEAM_TRAITOR then
 else
 	table.insert(tbl, ROLES.TRAITOR)
 end
-
 
 for _, v in pairs(ROLES) do
 	if v ~= ROLES.INNOCENT and v ~= ROLES.TRAITOR and not v.notSelectable and v.team ~= rd.team and (v == ROLES.DETECTIVE or newRolesEnabled) and GetConVar("ttt_" .. v.name .. "_enabled"):GetBool() then
@@ -170,8 +169,6 @@ local v = tbl[vpick]
 
 ply:UpdateRole(v.index)
 
-end
-end
 end
 end
 end)
@@ -201,9 +198,9 @@ if #jesters < 1 then
 v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
 else
 for _, ply in ipairs(jesters) do
-if v:HasTeamRole(TEAM_TRAITOR) or ROLES.JACKAL and v:GetRole() == ROLES.JACKAL.index then
-v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
-end
+	if v:HasTeamRole(TEAM_TRAITOR) or ROLES.JACKAL and v:GetRole() == ROLES.JACKAL.index then
+		v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
+	end
 end
 end
 end
