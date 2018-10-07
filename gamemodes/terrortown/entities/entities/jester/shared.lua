@@ -140,7 +140,7 @@ if SERVER then
 				local rd = killer:GetRoleData()
 				local newRolesEnabled = GetConVar("ttt_newroles_enabled"):GetBool()
 				local tbl = {}
-				local roleCount = {}
+				local playercount = team.NumPlayers(TEAM_TERROR)
 
 				-- prevent endless loop
 				if rd.team == TEAM_TRAITOR then
@@ -150,7 +150,15 @@ if SERVER then
 				end
 
 				for _, v in pairs(ROLES) do
-					if v ~= ROLES.INNOCENT and v ~= ROLES.TRAITOR and not v.notSelectable and v.team ~= rd.team and (v == ROLES.DETECTIVE or newRolesEnabled) and GetConVar("ttt_" .. v.name .. "_enabled"):GetBool() then
+					if v ~= ROLES.INNOCENT
+					and v ~= ROLES.TRAITOR
+					and not v.notSelectable
+					and v.team ~= rd.team
+					and (v == ROLES.DETECTIVE or newRolesEnabled)
+					and GetConVar("ttt_" .. v.name .. "_enabled"):GetBool()
+					and GetConVar("ttt_" .. v.name .. "_min_players"):GetInt() <= playercount
+					and GetConVar("ttt_" .. v.name .. "_karma_min"):GetInt() <= ply:GetBaseKarma()
+					and not ply:GetAvoidRole(v.index) then
 						local b = true
 						local r = (ConVarExists("ttt_" .. v.name .. "_random") and GetConVar("ttt_" .. v.name .. "_random"):GetInt() or 0)
 
