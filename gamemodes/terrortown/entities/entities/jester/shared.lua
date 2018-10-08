@@ -132,7 +132,7 @@ if SERVER then
 			ply:SetRole(ROLES.INNOCENT.index)
 			ply:SpawnForRound(true)
 
-			local killer = IsValid(ply.jesterKiller)
+			local killer = ply.jesterKiller
 
 			ply.jesterKiller = nil
 
