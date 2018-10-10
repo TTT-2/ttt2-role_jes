@@ -11,9 +11,14 @@ end
 CreateConVar("ttt2_jes_winstate", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
 
-TEAM_JESTER = "jesters" -- create global team
+-- creates global var "TEAM_JESTER" and other required things
+-- TEAM_[name], data: e.g. icon, color,...
+InitCustomTeam("JESTER", {
+		icon = "vgui/ttt/icon_jes",
+		color = Color(255, 105, 180, 200)
+})
 
-InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER
+InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER or JESTER
 		color = Color(255, 105, 180, 200), -- ...
 		dkcolor = Color(255, 51, 153, 255), -- ...
 		bgcolor = Color(255, 85, 100, 200), -- ...
@@ -21,7 +26,7 @@ InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JE
 		abbr = "jes", -- abbreviation
 		team = "jesters", -- the team name: roles with same team name are working together
 		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
-		-- TODO visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
+		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
 		surviveBonus = 0, -- bonus multiplier for every survive while another player was killed
 		scoreKillsMultiplier = 1, -- multiplier for kill of player of another team
 		scoreTeamKillsMultiplier = -8, -- multiplier for teamkill
@@ -140,7 +145,7 @@ if SERVER then
 				end
 
 				local selectableRoles = GetSelectableRoles()
-				
+
 				for roleData, amount in pairs(selectableRoles) do
 					if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam then
 						table.insert(tbl, roleData)
