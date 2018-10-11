@@ -1,5 +1,6 @@
 --a variable has to be set for every winstate
-CreateConVar("ttt2_jes_winstate_1", true, {FCVAR_ARCHIVE, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_1", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+--createConVar("ttt2ttt2_jes_winstate_x", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 
 function JesterWinstate(ply, killer)
@@ -20,6 +21,9 @@ function JesterWinstate(ply, killer)
     end
     --]]
 	end
+
+	JesterWinstateOne(ply, killer)
+
 end
 
 function JesterWinstateOne(ply, killer)
@@ -69,3 +73,9 @@ function JesterWinstateOne(ply, killer)
 		end
 	end
 end
+
+--[[
+function JesterWinstateX(ply, killer)
+
+end
+--]]
