@@ -6,13 +6,13 @@ CreateConVar("ttt2_jes_winstate_3", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 
 function JesterWinstate(ply, killer)
-	winstatepick = math.random(1, 100)
+	winstatepick = math.random(1, 20)
 
 	-- Every Winstate has to be put in here after the template
 	while winstatepick >= 0 do
 		if winstatepick == 0 and ttt2_jes_winstate_1 then
 			JesterWinstateOne(ply, killer)
-		elseif ttt2_jeswinstate_1 then
+		elseif ttt2_jes_winstate_1 then
 			winstatepick = winstatepick - 1
 		end
 
@@ -55,7 +55,7 @@ function JesterWinstateOne(ply, killer)
 		end
 
 		for _, v in ipairs(player.GetAll()) do
-			if v:IsActive() and not v:IsSpec() then
+			if v:IsActive() and not v:GetForceSpec() then
 				choices_i = choices_i + 1
 			end
 		end
@@ -104,7 +104,7 @@ function JesterWinstateTwo(ply, killer)
 		end
 
 		for _, v in ipairs(player.GetAll()) do
-			if v:IsActive() and not v:IsSpec() then
+			if v:IsActive() and not v:GetForceSpec() then
 				choices_i = choices_i + 1
 			end
 		end
@@ -118,10 +118,10 @@ function JesterWinstateTwo(ply, killer)
 		end
 
 
-		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath", function(deadply)
+		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick(), function(deadply)
 			if deadply ~= killer or deadply.NOWINASC then return end
 
-			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath")
+			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
 			-- set random available role
 			while true do
 				local vpick = math.random(1, #tbl)
