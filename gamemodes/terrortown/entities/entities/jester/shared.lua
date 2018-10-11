@@ -51,7 +51,7 @@ hook.Add("TTT2FinishedLoading", "JesterInitT", function()
 		-- setup here is not necessary but if you want to access the role data, you need to start here
 		-- setup basic translation !
 		LANG.AddToLanguage("English", JESTER.name, "Jester")
-		LANG.AddToLanguage("English", "hilite_win_" .. JESTER.name, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
+		LANG.AddToLanguage("English", "hilite_win_" .. TEAM_JESTER, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
 		LANG.AddToLanguage("English", "win_" .. TEAM_JESTER, "The Jester has won!") -- teamname
 		LANG.AddToLanguage("English", "info_popup_" .. JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
 		LANG.AddToLanguage("English", "body_found_" .. JESTER.abbr, "This was a Jester...")
@@ -65,7 +65,7 @@ The Jester can't do any damage or kill himself. But if he dies, he will WIN. So 
 
 		-- maybe this language as well...
 		LANG.AddToLanguage("Deutsch", JESTER.name, "Narr")
-		LANG.AddToLanguage("Deutsch", "hilite_win_" .. JESTER.name, "THE JES WON")
+		LANG.AddToLanguage("Deutsch", "hilite_win_" .. TEAM_JESTER, "THE JES WON")
 		LANG.AddToLanguage("Deutsch", "win_" .. TEAM_JESTER, "Der Narr hat gewonnen!")
 		LANG.AddToLanguage("Deutsch", "info_popup_" .. JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
 		LANG.AddToLanguage("Deutsch", "body_found_" .. JESTER.abbr, "Er war ein Narr...")
@@ -314,12 +314,6 @@ if CLIENT then
 			p:SetDieTime(math.random(4, 7))
 			p:SetGravity(gravity)
 			p:SetAirResistance(125)
-
-			--[[ fix
-            timer.Simple(20, function()
-               p:Finish()
-            end)
-            ]]--
 		end
 	end)
 end
