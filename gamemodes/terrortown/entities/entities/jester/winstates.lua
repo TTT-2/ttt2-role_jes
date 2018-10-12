@@ -157,9 +157,10 @@ function JesterWinstateThree(ply, killer)
 
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
 
-			ply:UpdateRole(role)
-			ply:Revive(3) -- revive after 3s
-
+			if isValid(ply) then
+				ply:UpdateRole(role)
+				ply:Revive(3) -- revive after 3s
+			end
 		end)
 	end
 end
