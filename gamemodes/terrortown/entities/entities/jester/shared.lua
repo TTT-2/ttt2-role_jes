@@ -14,7 +14,7 @@ CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPL
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
 InitCustomTeam("JESTER", {
-		icon = "vgui/ttt/icon_jes",
+		icon = "vgui/ttt/sprite_jes",
 		color = Color(255, 105, 180, 200)
 })
 
