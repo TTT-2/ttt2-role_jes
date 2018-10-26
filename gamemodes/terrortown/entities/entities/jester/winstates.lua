@@ -103,7 +103,7 @@ end
 
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
-	if isValid(killer) then
+	if IsValid(killer) then
 		local rd = killer:GetSubRoleData()
 		local tbl = {}
 		local choices_i = 0
@@ -158,7 +158,7 @@ end
 
 -- Player spawns after killer death with the role of his killer
 function JesterWinstateThree(ply, killer)
-	if isValid(killer) then
+	if IsValid(killer) then
 		local rd = killer:GetSubRoleData()
 		local role = rd.index
 
@@ -167,7 +167,7 @@ function JesterWinstateThree(ply, killer)
 
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
 
-			if isValid(ply) then
+			if IsValid(ply) then
 				ply:UpdateRole(role)
 				ply:Revive(3) -- revive after 3s
 			end
@@ -177,14 +177,14 @@ end
 
 --Player spawns within three seconds with the role of the killer and the killer dies
 function JesterWinstateFour(ply, killer)
-	if isValid(killer) then
+	if IsValid(killer) then
 		local rd = killer:GetSubRoleData()
 		local role = rd.index
 
-		killer:SetHealth(0)
+		killer:KillSilent()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
-		if isValid(ply) then
+		if IsValid(ply) then
 			ply:UpdateRole(role)
 			ply:Revive(3)
 		end
@@ -219,7 +219,7 @@ function JesterWinstateFive(ply, killer)
 			end
 		end
 
-		killer:SetHealth(0)
+		killer:KillSilent()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
 		-- set random available role
