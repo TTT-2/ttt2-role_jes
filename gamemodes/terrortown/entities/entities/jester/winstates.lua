@@ -12,40 +12,40 @@ function JesterWinstate(ply, killer)
 
 	-- Every Winstate has to be put in here after the template
 	while winstatepick >= 0 do
-		if winstatepick == 0 and ttt2_jes_winstate_1 == 1 then
+		if winstatepick == 0 and ttt2_jes_winstate_1:GetInt() == 1 then
 			JesterWinstateOne(ply, killer)
-		elseif ttt2_jes_winstate_1 == 1 then
+		elseif ttt2_jes_winstate_1:GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_2 == 1 then
+		if winstatepick == 0 and ttt2_jes_winstate_2:GetInt() == 1 then
 			JesterWinstateTwo(ply, killer)
-		elseif ttt2_jes_winstate_2 == 1 then
+		elseif ttt2_jes_winstate_2:GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_3 == 1 then
+		if winstatepick == 0 and ttt2_jes_winstate_3:GetInt() == 1 then
 			JesterWinstateThree(ply, killer)
-		elseif ttt2_jes_winstate_3 == 1 then
+		elseif ttt2_jes_winstate_3:GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_4 == 1 then
+		if winstatepick == 0 and ttt2_jes_winstate_4:GetInt() == 1 then
 			JesterWinstateFour(ply, killer)
-		elseif ttt2_jes_winstate_4 == 1 then
+		elseif ttt2_jes_winstate_4:GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_5 == 1 then
+		if winstatepick == 0 and ttt2_jes_winstate_5:GetInt() == 1 then
 			JesterWinstateFive(ply, killer)
-		elseif ttt2_jes_winstate_5 == 1 then
+		elseif ttt2_jes_winstate_5:GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		--[[
-    if winstatepick == 0 and ttt2_jes_winstate_x == 1 then
+    if winstatepick == 0 and ttt2_jes_winstate_x:GetInt() == 1 then
       JesterWinstateX(ply, killer)
-    elseif ttt2_jes_winstate_x == 1 then
+    elseif ttt2_jes_winstate_x:GetInt() == 1 then
       winstatepick = winstatepick - 1
     end
     --]]
