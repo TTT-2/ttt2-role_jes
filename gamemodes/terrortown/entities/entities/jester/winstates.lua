@@ -1,10 +1,10 @@
 --a variable has to be set for every winstate
-CreateConVar("ttt2_jes_winstate_1", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_2", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_3", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_4", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_5", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
---CreateConVar("ttt2_jes_winstate_x", true, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_1", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_2", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_3", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_4", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_5", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+--CreateConVar("ttt2_jes_winstate_x", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 
 function JesterWinstate(ply, killer)
@@ -12,45 +12,44 @@ function JesterWinstate(ply, killer)
 
 	-- Every Winstate has to be put in here after the template
 	while winstatepick >= 0 do
-		if winstatepick == 0 and ttt2_jes_winstate_1 then
+		if winstatepick == 0 and ttt2_jes_winstate_1 == 1 then
 			JesterWinstateOne(ply, killer)
-		elseif ttt2_jes_winstate_1 then
+		elseif ttt2_jes_winstate_1 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_2 then
+		if winstatepick == 0 and ttt2_jes_winstate_2 == 1 then
 			JesterWinstateTwo(ply, killer)
-		elseif ttt2_jes_winstate_2 then
+		elseif ttt2_jes_winstate_2 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_3 then
+		if winstatepick == 0 and ttt2_jes_winstate_3 == 1 then
 			JesterWinstateThree(ply, killer)
-		elseif ttt2_jes_winstate_3 then
+		elseif ttt2_jes_winstate_3 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_4 then
+		if winstatepick == 0 and ttt2_jes_winstate_4 == 1 then
 			JesterWinstateFour(ply, killer)
-		elseif ttt2_jes_winstate_4 then
+		elseif ttt2_jes_winstate_4 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and ttt2_jes_winstate_5 then
+		if winstatepick == 0 and ttt2_jes_winstate_5 == 1 then
 			JesterWinstateFive(ply, killer)
-		elseif ttt2_jes_winstate_5 then
+		elseif ttt2_jes_winstate_5 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		--[[
-    if winstatepick == 0 and ttt2_jes_winstate_x then
+    if winstatepick == 0 and ttt2_jes_winstate_x == 1 then
       JesterWinstateX(ply, killer)
-    elseif ttt2_jes_winstate_x then
+    elseif ttt2_jes_winstate_x == 1 then
       winstatepick = winstatepick - 1
     end
     --]]
 	end
-
 end
 
 --Player spawns within three seconds with a random opposite role of the killer
