@@ -14,30 +14,35 @@ function JesterWinstate(ply, killer)
 	while winstatepick >= 0 do
 		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_1"):GetInt() == 1 then
 			JesterWinstateOne(ply, killer)
+			winstatepick = winstatepick - 1
 		elseif GetConVar("ttt2_jes_winstate_1"):GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_2"):GetInt() == 1 then
 			JesterWinstateTwo(ply, killer)
+			winstatepick = winstatepick - 1
 		elseif GetConVar("ttt2_jes_winstate_2"):GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_3"):GetInt() == 1 then
 			JesterWinstateThree(ply, killer)
+			winstatepick = winstatepick - 1
 		elseif GetConVar("ttt2_jes_winstate_3"):GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_4"):GetInt() == 1 then
 			JesterWinstateFour(ply, killer)
+			winstatepick = winstatepick - 1
 		elseif GetConVar("ttt2_jes_winstate_4"):GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
 
 		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_5"):GetInt() == 1 then
 			JesterWinstateFive(ply, killer)
+			winstatepick = winstatepick - 1
 		elseif GetConVar("ttt2_jes_winstate_5"):GetInt() == 1 then
 			winstatepick = winstatepick - 1
 		end
@@ -92,9 +97,11 @@ function JesterWinstateOne(ply, killer)
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
-				ply:UpdateRole(v.index)
-				ply:Revive(3) -- revive after 3s
-
+				ply:Revive(3, function(p)
+					p:UpdateRole(v.index, v.defaultTeam)
+					p:SetDefaultCredits()
+					SendFullStateUpdate()
+				end) -- revive after 3s
 				break
 			end
 		end
@@ -146,9 +153,11 @@ function JesterWinstateTwo(ply, killer)
 					-- if a player has specified he does not want to be detective, we skip
 					-- him here (he might still get it if we don't have enough
 					-- alternatives
-					ply:UpdateRole(v.index)
-					ply:Revive(3) -- revive after 3s
-
+					ply:Revive(3, function(p)
+						p:UpdateRole(v.index, v.defaultTeam)
+						p:SetDefaultCredits()
+						SendFullStateUpdate()
+					end) -- revive after 3s
 					break
 				end
 			end
@@ -168,8 +177,11 @@ function JesterWinstateThree(ply, killer)
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
 
 			if IsValid(ply) then
-				ply:UpdateRole(role)
-				ply:Revive(3) -- revive after 3s
+				ply:Revive(3, function(p)
+					p:UpdateRole(role, rd.defaultTeam)
+					p:SetDefaultCredits()
+					SendFullStateUpdate()
+				end) -- revive after 3s
 			end
 		end)
 	end
@@ -185,8 +197,11 @@ function JesterWinstateFour(ply, killer)
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
 		if IsValid(ply) then
-			ply:UpdateRole(role)
-			ply:Revive(3)
+			ply:Revive(3, function(p)
+				p:UpdateRole(role, rd.defaultTeam)
+				p:SetDefaultCredits()
+				SendFullStateUpdate()
+			)
 		end
 	end
 end
@@ -234,9 +249,11 @@ function JesterWinstateFive(ply, killer)
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
-				ply:UpdateRole(v.index)
-				ply:Revive(3) -- revive after 3s
-
+				ply:Revive(3, function(p)
+					p:UpdateRole(v.index, v.defaultTeam)
+					p:SetDefaultCredits()
+					SendFullStateUpdate()
+				)
 				break
 			end
 		end
