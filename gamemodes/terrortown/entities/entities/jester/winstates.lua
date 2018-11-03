@@ -50,6 +50,7 @@ function JesterWinstate(ply, killer)
 		--[[
     if winstatepick == 0 and GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
       JesterWinstateX(ply, killer)
+	  winstatepick = winstatepick - 1
     elseif GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
       winstatepick = winstatepick - 1
     end
@@ -201,7 +202,7 @@ function JesterWinstateFour(ply, killer)
 				p:UpdateRole(role, rd.defaultTeam)
 				p:SetDefaultCredits()
 				SendFullStateUpdate()
-			)
+			end)
 		end
 	end
 end
@@ -253,7 +254,7 @@ function JesterWinstateFive(ply, killer)
 					p:UpdateRole(v.index, v.defaultTeam)
 					p:SetDefaultCredits()
 					SendFullStateUpdate()
-				)
+				end)
 				break
 			end
 		end
