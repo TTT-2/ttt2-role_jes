@@ -1,6 +1,8 @@
 if SERVER then
 	AddCSLuaFile()
 
+	include("winstates.lua")
+
 	resource.AddFile("sound/ttt2/birthdayparty.mp3")
 
 	resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
@@ -126,51 +128,8 @@ if SERVER then
 
 			ply.jesterKiller = nil
 
-			if IsValid(killer) then
-				local rd = killer:GetSubRoleData()
-				local tbl = {}
-				local choices_i = 0
+			JesterWinstate(ply, killer)
 
-				-- prevent endless loop
-				if killer:HasTeam(TEAM_TRAITOR) then
-					table.insert(tbl, INNOCENT)
-				else
-					table.insert(tbl, TRAITOR)
-				end
-
-				for _, v in ipairs(player.GetAll()) do
-					if v:IsActive() and not v:IsSpec() then
-						choices_i = choices_i + 1
-					end
-				end
-
-				local selectableRoles = GetSelectableRoles()
-
-				for roleData, amount in pairs(selectableRoles) do
-					if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam then
-						table.insert(tbl, roleData)
-					end
-				end
-
-				-- set random available role
-				while true do
-					local vpick = math.random(1, #tbl)
-					local v = tbl[vpick]
-					local type_count = selectableRoles[v] or 0
-
-					-- if player was last round innocent, he will be another role (if he has enough karma)
-					if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-						-- if a player has specified he does not want to be detective, we skip
-						-- him here (he might still get it if we don't have enough
-						-- alternatives
-						ply:UpdateRole(v.index)
-						ply:Revive(3) -- revive after 3s
-
-						break
-					end
-				end
-			end
 		end
 	end)
 
