@@ -194,7 +194,7 @@ function JesterWinstateFour(ply, killer)
 		local rd = killer:GetSubRoleData()
 		local role = rd.index
 
-		killer:KillSilent()
+		killer:Kill()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
 		if IsValid(ply) then
@@ -235,7 +235,7 @@ function JesterWinstateFive(ply, killer)
 			end
 		end
 
-		killer:KillSilent()
+		killer:Kill()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
 		-- set random available role
