@@ -58,6 +58,17 @@ function JesterWinstate(ply, killer)
 	end
 end
 
+function JesterRevive(ply, role, team)
+	ply:Revive(3, function(p)
+		p:UpdateRole(role, team)
+		p:SetDefaultCredits()
+		SendFullStateUpdate()
+	end,
+	function(p)
+		return IsValid(p)
+	end) -- revive after 3s
+end
+
 --Player spawns within three seconds with a random opposite role of the killer
 function JesterWinstateOne(ply, killer)
 	if IsValid(killer) then
@@ -98,11 +109,7 @@ function JesterWinstateOne(ply, killer)
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
-				ply:Revive(3, function(p)
-					p:UpdateRole(v.index, v.defaultTeam)
-					p:SetDefaultCredits()
-					SendFullStateUpdate()
-				end) -- revive after 3s
+				JesterRevive(ply, v.index, v.defaultTeam)
 				break
 			end
 		end
@@ -154,11 +161,7 @@ function JesterWinstateTwo(ply, killer)
 					-- if a player has specified he does not want to be detective, we skip
 					-- him here (he might still get it if we don't have enough
 					-- alternatives
-					ply:Revive(3, function(p)
-						p:UpdateRole(v.index, v.defaultTeam)
-						p:SetDefaultCredits()
-						SendFullStateUpdate()
-					end) -- revive after 3s
+					JesterRevive(ply, v.index, v.defaultTeam)
 					break
 				end
 			end
@@ -177,13 +180,7 @@ function JesterWinstateThree(ply, killer)
 
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
 
-			if IsValid(ply) then
-				ply:Revive(3, function(p)
-					p:UpdateRole(role, rd.defaultTeam)
-					p:SetDefaultCredits()
-					SendFullStateUpdate()
-				end) -- revive after 3s
-			end
+			JesterRevive(ply, role, rd.defaultTeam)
 		end)
 	end
 end
@@ -197,13 +194,8 @@ function JesterWinstateFour(ply, killer)
 		killer:Kill()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
 
-		if IsValid(ply) then
-			ply:Revive(3, function(p)
-				p:UpdateRole(role, rd.defaultTeam)
-				p:SetDefaultCredits()
-				SendFullStateUpdate()
-			end)
-		end
+
+		JesterRevive(ply, role, rd.defaultTeam)
 	end
 end
 
@@ -250,11 +242,7 @@ function JesterWinstateFive(ply, killer)
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
-				ply:Revive(3, function(p)
-					p:UpdateRole(v.index, v.defaultTeam)
-					p:SetDefaultCredits()
-					SendFullStateUpdate()
-				end)
+				JesterRevive(ply, v.index, v.defaultTeam)
 				break
 			end
 		end
