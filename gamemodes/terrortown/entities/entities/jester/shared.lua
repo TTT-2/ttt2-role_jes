@@ -47,6 +47,11 @@ hook.Add("TTT2FinishedLoading", "JesterInitT", function()
 		tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
 
 		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1)"})
+		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_1", checkbox = true, desc = "Jester winstate 1 (Def. 1)"})
+		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_2", checkbox = true, desc = "Jester winstate 2 (Def. 1)"})
+		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_3", checkbox = true, desc = "Jester winstate 3 (Def. 1)"})
+		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_4", checkbox = true, desc = "Jester winstate 4 (Def. 1)"})
+		table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
 	end)
 
 	if CLIENT then
