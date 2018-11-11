@@ -145,10 +145,10 @@ function JesterWinstateTwo(ply, killer)
 		end
 
 
-		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick(), function(deadply)
+		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 			if deadply ~= killer or deadply.NOWINASC then return end
 
-			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
+			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 			-- set random available role
 			while true do
 				local vpick = math.random(1, #tbl)
@@ -175,10 +175,10 @@ function JesterWinstateThree(ply, killer)
 		local rd = killer:GetSubRoleData()
 		local role = rd.index
 
-		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick(), function(deadply)
+		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 			if deadply ~= killer or deadply.NOWINASC then return end
 
-			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply.Nick())
+			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
 			JesterRevive(ply, role, rd.defaultTeam)
 		end)
