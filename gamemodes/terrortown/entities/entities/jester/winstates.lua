@@ -104,7 +104,7 @@ function JesterWinstateOne(ply, killer)
 			local type_count = selectableRoles[v] or 0
 
 			-- if player was last round innocent, he will be another role (if he has enough karma)
-			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
+			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) and not v.index == ROLE_JESTER then
 
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
@@ -156,7 +156,7 @@ function JesterWinstateTwo(ply, killer)
 				local type_count = selectableRoles[v] or 0
 
 				-- if player was last round innocent, he will be another role (if he has enough karma)
-				if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
+				if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) and not v.index == ROLE_JESTER then
 
 					-- if a player has specified he does not want to be detective, we skip
 					-- him here (he might still get it if we don't have enough
@@ -237,7 +237,7 @@ function JesterWinstateFive(ply, killer)
 			local type_count = selectableRoles[v] or 0
 
 			-- if player was last round innocent, he will be another role (if he has enough karma)
-			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
+			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) and not v.index == ROLE_JESTER then
 
 				-- if a player has specified he does not want to be detective, we skip
 				-- him here (he might still get it if we don't have enough
