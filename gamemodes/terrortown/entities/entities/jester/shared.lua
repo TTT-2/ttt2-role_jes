@@ -171,6 +171,12 @@ if SERVER then
 		end
 	end)
 
+	hook.Add("PlayerShouldTakeDamage", "JesterShouldntTakeDamage", function(ply, attacker)
+		if not (IsValid(attacker) and attacker:IsPlayer()) or attacker == ply then
+			return false
+		end
+	end)
+
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
 		if ply:GetSubRole() == ROLE_JESTER then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")

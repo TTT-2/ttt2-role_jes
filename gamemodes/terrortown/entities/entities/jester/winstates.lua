@@ -8,45 +8,49 @@ CreateConVar("ttt2_jes_winstate_5", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 
 function JesterWinstate(ply, killer)
-	winstatepick = math.random(1, 20)
+	local winstatepick = math.random(1, 20)
+	local ws1 = GetConVar("ttt2_jes_winstate_1"):GetInt()
+	local ws2 = GetConVar("ttt2_jes_winstate_2"):GetInt()
+	local ws3 = GetConVar("ttt2_jes_winstate_3"):GetInt()
+	local ws4 = GetConVar("ttt2_jes_winstate_4"):GetInt()
+	local ws5 = GetConVar("ttt2_jes_winstate_5"):GetInt()
 
 	-- Every Winstate has to be put in here after the template
 	while winstatepick >= 0 do
-		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_1"):GetInt() == 1 then
+		if winstatepick == 0 and ws1 == 1 then
 			JesterWinstateOne(ply, killer)
 			winstatepick = winstatepick - 1
-		elseif GetConVar("ttt2_jes_winstate_1"):GetInt() == 1 then
+		elseif ws1 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_2"):GetInt() == 1 then
+		if winstatepick == 0 and ws2 == 1 then
 			JesterWinstateTwo(ply, killer)
 			winstatepick = winstatepick - 1
-		elseif GetConVar("ttt2_jes_winstate_2"):GetInt() == 1 then
+		elseif ws2 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_3"):GetInt() == 1 then
+		if winstatepick == 0 and ws3 == 1 then
 			JesterWinstateThree(ply, killer)
 			winstatepick = winstatepick - 1
-		elseif GetConVar("ttt2_jes_winstate_3"):GetInt() == 1 then
+		elseif ws3 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_4"):GetInt() == 1 then
+		if winstatepick == 0 and ws4 == 1 then
 			JesterWinstateFour(ply, killer)
 			winstatepick = winstatepick - 1
-		elseif GetConVar("ttt2_jes_winstate_4"):GetInt() == 1 then
+		elseif ws4 == 1 then
 			winstatepick = winstatepick - 1
 		end
 
-		if winstatepick == 0 and GetConVar("ttt2_jes_winstate_5"):GetInt() == 1 then
+		if winstatepick == 0 and ws5 == 1 then
 			JesterWinstateFive(ply, killer)
 			winstatepick = winstatepick - 1
-		elseif GetConVar("ttt2_jes_winstate_5"):GetInt() == 1 then
+		elseif ws5 == 1 then
 			winstatepick = winstatepick - 1
 		end
-
 		--[[
     if winstatepick == 0 and GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
       JesterWinstateX(ply, killer)
@@ -55,7 +59,14 @@ function JesterWinstate(ply, killer)
       winstatepick = winstatepick - 1
     end
     --]]
+
+		if ws1 == 0 and ws2 == 0 and ws3 == 0 and ws4 == 0 and ws5 == 0 then
+			winstatepick = 0
+		end
 	end
+
+	GetConVar("ttt2_jes_winstate"):SetInt(0)
+
 end
 
 function JesterRevive(ply, role, team)
@@ -92,7 +103,7 @@ function JesterWinstateOne(ply, killer)
 		local selectableRoles = GetSelectableRoles()
 
 		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam then
+			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
 				table.insert(tbl, roleData)
 			end
 		end
@@ -139,7 +150,7 @@ function JesterWinstateTwo(ply, killer)
 		local selectableRoles = GetSelectableRoles()
 
 		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam then
+			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
 				table.insert(tbl, roleData)
 			end
 		end
@@ -222,7 +233,7 @@ function JesterWinstateFive(ply, killer)
 		local selectableRoles = GetSelectableRoles()
 
 		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam then
+			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
 				table.insert(tbl, roleData)
 			end
 		end
