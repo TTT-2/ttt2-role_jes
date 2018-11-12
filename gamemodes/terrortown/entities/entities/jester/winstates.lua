@@ -61,7 +61,7 @@ function JesterWinstate(ply, killer)
     --]]
 
 		if ws1 == 0 and ws2 == 0 and ws3 == 0 and ws4 == 0 and ws5 == 0 then
-			winstatepick = 0
+			break
 		end
 	end
 
