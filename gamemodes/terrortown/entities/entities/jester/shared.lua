@@ -178,6 +178,11 @@ if SERVER then
 	end)
 
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
+		if ply:GetSubRole() == ROLE_JESTER and (not attacker:IsPlayer() or attacker == ply) then
+			dmginfo:SetDamage(0)
+			return
+		end
+
 		if ply:GetSubRole() == ROLE_JESTER then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")
 			--local HeadPos, HeadAng = ply:GetBonePosition(HeadIndex)
@@ -187,6 +192,12 @@ if SERVER then
 			net.Broadcast()
 
 			ply:EmitSound("BirthdayParty.wav")
+		end
+	end)
+
+	hook.Add("PlayerShouldTakeDamage", "JesterShouldntTakeDamage", function(ply, attacker)
+		if ply:GetSubRole() == ROLE_JESTER and not (IsValid(attacker) and attacker:IsPlayer()) or attacker == ply then
+			return false
 		end
 	end)
 
@@ -201,6 +212,8 @@ if SERVER then
 			) or dmginfo:IsExplosionDamage()
 			or dmginfo:IsDamageType(DMG_DROWN)
 			or dmginfo:IsDamageType(DMG_BURN)
+			or not (IsValid(attacker) and attacker:IsPlayer())
+			or attacker == ply
 		) then
 			dmginfo:ScaleDamage(0)
 		end
@@ -214,15 +227,17 @@ if SERVER then
 	end)
 
 	hook.Add("EntityTakeDamage", "JesterGivesDmg", function(ent, dmginfo)
+		local attacker = dmginfo:GetAttacker()
+
 		if ent:IsPlayer() and ent:GetSubRole() == ROLE_JESTER and (
 			dmginfo:IsExplosionDamage()
 			or dmginfo:IsDamageType(DMG_BURN)
 			or dmginfo:IsDamageType(DMG_DROWN)
+			or not (IsValid(attacker) and attacker:IsPlayer())
+			or attacker == ply
 		) then -- check its burn, explosion or drown.
 			dmginfo:ScaleDamage(0) -- no damages
 		end
-
-		local attacker = dmginfo:GetAttacker()
 
 		if ent:IsPlayer()
 		and attacker and IsValid(attacker) and attacker:IsPlayer()
