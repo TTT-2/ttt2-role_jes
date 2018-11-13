@@ -1,11 +1,10 @@
 --a variable has to be set for every winstate
-CreateConVar("ttt2_jes_winstate_1", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_2", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_3", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_4", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-CreateConVar("ttt2_jes_winstate_5", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
---CreateConVar("ttt2_jes_winstate_x", 1, {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-
+CreateConVar("ttt2_jes_winstate_1", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_2", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_3", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_4", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_5", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+--CreateConVar("ttt2_jes_winstate_x", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 function JesterWinstate(ply, killer)
 	local winstatepick = math.random(1, 20)

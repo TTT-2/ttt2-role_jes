@@ -1,8 +1,6 @@
 if SERVER then
 	AddCSLuaFile()
 
-	include("winstates.lua")
-
 	resource.AddFile("sound/ttt2/birthdayparty.mp3")
 
 	resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
@@ -11,7 +9,22 @@ if SERVER then
 end
 
 CreateConVar("ttt2_jes_winstate", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
-CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED})
+CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
+if SERVER then
+	include("winstates.lua")
+end
+
+hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
+	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
+
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_1", checkbox = true, desc = "Jester winstate 1 (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_2", checkbox = true, desc = "Jester winstate 2 (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_3", checkbox = true, desc = "Jester winstate 3 (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_4", checkbox = true, desc = "Jester winstate 4 (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
+end)
 
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
@@ -41,22 +54,8 @@ InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JE
 		togglable = true -- option to toggle a role for a client if possible (F1 menu)
 })
 
--- if sync of roles has finished
-
-hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
-	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
-
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_1", checkbox = true, desc = "Jester winstate 1 (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_2", checkbox = true, desc = "Jester winstate 2 (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_3", checkbox = true, desc = "Jester winstate 3 (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_4", checkbox = true, desc = "Jester winstate 4 (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
-end)
-
+-- if roles loading has finished
 hook.Add("TTT2FinishedLoading", "JesterInitT", function()
-
-
 	if CLIENT then
 		-- setup here is not necessary but if you want to access the role data, you need to start here
 		-- setup basic translation !
