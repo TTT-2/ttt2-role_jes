@@ -128,9 +128,9 @@ if SERVER then
 	end)
 
 	hook.Add("PostPlayerDeath", "JesterPostDeath", function(ply)
-		if hook.Run("TTT2PreventJesterDeath", ply) then return end
-
 		if ply:GetSubRole() == ROLE_JESTER then
+			if hook.Run("TTT2PreventJesterDeath", ply) then return end
+
 			local killer = ply.jesterKiller
 
 			ply.jesterKiller = nil
@@ -174,7 +174,7 @@ if SERVER then
 	end)
 
 	hook.Add("PlayerShouldTakeDamage", "JesterShouldntTakeDamage", function(ply, attacker)
-		if not (IsValid(attacker) and attacker:IsPlayer()) or attacker == ply then
+		if ply:GetSubRole() == ROLE_JESTER and (not IsValid(attacker) or not attacker:IsPlayer() or attacker == ply) then
 			return false
 		end
 	end)
