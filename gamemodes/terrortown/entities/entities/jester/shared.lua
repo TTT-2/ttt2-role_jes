@@ -35,11 +35,9 @@ InitCustomTeam("JESTER", {
 
 InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER or JESTER
 		color = Color(255, 105, 180, 200), -- ...
-		dkcolor = Color(255, 51, 153, 255), -- ...
-		bgcolor = Color(255, 85, 100, 200), -- ...
-		name = "jester", -- just a unique name for the script to determine
+		dkcolor = Color(253, 15, 136, 255), -- ...
+		bgcolor = Color(200, 255, 105, 255), -- ...
 		abbr = "jes", -- abbreviation
-		team = "jesters", -- the team name: roles with same team name are working together
 		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
 		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
 		surviveBonus = 0, -- bonus multiplier for every survive while another player was killed
@@ -60,6 +58,7 @@ hook.Add("TTT2FinishedLoading", "JesterInitT", function()
 		-- setup here is not necessary but if you want to access the role data, you need to start here
 		-- setup basic translation !
 		LANG.AddToLanguage("English", JESTER.name, "Jester")
+		LANG.AddToLanguage("English", TEAM_JESTER, "TEAM Jesters")
 		LANG.AddToLanguage("English", "hilite_win_" .. TEAM_JESTER, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
 		LANG.AddToLanguage("English", "win_" .. TEAM_JESTER, "The Jester has won!") -- teamname
 		LANG.AddToLanguage("English", "info_popup_" .. JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
@@ -74,6 +73,7 @@ The Jester can't do any damage or kill himself. But if he dies, he will WIN. So 
 
 		-- maybe this language as well...
 		LANG.AddToLanguage("Deutsch", JESTER.name, "Narr")
+		LANG.AddToLanguage("Deutsch", TEAM_JESTER, "TEAM Narren")
 		LANG.AddToLanguage("Deutsch", "hilite_win_" .. TEAM_JESTER, "THE JES WON")
 		LANG.AddToLanguage("Deutsch", "win_" .. TEAM_JESTER, "Der Narr hat gewonnen!")
 		LANG.AddToLanguage("Deutsch", "info_popup_" .. JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
