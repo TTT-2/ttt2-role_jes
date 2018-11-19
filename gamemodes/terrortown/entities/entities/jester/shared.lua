@@ -151,7 +151,7 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("TTT2_TellTraitors", "JesterTraitorMsg", function()
+	hook.Add("TTT2TellTraitors", "JesterTraitorMsg", function()
 		local jesters = {}
 
 		for _, v in ipairs(player.GetAll()) do
@@ -188,7 +188,7 @@ if SERVER then
 			net.WriteEntity(ply)
 			net.Broadcast()
 
-			ply:EmitSound("BirthdayParty.wav")
+			ply:EmitSound("birthdayparty.mp3")
 		end
 	end)
 
@@ -259,7 +259,9 @@ if CLIENT then
 	net.Receive("NewConfetti", function()
 		local ent = net.ReadEntity()
 
-		ent:EmitSound("BirthdayParty.mp3") -- Play the sound
+		if not IsValid(ent) then return end
+
+		ent:EmitSound("birthdayparty.mp3") -- Play the sound
 
 		local pos = ent:GetPos() + Vector(0, 0, ent:OBBMaxs().z)
 
