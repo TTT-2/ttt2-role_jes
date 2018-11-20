@@ -3,6 +3,8 @@ if SERVER then
 
 	resource.AddFile("sound/ttt2/birthdayparty.mp3")
 
+	util.PrecacheSound("ttt2/birthdayparty.mp3")
+
 	resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
 	resource.AddFile("materials/vgui/ttt/sprite_jes.vmt")
 	resource.AddFile("materials/confetti.png")
@@ -188,7 +190,7 @@ if SERVER then
 			net.WriteEntity(ply)
 			net.Broadcast()
 
-			ply:EmitSound("birthdayparty.mp3")
+			ply:EmitSound("ttt2/birthdayparty.mp3")
 		end
 	end)
 
@@ -261,7 +263,7 @@ if CLIENT then
 
 		if not IsValid(ent) then return end
 
-		ent:EmitSound("birthdayparty.mp3") -- Play the sound
+		ent:EmitSound("ttt2/birthdayparty.mp3") -- Play the sound
 
 		local pos = ent:GetPos() + Vector(0, 0, ent:OBBMaxs().z)
 
