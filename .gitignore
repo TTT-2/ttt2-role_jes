@@ -48,3 +48,5 @@ Temporary Items
 
 #
 .ftpconfig
+addon.json
+*.gma

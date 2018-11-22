@@ -68,7 +68,7 @@ end
 
 function JesterRevive(ply, role, team)
 	ply:Revive(3, function(p)
-		p:UpdateRole(role, team)
+		p:SetRole(role, team)
 		p:SetDefaultCredits()
 		SendFullStateUpdate()
 	end,
