@@ -91,6 +91,26 @@ if SERVER then
 
 	--------
 
+	hook.Add("TTT2ModifyDefaultLoadout", "ModifyJESLoadout", function(loadout_weapons, subrole)
+		if subrole == ROLE_JESTER then
+			for k, v in ipairs(loadout_weapons[subrole]) do
+				if v == "weapon_zm_carry" then
+					table.remove(loadout_weapons[subrole], k)
+
+					local tbl = weapons.GetStored("weapon_zm_carry")
+
+					if tbl and tbl.InLoadoutFor then
+						for k2, sr in ipairs(tbl.InLoadoutFor) do
+							if sr == subrole then
+								table.remove(tbl.InLoadoutFor, k2)
+							end
+						end
+					end
+				end
+			end
+		end
+	end)
+
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
 		if GetConVar("ttt2_jes_winstate"):GetInt() == 0 then
 			for _, v in ipairs(player.GetAll()) do
