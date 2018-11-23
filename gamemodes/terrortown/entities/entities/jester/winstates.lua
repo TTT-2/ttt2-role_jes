@@ -18,6 +18,7 @@ function JesterWinstate(ply, killer)
 	while winstatepick >= 0 do
 		if winstatepick == 0 and ws1 == "1" then
 			JesterWinstateOne(ply, killer)
+
 			break
 		elseif ws1 == "1" then
 			winstatepick = winstatepick - 1
@@ -25,6 +26,7 @@ function JesterWinstate(ply, killer)
 
 		if winstatepick == 0 and ws2 == "1" then
 			JesterWinstateTwo(ply, killer)
+
 			break
 		elseif ws2 == "1" then
 			winstatepick = winstatepick - 1
@@ -32,6 +34,7 @@ function JesterWinstate(ply, killer)
 
 		if winstatepick == 0 and ws3 == "1" then
 			JesterWinstateThree(ply, killer)
+
 			break
 		elseif ws3 == "1" then
 			winstatepick = winstatepick - 1
@@ -39,6 +42,7 @@ function JesterWinstate(ply, killer)
 
 		if winstatepick == 0 and ws4 == "1" then
 			JesterWinstateFour(ply, killer)
+
 			break
 		elseif ws4 == "1" then
 			winstatepick = winstatepick - 1
@@ -46,6 +50,7 @@ function JesterWinstate(ply, killer)
 
 		if winstatepick == 0 and ws5 == "1" then
 			JesterWinstateFive(ply, killer)
+
 			break
 		elseif ws5 == "1" then
 			winstatepick = winstatepick - 1
@@ -61,6 +66,7 @@ function JesterWinstate(ply, killer)
 
 		if ws1 == "0" and ws2 == "0" and ws3 == "0" and ws4 == "0" and ws5 == "0" then
 			GetConVar("ttt2_jes_winstate"):SetInt(0)
+
 			break
 		end
 	end
@@ -118,6 +124,7 @@ function JesterWinstateOne(ply, killer)
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
 				JesterRevive(ply, v.index, v.defaultTeam)
+
 				break
 			end
 		end
@@ -152,7 +159,6 @@ function JesterWinstateTwo(ply, killer)
 			end
 		end
 
-
 		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 			if deadply ~= killer or deadply.NOWINASC then return end
 
@@ -170,6 +176,7 @@ function JesterWinstateTwo(ply, killer)
 					-- him here (he might still get it if we don't have enough
 					-- alternatives
 					JesterRevive(ply, v.index, v.defaultTeam)
+
 					break
 				end
 			end
@@ -201,7 +208,6 @@ function JesterWinstateFour(ply, killer)
 
 		killer:Kill()
 		killer:ChatPrint("You were killed, because you killed the Jester!")
-
 
 		JesterRevive(ply, role, rd.defaultTeam)
 	end
@@ -251,6 +257,7 @@ function JesterWinstateFive(ply, killer)
 				-- him here (he might still get it if we don't have enough
 				-- alternatives
 				JesterRevive(ply, v.index, v.defaultTeam)
+
 				break
 			end
 		end
