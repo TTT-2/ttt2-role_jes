@@ -108,6 +108,18 @@ if SERVER then
 							end
 						end
 					end
+				elseif v == "weapon_zm_improvised" then
+					table.remove(loadout_weapons[subrole], k)
+
+					local tbl = weapons.GetStored("weapon_zm_improvised")
+
+					if tbl and tbl.InLoadoutFor then
+						for k2, sr in ipairs(tbl.InLoadoutFor) do
+							if sr == subrole then
+								table.remove(tbl.InLoadoutFor, k2)
+							end
+						end
+					end
 				end
 			end
 		end
@@ -199,6 +211,9 @@ if SERVER then
 		if ply:GetSubRole() == ROLE_JESTER and (not IsValid(attacker) or not attacker:IsPlayer() or attacker == ply) then
 			return false
 		end
+		if attacker:GetSubRole() == ROLE_JESTER then
+			return false
+		end
 	end)
 
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
@@ -214,50 +229,12 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("ScalePlayerDamage", "JesterDmgScale", function(ply, hitgroup, dmginfo)
-		local attacker = dmginfo:GetAttacker()
-
-		if ply:GetSubRole() == ROLE_JESTER and (
-			not (dmginfo:IsBulletDamage()
-				or dmginfo:IsFallDamage()
-				or dmginfo:IsDamageType(DMG_CRUSH) and IsValid(attacker) and attacker:IsPlayer() and attacker ~= ply
-				or dmginfo:IsDamageType(DMG_CLUB)
-			) or dmginfo:IsExplosionDamage()
-			or dmginfo:IsDamageType(DMG_DROWN)
-			or dmginfo:IsDamageType(DMG_BURN)
-		) then
-			dmginfo:ScaleDamage(0)
-		end
-
-		if ply:IsPlayer()
-		and attacker and IsValid(attacker) and attacker:IsPlayer()
-		and attacker:GetSubRole() == ROLE_JESTER
-		then
-			dmginfo:ScaleDamage(0)
-		end
-	end)
-
-	hook.Add("EntityTakeDamage", "JesterGivesDmg", function(ent, dmginfo)
-		if ent:IsPlayer() and ent:GetSubRole() == ROLE_JESTER and (
-			dmginfo:IsExplosionDamage()
-			or dmginfo:IsDamageType(DMG_BURN)
-			or dmginfo:IsDamageType(DMG_DROWN)
-		) then -- check its burn, explosion or drown.
-			dmginfo:ScaleDamage(0) -- no damages
-		end
-
-		local attacker = dmginfo:GetAttacker()
-
-		if ent:IsPlayer()
-		and attacker and IsValid(attacker) and attacker:IsPlayer()
-		and attacker:GetSubRole() == ROLE_JESTER then
-			dmginfo:ScaleDamage(0)
-		end
-	end)
-
-	hook.Add("OnPlayerHitGround", "JesterHitGround", function(ply, in_water, on_floater, speed)
-		if ply:GetSubRole() == ROLE_JESTER then
-			return false
+	hook.Add("TTTBeginRound", "JesterBeginRound", function()
+		for _, v in ipairs(player.GetAll()) do
+			if v:GetSubRole() == ROLE_JESTER then
+				v:StripWeapon("weapon_zm_molotov")
+				v:StripWeapon("weapon_ttt_confgrenade")
+			end
 		end
 	end)
 
