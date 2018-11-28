@@ -46,7 +46,7 @@ SWEP.Constr = nil
 SWEP.PrevOwner = nil
 
 if SERVER then
-	hook.Add("Initialize", "AddSKKnifeToDefaultLoadout", function()
+	hook.Add("Initialize", "AddJESMagnetoToDefaultLoadout", function()
 		local wep = weapons.GetStored("weapon_ttt2_jes_carry")
 
 		if wep then
