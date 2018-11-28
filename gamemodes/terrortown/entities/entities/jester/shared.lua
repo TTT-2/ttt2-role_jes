@@ -5,8 +5,7 @@ if SERVER then
 
 	util.PrecacheSound("ttt2/birthdayparty.mp3")
 
-	resource.AddFile("materials/vgui/ttt/icon_jes.vmt")
-	resource.AddFile("materials/vgui/ttt/sprite_jes.vmt")
+	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_jes.vmt")
 	resource.AddFile("materials/confetti.png")
 end
 
@@ -31,14 +30,14 @@ end)
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
 InitCustomTeam("JESTER", {
-		icon = "vgui/ttt/sprite_jes",
-		color = Color(255, 105, 180, 200)
+		icon = "vgui/ttt/dynamic/roles/icon_jes",
+		color = Color(245, 48, 155, 255)
 })
 
 InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER or JESTER
-		color = Color(255, 105, 180, 200), -- ...
-		dkcolor = Color(253, 15, 136, 255), -- ...
-		bgcolor = Color(200, 255, 105, 255), -- ...
+		color = Color(245, 48, 155, 255), -- ...
+		dkcolor = Color(229, 0, 125, 255), -- ...
+		bgcolor = Color(181, 251, 49, 255), -- ...
 		abbr = "jes", -- abbreviation
 		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
 		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
@@ -158,7 +157,6 @@ if SERVER then
 			ply.jesterKiller = nil
 
 			JesterWinstate(ply, killer)
-
 		end
 	end)
 
