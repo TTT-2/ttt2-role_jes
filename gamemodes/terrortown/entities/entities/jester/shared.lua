@@ -208,8 +208,7 @@ if SERVER then
 	hook.Add("PlayerShouldTakeDamage", "JesterShouldntTakeDamage", function(ply, attacker)
 		if ply:GetSubRole() == ROLE_JESTER and (not IsValid(attacker) or not attacker:IsPlayer() or attacker == ply) then
 			return false
-		end
-		if attacker:GetSubRole() == ROLE_JESTER then
+		elseif IsValid(attacker) and attacker:IsPlayer() and attacker:GetSubRole() == ROLE_JESTER then
 			return false
 		end
 	end)
