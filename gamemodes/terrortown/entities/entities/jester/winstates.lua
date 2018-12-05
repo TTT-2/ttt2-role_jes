@@ -85,165 +85,81 @@ end
 
 --Player spawns within three seconds with a random opposite role of the killer
 function JesterWinstateOne(ply, killer)
-	if IsValid(killer) then
-		local rd = killer:GetSubRoleData()
-		local tbl = {}
-		local choices_i = 0
+	local rd = killer:GetSubRoleData()
+	local tbl = {}
+	local choices_i = 0
 
-		-- prevent endless loop
-		if killer:HasTeam(TEAM_TRAITOR) then
-			table.insert(tbl, INNOCENT)
-		else
-			table.insert(tbl, TRAITOR)
+	-- prevent endless loop
+	if killer:HasTeam(TEAM_TRAITOR) then
+		table.insert(tbl, INNOCENT)
+	else
+		table.insert(tbl, TRAITOR)
+	end
+
+	for _, v in ipairs(player.GetAll()) do
+		if v:IsActive() and not v:GetForceSpec() then
+			choices_i = choices_i + 1
 		end
+	end
 
-		for _, v in ipairs(player.GetAll()) do
-			if v:IsActive() and not v:GetForceSpec() then
-				choices_i = choices_i + 1
-			end
+	local selectableRoles = GetSelectableRoles()
+
+	for roleData, amount in pairs(selectableRoles) do
+		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
+			table.insert(tbl, roleData)
 		end
+	end
 
-		local selectableRoles = GetSelectableRoles()
+	-- set random available role
+	while true do
+		local vpick = math.random(1, #tbl)
+		local v = tbl[vpick]
+		local type_count = selectableRoles[v] or 0
 
-		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-				table.insert(tbl, roleData)
-			end
-		end
+		-- if player was last round innocent, he will be another role (if he has enough karma)
+		if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
 
-		-- set random available role
-		while true do
-			local vpick = math.random(1, #tbl)
-			local v = tbl[vpick]
-			local type_count = selectableRoles[v] or 0
+			-- if a player has specified he does not want to be detective, we skip
+			-- him here (he might still get it if we don't have enough
+			-- alternatives
+			JesterRevive(ply, v.index, v.defaultTeam)
 
-			-- if player was last round innocent, he will be another role (if he has enough karma)
-			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-				-- if a player has specified he does not want to be detective, we skip
-				-- him here (he might still get it if we don't have enough
-				-- alternatives
-				JesterRevive(ply, v.index, v.defaultTeam)
-
-				break
-			end
+			break
 		end
 	end
 end
 
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
-	if IsValid(killer) then
-		local rd = killer:GetSubRoleData()
-		local tbl = {}
-		local choices_i = 0
+	local rd = killer:GetSubRoleData()
+	local tbl = {}
+	local choices_i = 0
 
-		-- prevent endless loop
-		if killer:HasTeam(TEAM_TRAITOR) then
-			table.insert(tbl, INNOCENT)
-		else
-			table.insert(tbl, TRAITOR)
-		end
-
-		for _, v in ipairs(player.GetAll()) do
-			if v:IsActive() and not v:GetForceSpec() then
-				choices_i = choices_i + 1
-			end
-		end
-
-		local selectableRoles = GetSelectableRoles()
-
-		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-				table.insert(tbl, roleData)
-			end
-		end
-
-		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
-			if deadply ~= killer or deadply.NOWINASC then return end
-
-			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
-			-- set random available role
-			while true do
-				local vpick = math.random(1, #tbl)
-				local v = tbl[vpick]
-				local type_count = selectableRoles[v] or 0
-
-				-- if player was last round innocent, he will be another role (if he has enough karma)
-				if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-					-- if a player has specified he does not want to be detective, we skip
-					-- him here (he might still get it if we don't have enough
-					-- alternatives
-					JesterRevive(ply, v.index, v.defaultTeam)
-
-					break
-				end
-			end
-		end)
+	-- prevent endless loop
+	if killer:HasTeam(TEAM_TRAITOR) then
+		table.insert(tbl, INNOCENT)
+	else
+		table.insert(tbl, TRAITOR)
 	end
-end
 
--- Player spawns after killer death with the role of his killer
-function JesterWinstateThree(ply, killer)
-	if IsValid(killer) then
-		local rd = killer:GetSubRoleData()
-		local role = rd.index
-
-		hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
-			if deadply ~= killer or deadply.NOWINASC then return end
-
-			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
-
-			JesterRevive(ply, role, rd.defaultTeam)
-		end)
+	for _, v in ipairs(player.GetAll()) do
+		if v:IsActive() and not v:GetForceSpec() then
+			choices_i = choices_i + 1
+		end
 	end
-end
 
---Player spawns within three seconds with the role of the killer and the killer dies
-function JesterWinstateFour(ply, killer)
-	if IsValid(killer) then
-		local rd = killer:GetSubRoleData()
-		local role = rd.index
+	local selectableRoles = GetSelectableRoles()
 
-		killer:Kill()
-		killer:ChatPrint("You were killed, because you killed the Jester!")
-
-		JesterRevive(ply, role, rd.defaultTeam)
+	for roleData, amount in pairs(selectableRoles) do
+		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
+			table.insert(tbl, roleData)
+		end
 	end
-end
 
---Player spawns within three seconds with a random opposite role of the killer and the killer dies
-function JesterWinstateFive(ply, killer)
-	if IsValid(killer) then
-		local rd = killer:GetSubRoleData()
-		local tbl = {}
-		local choices_i = 0
+	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
+		if deadply ~= killer or deadply.NOWINASC then return end
 
-		-- prevent endless loop
-		if killer:HasTeam(TEAM_TRAITOR) then
-			table.insert(tbl, INNOCENT)
-		else
-			table.insert(tbl, TRAITOR)
-		end
-
-		for _, v in ipairs(player.GetAll()) do
-			if v:IsActive() and not v:GetForceSpec() then
-				choices_i = choices_i + 1
-			end
-		end
-
-		local selectableRoles = GetSelectableRoles()
-
-		for roleData, amount in pairs(selectableRoles) do
-			if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-				table.insert(tbl, roleData)
-			end
-		end
-
-		killer:Kill()
-		killer:ChatPrint("You were killed, because you killed the Jester!")
-
+		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 		-- set random available role
 		while true do
 			local vpick = math.random(1, #tbl)
@@ -260,6 +176,80 @@ function JesterWinstateFive(ply, killer)
 
 				break
 			end
+		end
+	end)
+end
+
+-- Player spawns after killer death with the role of his killer
+function JesterWinstateThree(ply, killer)
+	local rd = killer:GetSubRoleData()
+	local role = rd.index
+
+	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
+		if deadply ~= killer or deadply.NOWINASC then return end
+
+		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
+
+		JesterRevive(ply, role, rd.defaultTeam)
+	end)
+end
+
+--Player spawns within three seconds with the role of the killer and the killer dies
+function JesterWinstateFour(ply, killer)
+	local rd = killer:GetSubRoleData()
+	local role = rd.index
+
+	killer:Kill()
+	killer:ChatPrint("You were killed, because you killed the Jester!")
+
+	JesterRevive(ply, role, rd.defaultTeam)
+end
+
+--Player spawns within three seconds with a random opposite role of the killer and the killer dies
+function JesterWinstateFive(ply, killer)
+	local rd = killer:GetSubRoleData()
+	local tbl = {}
+	local choices_i = 0
+
+	-- prevent endless loop
+	if killer:HasTeam(TEAM_TRAITOR) then
+		table.insert(tbl, INNOCENT)
+	else
+		table.insert(tbl, TRAITOR)
+	end
+
+	for _, v in ipairs(player.GetAll()) do
+		if v:IsActive() and not v:GetForceSpec() then
+			choices_i = choices_i + 1
+		end
+	end
+
+	local selectableRoles = GetSelectableRoles()
+
+	for roleData, amount in pairs(selectableRoles) do
+		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
+			table.insert(tbl, roleData)
+		end
+	end
+
+	killer:Kill()
+	killer:ChatPrint("You were killed, because you killed the Jester!")
+
+	-- set random available role
+	while true do
+		local vpick = math.random(1, #tbl)
+		local v = tbl[vpick]
+		local type_count = selectableRoles[v] or 0
+
+		-- if player was last round innocent, he will be another role (if he has enough karma)
+		if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
+
+			-- if a player has specified he does not want to be detective, we skip
+			-- him here (he might still get it if we don't have enough
+			-- alternatives
+			JesterRevive(ply, v.index, v.defaultTeam)
+
+			break
 		end
 	end
 end

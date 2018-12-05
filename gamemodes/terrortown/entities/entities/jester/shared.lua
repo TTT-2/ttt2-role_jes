@@ -168,6 +168,8 @@ if SERVER then
 
 			ply.jesterKiller = nil
 
+			if not IsValid(killer) then return end
+
 			JesterWinstate(ply, killer)
 		end
 	end)
