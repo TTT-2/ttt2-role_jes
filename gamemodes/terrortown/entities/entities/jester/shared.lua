@@ -215,8 +215,17 @@ if SERVER then
 		end
 	end)
 
+	hook.Add("EntityTakeDamage", "JesterTakesNoDamage", function(ply, dmginfo)
+		local attacker = dmginfo.GetAttacker()
+		if IsValid(ply) and ply:IsPlayer() and ply:GetSubRole() == ROLE_JESTER and (not IsValid(attacker) or not attacker:IsPlayer() or attacker == ply) then
+			return true
+		elseif IsValid(attacker) and attacker:IsPlayer() and attacker:GetSubRole() == ROLE_JESTER then
+			return true
+		end
+	end)
+
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
-		if ply:GetSubRole() == ROLE_JESTER then
+		if ply:GetSubRole() == ROLE_JESTER and not (IsValid(attacker) and attacker:IsPlayer() and INFECTED and attacker:GetSubRole() == ROLE_INFECTED) then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")
 			--local HeadPos, HeadAng = ply:GetBonePosition(HeadIndex)
 
