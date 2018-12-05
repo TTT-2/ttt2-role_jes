@@ -216,11 +216,12 @@ if SERVER then
 	end)
 
 	hook.Add("EntityTakeDamage", "JesterTakesNoDamage", function(ply, dmginfo)
-		local attacker = dmginfo.GetAttacker()
+		local attacker = dmginfo:GetAttacker()
+
 		if IsValid(ply) and ply:IsPlayer() and ply:GetSubRole() == ROLE_JESTER and (not IsValid(attacker) or not attacker:IsPlayer() or attacker == ply) then
-			return true
+			return true -- block damage
 		elseif IsValid(attacker) and attacker:IsPlayer() and attacker:GetSubRole() == ROLE_JESTER then
-			return true
+			return true -- block damage
 		end
 	end)
 
