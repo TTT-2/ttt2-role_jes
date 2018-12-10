@@ -247,6 +247,12 @@ if SERVER then
 		end
 	end)
 
+	hook.Add("TTTEndRound", "JesterEndRound", function()
+		for _, v in ipairs(player.GetAll()) do
+			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. v:Nick())
+		end
+	end)
+
 	hook.Add("PlayerCanPickupWeapon", "JesterPickupWeapon", function(ply, wep)
 		if IsValid(ply) and IsValid(wep) and ply:GetSubRole() == ROLE_JESTER then
 			if wep:GetClass() == "weapon_zm_molotov" then
