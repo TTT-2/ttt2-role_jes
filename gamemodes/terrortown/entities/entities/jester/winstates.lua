@@ -65,18 +65,16 @@ function JesterWinstate(ply, killer)
     --]]
 
 		if ws1 == "0" and ws2 == "0" and ws3 == "0" and ws4 == "0" and ws5 == "0" then
-			GetConVar("ttt2_jes_winstate"):SetInt(0)
+			RunConsoleCommand("ttt2_jes_winstate", "0")
 
 			break
 		end
 	end
 end
 
-function JesterRevive(ply, role, team)
+function JesterRevive(ply, fn)
 	ply:Revive(3, function(p)
-		p:SetRole(role, team)
-		p:SetDefaultCredits()
-		SendFullStateUpdate()
+		fn(p)
 	end,
 	function(p)
 		return IsValid(p)
@@ -86,73 +84,30 @@ end
 --Player spawns within three seconds with a random opposite role of the killer
 function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local tbl = {}
-	local choices_i = 0
+	local avoidedRoles = {}
 
-	-- prevent endless loop
-	if killer:HasTeam(TEAM_TRAITOR) then
-		table.insert(tbl, INNOCENT)
-	else
-		table.insert(tbl, TRAITOR)
-	end
-
-	for _, v in ipairs(player.GetAll()) do
-		if v:IsActive() and not v:GetForceSpec() then
-			choices_i = choices_i + 1
+	for _, v in pairs(GetRoles()) do
+		if v == JESTER or v.defaultTeam == rd.defaultTeam then
+			avoidedRoles[v] = true
 		end
 	end
 
-	local selectableRoles = GetSelectableRoles()
+	JesterRevive(ply, function(p)
+		p:SelectRandomRole(avoidedRoles)
+		p:SetDefaultCredits()
 
-	for roleData, amount in pairs(selectableRoles) do
-		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-			table.insert(tbl, roleData)
-		end
-	end
-
-	-- set random available role
-	while true do
-		local vpick = math.random(1, #tbl)
-		local v = tbl[vpick]
-		local type_count = selectableRoles[v] or 0
-
-		-- if player was last round innocent, he will be another role (if he has enough karma)
-		if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-			-- if a player has specified he does not want to be detective, we skip
-			-- him here (he might still get it if we don't have enough
-			-- alternatives
-			JesterRevive(ply, v.index, v.defaultTeam)
-
-			break
-		end
-	end
+		SendFullStateUpdate()
+	end)
 end
 
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local tbl = {}
-	local choices_i = 0
+	local avoidedRoles = {}
 
-	-- prevent endless loop
-	if killer:HasTeam(TEAM_TRAITOR) then
-		table.insert(tbl, INNOCENT)
-	else
-		table.insert(tbl, TRAITOR)
-	end
-
-	for _, v in ipairs(player.GetAll()) do
-		if v:IsActive() and not v:GetForceSpec() then
-			choices_i = choices_i + 1
-		end
-	end
-
-	local selectableRoles = GetSelectableRoles()
-
-	for roleData, amount in pairs(selectableRoles) do
-		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-			table.insert(tbl, roleData)
+	for _, v in pairs(GetRoles()) do
+		if v == JESTER or v.defaultTeam == rd.defaultTeam then
+			avoidedRoles[v] = true
 		end
 	end
 
@@ -160,23 +115,14 @@ function JesterWinstateTwo(ply, killer)
 		if deadply ~= killer or deadply.NOWINASC then return end
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
+
 		-- set random available role
-		while true do
-			local vpick = math.random(1, #tbl)
-			local v = tbl[vpick]
-			local type_count = selectableRoles[v] or 0
+		JesterRevive(ply, function(p)
+			p:SelectRandomRole(avoidedRoles)
+			p:SetDefaultCredits()
 
-			-- if player was last round innocent, he will be another role (if he has enough karma)
-			if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-				-- if a player has specified he does not want to be detective, we skip
-				-- him here (he might still get it if we don't have enough
-				-- alternatives
-				JesterRevive(ply, v.index, v.defaultTeam)
-
-				break
-			end
-		end
+			SendFullStateUpdate()
+		end)
 	end)
 end
 
@@ -190,7 +136,12 @@ function JesterWinstateThree(ply, killer)
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
-		JesterRevive(ply, role, rd.defaultTeam)
+		JesterRevive(ply, function(p)
+			p:SetRole(role)
+			p:SetDefaultCredits()
+
+			SendFullStateUpdate()
+		end)
 	end)
 end
 
@@ -202,33 +153,22 @@ function JesterWinstateFour(ply, killer)
 	killer:Kill()
 	killer:ChatPrint("You were killed, because you killed the Jester!")
 
-	JesterRevive(ply, role, rd.defaultTeam)
+	JesterRevive(ply, function(p)
+		p:SetRole(role)
+		p:SetDefaultCredits()
+
+		SendFullStateUpdate()
+	end)
 end
 
 --Player spawns within three seconds with a random opposite role of the killer and the killer dies
 function JesterWinstateFive(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local tbl = {}
-	local choices_i = 0
+	local avoidedRoles = {}
 
-	-- prevent endless loop
-	if killer:HasTeam(TEAM_TRAITOR) then
-		table.insert(tbl, INNOCENT)
-	else
-		table.insert(tbl, TRAITOR)
-	end
-
-	for _, v in ipairs(player.GetAll()) do
-		if v:IsActive() and not v:GetForceSpec() then
-			choices_i = choices_i + 1
-		end
-	end
-
-	local selectableRoles = GetSelectableRoles()
-
-	for roleData, amount in pairs(selectableRoles) do
-		if not table.HasValue(tbl, roleData) and roleData.defaultTeam ~= rd.defaultTeam and roleData ~= JESTER then
-			table.insert(tbl, roleData)
+	for _, v in pairs(GetRoles()) do
+		if v == JESTER or v.defaultTeam == rd.defaultTeam then
+			avoidedRoles[v] = true
 		end
 	end
 
@@ -236,22 +176,12 @@ function JesterWinstateFive(ply, killer)
 	killer:ChatPrint("You were killed, because you killed the Jester!")
 
 	-- set random available role
-	while true do
-		local vpick = math.random(1, #tbl)
-		local v = tbl[vpick]
-		local type_count = selectableRoles[v] or 0
+	JesterRevive(ply, function(p)
+		p:SelectRandomRole(avoidedRoles)
+		p:SetDefaultCredits()
 
-		-- if player was last round innocent, he will be another role (if he has enough karma)
-		if IsValid(ply) and ply:CanSelectRole(v, choices_i, type_count) then
-
-			-- if a player has specified he does not want to be detective, we skip
-			-- him here (he might still get it if we don't have enough
-			-- alternatives
-			JesterRevive(ply, v.index, v.defaultTeam)
-
-			break
-		end
-	end
+		SendFullStateUpdate()
+	end)
 end
 
 --[[
