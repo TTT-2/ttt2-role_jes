@@ -87,10 +87,12 @@ function JesterWinstateOne(ply, killer)
 	local avoidedRoles = {}
 
 	for _, v in pairs(GetRoles()) do
-		if v == JESTER or v.defaultTeam == rd.defaultTeam then
+		if v.defaultTeam == rd.defaultTeam then
 			avoidedRoles[v] = true
 		end
 	end
+
+	avoidedRoles[JESTER] = true
 
 	JesterRevive(ply, function(p)
 		p:SelectRandomRole(avoidedRoles)
@@ -103,16 +105,19 @@ end
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local avoidedRoles = {}
-
-	for _, v in pairs(GetRoles()) do
-		if v == JESTER or v.defaultTeam == rd.defaultTeam then
-			avoidedRoles[v] = true
-		end
-	end
 
 	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 		if deadply ~= killer or deadply.NOWINASC then return end
+
+		local avoidedRoles = {}
+
+		for _, v in pairs(GetRoles()) do
+			if v.defaultTeam == rd.defaultTeam then
+				avoidedRoles[v] = true
+			end
+		end
+
+		avoidedRoles[JESTER] = true
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
@@ -167,10 +172,12 @@ function JesterWinstateFive(ply, killer)
 	local avoidedRoles = {}
 
 	for _, v in pairs(GetRoles()) do
-		if v == JESTER or v.defaultTeam == rd.defaultTeam then
+		if v.defaultTeam == rd.defaultTeam then
 			avoidedRoles[v] = true
 		end
 	end
+
+	avoidedRoles[JESTER] = true
 
 	killer:Kill()
 	killer:ChatPrint("You were killed, because you killed the Jester!")
