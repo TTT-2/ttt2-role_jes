@@ -104,7 +104,7 @@ end
 
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
-	local rd = killer:GetSubRoleData()
+	local defaultTeam = killer:GetSubRoleData().defaultTeam
 
 	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 		if deadply ~= killer or deadply.NOWINASC then return end
@@ -112,7 +112,7 @@ function JesterWinstateTwo(ply, killer)
 		local avoidedRoles = {}
 
 		for _, v in pairs(GetRoles()) do
-			if v.defaultTeam == rd.defaultTeam then
+			if v.defaultTeam == defaultTeam then
 				avoidedRoles[v] = true
 			end
 		end
