@@ -29,29 +29,29 @@ end)
 
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
-InitCustomTeam("JESTER", {
+roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
 		icon = "vgui/ttt/dynamic/roles/icon_jes",
 		color = Color(245, 48, 155, 255)
 })
 
-InitCustomRole("JESTER", { -- first param is access for ROLES array => ROLES["JESTER"] or ROLES.JESTER or JESTER
-		color = Color(245, 48, 155, 255), -- ...
-		dkcolor = Color(229, 0, 125, 255), -- ...
-		bgcolor = Color(181, 251, 49, 255), -- ...
-		abbr = "jes", -- abbreviation
-		defaultEquipment = INNO_EQUIPMENT, -- here you can set up your own default equipment
-		visibleForTraitors = true, -- other traitors can see this role / sync them with traitors
-		surviveBonus = 0, -- bonus multiplier for every survive while another player was killed
-		scoreKillsMultiplier = 1, -- multiplier for kill of player of another team
-		scoreTeamKillsMultiplier = -8, -- multiplier for teamkill
-		preventWin = true, -- set true if role can't win (maybe because of own / special win conditions)
-		defaultTeam = TEAM_JESTER -- set/link default team to register it
-	}, {
-		pct = 0.17, -- necessary: percentage of getting this role selected (per player)
-		maximum = 1, -- maximum amount of roles in a round
-		minPlayers = 6, -- minimum amount of players until this role is able to get selected
-		togglable = true -- option to toggle a role for a client if possible (F1 menu)
-})
+ROLE.color = Color(245, 48, 155, 255) -- ...
+ROLE.dkcolor = Color(229, 0, 125, 255) -- ...
+ROLE.bgcolor = Color(181, 251, 49, 255) -- ...
+ROLE.abbr = "jes" -- abbreviation
+ROLE.defaultEquipment = INNO_EQUIPMENT -- here you can set up your own default equipment
+ROLE.visibleForTraitors = true -- other traitors can see this role / sync them with traitors
+ROLE.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
+ROLE.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
+ROLE.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill
+ROLE.preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
+ROLE.defaultTeam = TEAM_JESTER -- set/link default team to register it
+
+ROLE.conVarData = {
+	pct = 0.17, -- necessary: percentage of getting this role selected (per player)
+	maximum = 1, -- maximum amount of roles in a round
+	minPlayers = 6, -- minimum amount of players until this role is able to get selected
+	togglable = true -- option to toggle a role for a client if possible (F1 menu)
+}
 
 -- if roles loading has finished
 hook.Add("TTT2FinishedLoading", "JesterInitT", function()
