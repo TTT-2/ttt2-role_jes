@@ -4,6 +4,7 @@ CreateConVar("ttt2_jes_winstate_2", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 CreateConVar("ttt2_jes_winstate_3", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 CreateConVar("ttt2_jes_winstate_4", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 CreateConVar("ttt2_jes_winstate_5", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+CreateConVar("ttt2_jes_winstate_6", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 --CreateConVar("ttt2_jes_winstate_x", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 function JesterWinstate(ply, killer)
@@ -13,6 +14,7 @@ function JesterWinstate(ply, killer)
 	local ws3 = GetConVar("ttt2_jes_winstate_3"):GetString()
 	local ws4 = GetConVar("ttt2_jes_winstate_4"):GetString()
 	local ws5 = GetConVar("ttt2_jes_winstate_5"):GetString()
+	local ws6 = GetConVar("ttt2_jes_winstate_6"):GetString()
 
 	-- Every Winstate has to be put in here after the template
 	while winstatepick >= 0 do
@@ -55,6 +57,14 @@ function JesterWinstate(ply, killer)
 		elseif ws5 == "1" then
 			winstatepick = winstatepick - 1
 		end
+
+		if winstatepick == 0 and ws6 == "1" then
+			JesterWinstateSix(ply, killer)
+
+			break
+		elseif ws6 == "1" then
+			winstatepick = winstatepick - 1
+		end
 		--[[
     if winstatepick == 0 and GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
       JesterWinstateX(ply, killer)
@@ -64,7 +74,7 @@ function JesterWinstate(ply, killer)
     end
     --]]
 
-		if ws1 == "0" and ws2 == "0" and ws3 == "0" and ws4 == "0" and ws5 == "0" then
+		if ws1 == "0" and ws2 == "0" and ws3 == "0" and ws4 == "0" and ws5 == "0" and ws6 == "0" then
 			RunConsoleCommand("ttt2_jes_winstate", "0")
 
 			break
@@ -185,6 +195,26 @@ function JesterWinstateFive(ply, killer)
 	-- set random available role
 	JesterRevive(ply, function(p)
 		p:SelectRandomRole(avoidedRoles)
+		p:SetDefaultCredits()
+
+		SendFullStateUpdate()
+	end)
+end
+
+--Same as winstate four, unless the killer is a traitor, then jester is killed normally
+function JesterWinstateSix(ply, killer)
+	local rd = killer:GetSubRoleData()
+    local role = rd.index
+
+	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then 
+		return
+	end
+
+	killer:Kill()
+	killer:ChatPrint("You were killed, because you killed the Jester!")
+
+	JesterRevive(ply, function(p)
+		p:SetRole(role)
 		p:SetDefaultCredits()
 
 		SendFullStateUpdate()

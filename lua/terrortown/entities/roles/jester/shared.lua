@@ -25,6 +25,7 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_3", checkbox = true, desc = "Jester winstate 3 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_4", checkbox = true, desc = "Jester winstate 4 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_6", checkbox = true, desc = "Jester winstate 6 (Def. 1)"})
 end)
 
 -- creates global var "TEAM_JESTER" and other required things
@@ -135,6 +136,18 @@ if SERVER then
 	end)
 
 	hook.Add("PlayerDeath", "JesterDeath", function(victim, infl, attacker)
+		if (IsValid(attacker) and attacker:IsPlayer() and TRAITOR and attacker:GetSubRole() == ROLE_TRAITOR) then
+			if GetConVar("ttt2_jes_winstate_6"):GetInt() == 1 then
+				return
+			end
+		end
+
+		if (IsValid(attacker) and attacker:IsPlayer() and SERIALKILLER and attacker:GetSubRole() == ROLE_SERIALKILLER) then
+			if GetConVar("ttt2_jes_winstate_6"):GetInt() == 1 then
+				return
+			end
+		end
+
 		if victim:GetSubRole() == ROLE_JESTER and IsValid(attacker) and attacker:IsPlayer() and infl:GetClass() ~= env_fire and attacker:GetSubRole() ~= ROLE_JESTER then
 			victim.jesterKiller = attacker
 
@@ -226,6 +239,18 @@ if SERVER then
 	end)
 
 	hook.Add("DoPlayerDeath", "JesterDoDeath", function(ply, attacker, dmginfo)
+		if (IsValid(attacker) and attacker:IsPlayer() and TRAITOR and attacker:GetSubRole() == ROLE_TRAITOR) then
+			if GetConVar("ttt2_jes_winstate_6"):GetInt() == 1 then
+				return
+			end
+		end
+
+		if (IsValid(attacker) and attacker:IsPlayer() and SERIALKILLER and attacker:GetSubRole() == ROLE_SERIALKILLER) then
+			if GetConVar("ttt2_jes_winstate_6"):GetInt() == 1 then
+				return
+			end
+		end
+		
 		if ply:GetSubRole() == ROLE_JESTER and not (IsValid(attacker) and attacker:IsPlayer() and INFECTED and attacker:GetSubRole() == ROLE_INFECTED) then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")
 			--local HeadPos, HeadAng = ply:GetBonePosition(HeadIndex)
