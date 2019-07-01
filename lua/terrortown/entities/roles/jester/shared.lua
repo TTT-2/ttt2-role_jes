@@ -189,9 +189,10 @@ if SERVER then
 
 	hook.Add("TTTPrepareRound", "JesterInit", function()
 		local minPlayers = GetConVar("ttt_" .. JESTER.name .. "_min_players"):GetInt()
+		local enabled = GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetInt()
 		local players = player.GetAll()
 
-		if #players >= minPlayers then
+		if enabled == 1 and #players >= minPlayers then
 			for _, v in ipairs(players) do
 				v:ChatPrint("Don't kill the Jester!")
 			end
@@ -199,6 +200,7 @@ if SERVER then
 	end)
 
 	hook.Add("TTT2TellTraitors", "JesterTraitorMsg", function()
+		local enabled = GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetInt()
 		local jesters = {}
 
 		for _, v in ipairs(player.GetAll()) do
@@ -206,14 +208,15 @@ if SERVER then
 				table.insert(jesters, v:Nick())
 			end
 		end
-
-		for _, v in ipairs(player.GetAll()) do
-			if #jesters < 1 then
-				v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
-			else
-				for _, ply in ipairs(jesters) do
-					if v:HasTeam(TEAM_TRAITOR) or ROLE_JACKAL and v:IsRole(ROLE_JACKAL) then
-						v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
+		if enabled == 1 then
+			for _, v in ipairs(player.GetAll()) do
+				if #jesters < 1 then
+					v:PrintMessage(HUD_PRINTTALK, "There are no Jesters!")
+				else
+					for _, ply in ipairs(jesters) do
+						if v:HasTeam(TEAM_TRAITOR) or ROLE_JACKAL and v:IsRole(ROLE_JACKAL) then
+							v:PrintMessage(HUD_PRINTTALK, "'" .. ply .. "' is the Jester!")
+						end
 					end
 				end
 			end
