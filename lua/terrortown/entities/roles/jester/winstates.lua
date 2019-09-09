@@ -96,13 +96,13 @@ function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local avoidedRoles = {}
 
-	for _, v in pairs(GetRoles()) do
+	for _, v in pairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam then
 			avoidedRoles[v] = true
 		end
 	end
 
-	avoidedRoles[JESTER] = true
+	avoidedRoles[ROLE_JESTER] = true
 
 	JesterRevive(ply, function(p)
 		p:SelectRandomRole(avoidedRoles)
@@ -121,13 +121,13 @@ function JesterWinstateTwo(ply, killer)
 
 		local avoidedRoles = {}
 
-		for _, v in pairs(GetRoles()) do
+		for _, v in pairs(roles.GetList()) do
 			if v.defaultTeam == defaultTeam then
 				avoidedRoles[v] = true
 			end
 		end
 
-		avoidedRoles[JESTER] = true
+		avoidedRoles[ROLE_JESTER] = true
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
@@ -176,18 +176,18 @@ function JesterWinstateFour(ply, killer)
 	end)
 end
 
---Player spawns within three seconds with a random opposite role of the killer and the killer dies
+--Player spawns within three seconds with a role in an opposing team of the killer and the killer dies
 function JesterWinstateFive(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local avoidedRoles = {}
 
-	for _, v in pairs(GetRoles()) do
+	for _, v in pairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam then
 			avoidedRoles[v] = true
 		end
 	end
 
-	avoidedRoles[JESTER] = true
+	avoidedRoles[ROLE_JESTER] = true
 
 	killer:Kill()
 	killer:ChatPrint("You were killed, because you killed the Jester!")
@@ -201,7 +201,7 @@ function JesterWinstateFive(ply, killer)
 	end)
 end
 
---Same as winstate four, unless the killer is a traitor, then jester is killed normally
+--Same as winstate four, unless the killer is a traitor or serialkiller, then jester is killed normally
 function JesterWinstateSix(ply, killer)
 	local rd = killer:GetSubRoleData()
     local role = rd.index

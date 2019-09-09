@@ -254,7 +254,7 @@ if SERVER then
 			end
 		end
 		
-		if ply:GetSubRole() == ROLE_JESTER and not (IsValid(attacker) and attacker:IsPlayer() and INFECTED and attacker:GetSubRole() == ROLE_INFECTED) then
+		if ply:GetSubRole() == ROLE_JESTER and IsValid(attacker) and attacker:IsPlayer() and attacker ~= ply and (not INFECTED or attacker:GetSubRole() ~= ROLE_INFECTED) then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")
 			--local HeadPos, HeadAng = ply:GetBonePosition(HeadIndex)
 
