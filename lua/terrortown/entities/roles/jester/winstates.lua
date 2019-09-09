@@ -91,49 +91,45 @@ function JesterRevive(ply, fn)
 	end) -- revive after 3s
 end
 
---Player spawns within three seconds with a random opposite role of the killer
+--Player respawns within three seconds with a role in an opposing team of the killer
 function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local avoidedRoles = {}
+	local reviveRoles = GetSelectableRoles()
 
 	for _, v in pairs(roles.GetList()) do
-		if v.defaultTeam == rd.defaultTeam then
-			avoidedRoles[v] = true
+		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
+			reviveRoles[v] = nil
 		end
 	end
 
-	avoidedRoles[ROLE_JESTER] = true
-
 	JesterRevive(ply, function(p)
-		p:SelectRandomRole(avoidedRoles)
+		p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 		p:SetDefaultCredits()
 
 		SendFullStateUpdate()
 	end)
 end
 
---Player spawns after killer death with a random opposite role
+--Player respawns after killer death with a role in an opposing team of the killer
 function JesterWinstateTwo(ply, killer)
 	local defaultTeam = killer:GetSubRoleData().defaultTeam
 
 	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 		if deadply ~= killer or deadply.NOWINASC then return end
 
-		local avoidedRoles = {}
+		local reviveRoles = GetSelectableRoles()
 
 		for _, v in pairs(roles.GetList()) do
-			if v.defaultTeam == defaultTeam then
-				avoidedRoles[v] = true
+			if v.defaultTeam == defaultTeam or v.defaultTeam == TEAM_JESTER then
+				reviveRoles[v] = nil
 			end
 		end
-
-		avoidedRoles[ROLE_JESTER] = true
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
 		-- set random available role
 		JesterRevive(ply, function(p)
-			p:SelectRandomRole(avoidedRoles)
+			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
 
 			SendFullStateUpdate()
@@ -141,7 +137,7 @@ function JesterWinstateTwo(ply, killer)
 	end)
 end
 
--- Player spawns after killer death with the role of his killer
+-- Player respawns after killer death with the role of his killer
 function JesterWinstateThree(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local role = rd.index
@@ -160,7 +156,7 @@ function JesterWinstateThree(ply, killer)
 	end)
 end
 
---Player spawns within three seconds with the role of the killer and the killer dies
+--Player respawns within three seconds with the role of the killer and the killer dies
 function JesterWinstateFour(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local role = rd.index
@@ -176,25 +172,23 @@ function JesterWinstateFour(ply, killer)
 	end)
 end
 
---Player spawns within three seconds with a role in an opposing team of the killer and the killer dies
+--Player respawns within three seconds with a role in an opposing team of the killer and the killer dies
 function JesterWinstateFive(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local avoidedRoles = {}
+	local reviveRoles = GetSelectableRoles()
 
 	for _, v in pairs(roles.GetList()) do
-		if v.defaultTeam == rd.defaultTeam then
-			avoidedRoles[v] = true
+		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
+			reviveRoles[v] = nil
 		end
 	end
-
-	avoidedRoles[ROLE_JESTER] = true
 
 	killer:Kill()
 	killer:ChatPrint("You were killed, because you killed the Jester!")
 
 	-- set random available role
 	JesterRevive(ply, function(p)
-		p:SelectRandomRole(avoidedRoles)
+		p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 		p:SetDefaultCredits()
 
 		SendFullStateUpdate()
@@ -206,7 +200,7 @@ function JesterWinstateSix(ply, killer)
 	local rd = killer:GetSubRoleData()
     local role = rd.index
 
-	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then 
+	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
 		return
 	end
 
