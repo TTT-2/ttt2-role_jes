@@ -98,11 +98,7 @@ function JesterWinstateOne(ply, killer)
 
 	for i, v in ipairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-<<<<<<< HEAD
 			table.remove(reviveRoles, i)
-=======
-			reviveRoles.remove(i)
->>>>>>> 2c66e1f1e7e6043b5cffcd22fe05c93607edf2b4
 		end
 	end
 
@@ -125,11 +121,7 @@ function JesterWinstateTwo(ply, killer)
 
 		for i, v in ipairs(roles.GetList()) do
 			if v.defaultTeam == defaultTeam or v.defaultTeam == TEAM_JESTER then
-<<<<<<< HEAD
 				table.remove(reviveRoles, i)
-=======
-				reviveRoles.remove(i)
->>>>>>> 2c66e1f1e7e6043b5cffcd22fe05c93607edf2b4
 			end
 		end
 
@@ -187,11 +179,7 @@ function JesterWinstateFive(ply, killer)
 
 	for i, v in ipairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-<<<<<<< HEAD
 			table.remove(reviveRoles, i)
-=======
-			reviveRoles.remove(i)
->>>>>>> 2c66e1f1e7e6043b5cffcd22fe05c93607edf2b4
 		end
 	end
 
