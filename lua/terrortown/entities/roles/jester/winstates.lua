@@ -96,9 +96,9 @@ function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local reviveRoles = GetSelectableRoles()
 
-	for _, v in ipairs(roles.GetList()) do
+	for i, v in ipairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-			reviveRoles.remove(v)
+			table.remove(reviveRoles, i)
 		end
 	end
 
@@ -119,9 +119,9 @@ function JesterWinstateTwo(ply, killer)
 
 		local reviveRoles = GetSelectableRoles()
 
-		for _, v in ipairs(roles.GetList()) do
+		for i, v in ipairs(roles.GetList()) do
 			if v.defaultTeam == defaultTeam or v.defaultTeam == TEAM_JESTER then
-				reviveRoles.remove(v)
+				table.remove(reviveRoles, i)
 			end
 		end
 
@@ -177,9 +177,9 @@ function JesterWinstateFive(ply, killer)
 	local rd = killer:GetSubRoleData()
 	local reviveRoles = GetSelectableRoles()
 
-	for _, v in ipairs(roles.GetList()) do
+	for i, v in ipairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-			reviveRoles.remove(v)
+			table.remove(reviveRoles, i)
 		end
 	end
 
