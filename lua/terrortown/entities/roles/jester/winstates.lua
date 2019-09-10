@@ -198,7 +198,7 @@ end
 --Same as winstate four, unless the killer is a traitor or serialkiller, then jester is killed normally
 function JesterWinstateSix(ply, killer)
 	local rd = killer:GetSubRoleData()
-  local role = rd.index
+  	local role = rd.index
 
 	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
 		return
