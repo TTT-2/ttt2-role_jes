@@ -98,7 +98,7 @@ function JesterWinstateOne(ply, killer)
 
 	for _, v in pairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-			reviveRoles[v] = nil
+			reviveRoles.remove(v)
 		end
 	end
 
@@ -121,7 +121,7 @@ function JesterWinstateTwo(ply, killer)
 
 		for _, v in pairs(roles.GetList()) do
 			if v.defaultTeam == defaultTeam or v.defaultTeam == TEAM_JESTER then
-				reviveRoles[v] = nil
+				reviveRoles.remove(v)
 			end
 		end
 
@@ -179,7 +179,7 @@ function JesterWinstateFive(ply, killer)
 
 	for _, v in pairs(roles.GetList()) do
 		if v.defaultTeam == rd.defaultTeam or v.defaultTeam == TEAM_JESTER then
-			reviveRoles[v] = nil
+			reviveRoles.remove(v)
 		end
 	end
 
@@ -198,7 +198,7 @@ end
 --Same as winstate four, unless the killer is a traitor or serialkiller, then jester is killed normally
 function JesterWinstateSix(ply, killer)
 	local rd = killer:GetSubRoleData()
-    local role = rd.index
+  local role = rd.index
 
 	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
 		return
