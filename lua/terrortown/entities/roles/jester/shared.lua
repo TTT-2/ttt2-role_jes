@@ -19,7 +19,7 @@ end
 hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
 
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", checkbox = true, desc = "Jester winstate (Def. 1). If enabled, this will block Winstate 1-6"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_1", checkbox = true, desc = "Jester winstate 1 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_2", checkbox = true, desc = "Jester winstate 2 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_3", checkbox = true, desc = "Jester winstate 3 (Def. 1)"})
@@ -35,58 +35,61 @@ roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
 		color = Color(245, 48, 155, 255)
 })
 
-ROLE.color = Color(245, 48, 155, 255) -- ...
-ROLE.dkcolor = Color(229, 0, 125, 255) -- ...
-ROLE.bgcolor = Color(181, 251, 49, 255) -- ...
-ROLE.abbr = "jes" -- abbreviation
-ROLE.defaultEquipment = INNO_EQUIPMENT -- here you can set up your own default equipment
-ROLE.visibleForTraitors = true -- other traitors can see this role / sync them with traitors
-ROLE.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
-ROLE.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
-ROLE.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill
-ROLE.preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
-ROLE.defaultTeam = TEAM_JESTER -- set/link default team to register it
+function ROLE:PreInitialize()
+	self.color = Color(245, 48, 155, 255) -- ...
+	self.dkcolor = Color(229, 0, 125, 255) -- ...
+	self.bgcolor = Color(181, 251, 49, 255) -- ...
+	self.abbr = "jes" -- abbreviation
+	self.visibleForTraitors = true -- other traitors can see this role / sync them with traitors
+	self.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
+	self.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
+	self.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill
+	self.preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
+	
+	self.defaultTeam = TEAM_JESTER -- set/link default team to register it
+	self.defaultEquipment = INNO_EQUIPMENT -- here you can set up your own default equipment
 
-ROLE.conVarData = {
-	pct = 0.17, -- necessary: percentage of getting this role selected (per player)
-	maximum = 1, -- maximum amount of roles in a round
-	minPlayers = 6, -- minimum amount of players until this role is able to get selected
-	togglable = true -- option to toggle a role for a client if possible (F1 menu)
-}
+	self.conVarData = {
+		pct = 0.17, -- necessary: percentage of getting this role selected (per player)
+		maximum = 1, -- maximum amount of roles in a round
+		minPlayers = 6, -- minimum amount of players until this role is able to get selected
+		togglable = true -- option to toggle a role for a client if possible (F1 menu)
+	}
+end
 
 -- if roles loading has finished
-hook.Add("TTT2FinishedLoading", "JesterInitT", function()
+function ROLE:Initialize()
 	if CLIENT then
 		-- setup here is not necessary but if you want to access the role data, you need to start here
 		-- setup basic translation !
-		LANG.AddToLanguage("English", JESTER.name, "Jester")
-		LANG.AddToLanguage("English", TEAM_JESTER, "TEAM Jesters")
-		LANG.AddToLanguage("English", "hilite_win_" .. TEAM_JESTER, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
-		LANG.AddToLanguage("English", "win_" .. TEAM_JESTER, "The Jester has won!") -- teamname
-		LANG.AddToLanguage("English", "info_popup_" .. JESTER.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
-		LANG.AddToLanguage("English", "body_found_" .. JESTER.abbr, "This was a Jester...")
-		LANG.AddToLanguage("English", "search_role_" .. JESTER.abbr, "This person was a Jester!")
-		LANG.AddToLanguage("English", "ev_win_" .. TEAM_JESTER, "The goofy Jester won the round!")
-		LANG.AddToLanguage("English", "target_" .. JESTER.name, "Jester")
-		LANG.AddToLanguage("English", "ttt2_desc_" .. JESTER.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
+		LANG.AddToLanguage("English", self.name, "Jester")
+		LANG.AddToLanguage("English", self.defaultTeam, "TEAM Jesters")
+		LANG.AddToLanguage("English", "hilite_win_" .. self.defaultTeam, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
+		LANG.AddToLanguage("English", "win_" .. self.defaultTeam, "The Jester has won!") -- teamname
+		LANG.AddToLanguage("English", "info_popup_" .. self.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
+		LANG.AddToLanguage("English", "body_found_" .. self.abbr, "This was a Jester...")
+		LANG.AddToLanguage("English", "search_role_" .. self.abbr, "This person was a Jester!")
+		LANG.AddToLanguage("English", "ev_win_" .. self.defaultTeam, "The goofy Jester won the round!")
+		LANG.AddToLanguage("English", "target_" .. self.name, "Jester")
+		LANG.AddToLanguage("English", "ttt2_desc_" .. self.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
 The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
 
 		---------------------------------
 
 		-- maybe this language as well...
-		LANG.AddToLanguage("Deutsch", JESTER.name, "Narr")
-		LANG.AddToLanguage("Deutsch", TEAM_JESTER, "TEAM Narren")
-		LANG.AddToLanguage("Deutsch", "hilite_win_" .. TEAM_JESTER, "THE JES WON")
-		LANG.AddToLanguage("Deutsch", "win_" .. TEAM_JESTER, "Der Narr hat gewonnen!")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. JESTER.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. JESTER.abbr, "Er war ein Narr...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. JESTER.abbr, "Diese Person war ein Narr!")
-		LANG.AddToLanguage("Deutsch", "ev_win_" .. TEAM_JESTER, "Der trottelige Narr hat die Runde gewonnen!")
-		LANG.AddToLanguage("Deutsch", "target_" .. JESTER.name, "Narr")
-		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. JESTER.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
+		LANG.AddToLanguage("Deutsch", self.name, "Narr")
+		LANG.AddToLanguage("Deutsch", self.defaultTeam, "TEAM Narren")
+		LANG.AddToLanguage("Deutsch", "hilite_win_" .. self.defaultTeam, "THE JES WON")
+		LANG.AddToLanguage("Deutsch", "win_" .. self.defaultTeam, "Der Narr hat gewonnen!")
+		LANG.AddToLanguage("Deutsch", "info_popup_" .. self.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
+		LANG.AddToLanguage("Deutsch", "body_found_" .. self.abbr, "Er war ein Narr...")
+		LANG.AddToLanguage("Deutsch", "search_role_" .. self.abbr, "Diese Person war ein Narr!")
+		LANG.AddToLanguage("Deutsch", "ev_win_" .. self.defaultTeam, "Der trottelige Narr hat die Runde gewonnen!")
+		LANG.AddToLanguage("Deutsch", "target_" .. self.name, "Narr")
+		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. self.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
 Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]])
 	end
-end)
+end
 
 if SERVER then
 	util.AddNetworkString("NewConfetti")
