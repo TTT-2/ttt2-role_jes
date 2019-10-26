@@ -14,6 +14,18 @@ CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 if SERVER then
 	include("winstates.lua")
+	
+	-- ConVar syncing
+	
+	local pickup_allowed = CreateConVar("ttt2_jes_carry", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	
+	hook.Add("TTT2SyncGlobals", "TTT2JesSyncGlobals", function()
+		SetGlobalBool("ttt2_jes_carry", pickup_allowed:GetBool())
+	end)
+	
+	cvars.AddChangeCallback(pickup_allowed:GetName(), function(name, old, new)
+		SetGlobalBool("ttt2_jes_carry", tonumber(new) == 1)
+	end, pickup_allowed:GetName())
 end
 
 hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
@@ -94,22 +106,21 @@ Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doc
 	end
 end
 
+hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
+	if ply:GetSubRole() == ROLE_JESTER and not GetGlobalBool("ttt2_jes_carry", false) then
+		return true
+	end
+end)
+
 if SERVER then
 	util.AddNetworkString("NewConfetti")
 
-	local pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", FCVAR_NOTIFY, FCVAR_ARCHIVE)
-	local pickup_allowed = CreateConVar("ttt2_jes_carry", "1", FCVAR_NOTIFY, FCVAR_ARCHIVE)
+	local pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	--------
 	
 	hook.Add("TTT2PlayerPreventPush", "TTT2ToggleJesPushing", function(ply)
 		if ply:GetSubRole() == ROLE_JESTER and not pushing_allowed:GetBool() then
-			return true
-		end
-	end)
-	
-	hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
-		if ply:GetSubRole() == ROLE_JESTER and not pickup_allowed:GetBool() then
 			return true
 		end
 	end)
