@@ -27,7 +27,8 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_6", checkbox = true, desc = "Jester winstate 6 (Def. 1)"})
 	
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_improvised", checkbox = true, desc = "Jester Can Push other Players (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_improvised", checkbox = true, desc = "Jester can push other players (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_carry", checkbox = true, desc = "Jester can pickup entities with the magneto stick (Def. 1)"})
 end)
 
 -- creates global var "TEAM_JESTER" and other required things
@@ -97,11 +98,18 @@ if SERVER then
 	util.AddNetworkString("NewConfetti")
 
 	local pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", FCVAR_NOTIFY, FCVAR_ARCHIVE)
+	local pickup_allowed = CreateConVar("ttt2_jes_carry", "1", FCVAR_NOTIFY, FCVAR_ARCHIVE)
 
 	--------
 	
 	hook.Add("TTT2PlayerPreventPush", "TTT2ToggleJesPushing", function(ply)
-		if ply:GetSubRole() == ROLE_JESTER and pushing_allowed:GetBool() then
+		if ply:GetSubRole() == ROLE_JESTER and not pushing_allowed:GetBool() then
+			return true
+		end
+	end)
+	
+	hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
+		if ply:GetSubRole() == ROLE_JESTER and not pickup_allowed:GetBool() then
 			return true
 		end
 	end)
