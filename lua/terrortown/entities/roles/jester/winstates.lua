@@ -94,18 +94,26 @@ end
 --Player spawns within three seconds with a random opposite role of the killer
 function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local avoidedRoles = {}
+	local reviveRoleCandidates = GetSelectableRoles()
+	local reviveRoles = {}
 
-	for _, v in pairs(roles.GetList()) do
-		if v.defaultTeam == rd.defaultTeam then
-			avoidedRoles[v] = true
+	-- make sure innocent and traitor are revive candidate roles
+	for _, v in ipairs(roles.GetList()) do
+		if v.name == INNOCENT or v.name == TRAITOR then
+			reviveRoleCandidates[v] = reviveRoleCandidates[v] or 1
 		end
 	end
 
-	avoidedRoles[ROLE_JESTER] = true
+	for k, v in pairs(reviveRoleCandidates) do
+		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
+		else
+			reviveRoles[#reviveRoles + 1] = k.index
+			print(k.name, k.id)
+		end
+	end
 
 	JesterRevive(ply, function(p)
-		p:SelectRandomRole(avoidedRoles)
+		p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 		p:SetDefaultCredits()
 
 		SendFullStateUpdate()
@@ -114,26 +122,34 @@ end
 
 --Player spawns after killer death with a random opposite role
 function JesterWinstateTwo(ply, killer)
-	local defaultTeam = killer:GetSubRoleData().defaultTeam
 
 	hook.Add("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick(), function(deadply)
 		if deadply ~= killer or deadply.NOWINASC then return end
 
-		local avoidedRoles = {}
+		local rd = killer:GetSubRoleData()
+		local reviveRoleCandidates = GetSelectableRoles()
+		local reviveRoles = {}
 
-		for _, v in pairs(roles.GetList()) do
-			if v.defaultTeam == defaultTeam then
-				avoidedRoles[v] = true
+		-- make sure innocent and traitor are revive candidate roles
+		for _, v in ipairs(roles.GetList()) do
+			if v.name == INNOCENT or v.name == TRAITOR then
+				reviveRoleCandidates[v] = reviveRoleCandidates[v] or 1
 			end
 		end
 
-		avoidedRoles[ROLE_JESTER] = true
+		for k, v in pairs(reviveRoleCandidates) do
+			if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
+			else
+				reviveRoles[#reviveRoles + 1] = k.index
+				print(k.name, k.id)
+			end
+		end
 
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:Nick())
 
 		-- set random available role
 		JesterRevive(ply, function(p)
-			p:SelectRandomRole(avoidedRoles)
+			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
 
 			SendFullStateUpdate()
