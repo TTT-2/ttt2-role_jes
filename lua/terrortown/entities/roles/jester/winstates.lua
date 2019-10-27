@@ -100,9 +100,11 @@ function JesterWinstateOne(ply, killer)
 	-- make sure innocent and traitor are revive candidate roles
 	reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
 	reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+	--remove jester from the revive candidate roles
+	reviveRoleCandidates[JESTER] = nil
 
 	for k, _ in pairs(reviveRoleCandidates) do
-		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
+		if k.defaultTeam ~= rd.defaultTeam then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
 	end
@@ -128,9 +130,11 @@ function JesterWinstateTwo(ply, killer)
 		-- make sure innocent and traitor are revive candidate roles
 		reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
 		reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+		--remove jester from the revive candidate roles
+		reviveRoleCandidates[JESTER] = nil
 
 		for k, _ in pairs(reviveRoleCandidates) do
-			if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
+			if k.defaultTeam ~= rd.defaultTeam then
 				reviveRoles[#reviveRoles + 1] = k.index
 			end
 		end
@@ -191,9 +195,11 @@ function JesterWinstateFive(ply, killer)
 	-- make sure innocent and traitor are revive candidate roles
 	reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
 	reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+	--remove jester from the revive candidate roles
+	reviveRoleCandidates[JESTER] = nil
 
 	for k, _ in pairs(reviveRoleCandidates) do
-		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
+		if k.defaultTeam ~= rd.defaultTeam then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
 	end
