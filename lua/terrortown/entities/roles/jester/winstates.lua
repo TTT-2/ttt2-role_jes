@@ -97,8 +97,8 @@ function JesterWinstateOne(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
-	local innoTbl = roles.GetByName("Innocent")
-	local traitorTbl = roles.GetByName("Traitor")
+	local innoTbl = roles.GetStored("Innocent")
+	local traitorTbl = roles.GetStored("Traitor")
 
 	-- make sure innocent and traitor are revive candidate roles
 	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
@@ -128,8 +128,8 @@ function JesterWinstateTwo(ply, killer)
 		local reviveRoleCandidates = GetSelectableRoles()
 		local reviveRoles = {}
 
-		local innoTbl = roles.GetByName("Innocent")
-		local traitorTbl = roles.GetByName("Traitor")
+		local innoTbl = roles.GetStored("Innocent")
+		local traitorTbl = roles.GetStored("Traitor")
 
 		-- make sure innocent and traitor are revive candidate roles
 		reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
@@ -194,8 +194,8 @@ function JesterWinstateFive(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
-	local innoTbl = roles.GetByName("Innocent")
-	local traitorTbl = roles.GetByName("Traitor")
+	local innoTbl = roles.GetStored("Innocent")
+	local traitorTbl = roles.GetStored("Traitor")
 
 	-- make sure innocent and traitor are revive candidate roles
 	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
