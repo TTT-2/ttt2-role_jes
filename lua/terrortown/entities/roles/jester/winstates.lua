@@ -108,7 +108,6 @@ function JesterWinstateOne(ply, killer)
 		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
 		else
 			reviveRoles[#reviveRoles + 1] = k.index
-			print(k.name, k.id)
 		end
 	end
 
@@ -141,7 +140,6 @@ function JesterWinstateTwo(ply, killer)
 			if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
 			else
 				reviveRoles[#reviveRoles + 1] = k.index
-				print(k.name, k.id)
 			end
 		end
 
@@ -209,7 +207,6 @@ function JesterWinstateFive(ply, killer)
 		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
 		else
 			reviveRoles[#reviveRoles + 1] = k.index
-			print(k.name, k.id)
 		end
 	end
 
