@@ -97,12 +97,9 @@ function JesterWinstateOne(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
-	local innoTbl = roles.GetStored("Innocent")
-	local traitorTbl = roles.GetStored("Traitor")
-
 	-- make sure innocent and traitor are revive candidate roles
-	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
-	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
+	reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
+	reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
 
 	for k, _ in pairs(reviveRoleCandidates) do
 		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
@@ -128,12 +125,9 @@ function JesterWinstateTwo(ply, killer)
 		local reviveRoleCandidates = GetSelectableRoles()
 		local reviveRoles = {}
 
-		local innoTbl = roles.GetStored("Innocent")
-		local traitorTbl = roles.GetStored("Traitor")
-
 		-- make sure innocent and traitor are revive candidate roles
-		reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
-		reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
+		reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
+		reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
 
 		for k, _ in pairs(reviveRoleCandidates) do
 			if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
@@ -194,12 +188,9 @@ function JesterWinstateFive(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
-	local innoTbl = roles.GetStored("Innocent")
-	local traitorTbl = roles.GetStored("Traitor")
-
 	-- make sure innocent and traitor are revive candidate roles
-	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
-	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
+	reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
+	reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
 
 	for k, _ in pairs(reviveRoleCandidates) do
 		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
