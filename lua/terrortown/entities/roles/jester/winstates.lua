@@ -97,12 +97,12 @@ function JesterWinstateOne(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
+	local innoTbl = roles.GetByName("Innocent")
+	local traitorTbl = roles.GetByName("Traitor")
+
 	-- make sure innocent and traitor are revive candidate roles
-	for _, v in ipairs(roles.GetList()) do
-		if v.name == INNOCENT or v.name == TRAITOR then
-			reviveRoleCandidates[v] = reviveRoleCandidates[v] or 1
-		end
-	end
+	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
+	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
 	for k, v in pairs(reviveRoleCandidates) do
 		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
@@ -130,12 +130,12 @@ function JesterWinstateTwo(ply, killer)
 		local reviveRoleCandidates = GetSelectableRoles()
 		local reviveRoles = {}
 
+		local innoTbl = roles.GetByName("Innocent")
+		local traitorTbl = roles.GetByName("Traitor")
+
 		-- make sure innocent and traitor are revive candidate roles
-		for _, v in ipairs(roles.GetList()) do
-			if v.name == INNOCENT or v.name == TRAITOR then
-				reviveRoleCandidates[v] = reviveRoleCandidates[v] or 1
-			end
-		end
+		reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
+		reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
 		for k, v in pairs(reviveRoleCandidates) do
 			if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
@@ -198,12 +198,12 @@ function JesterWinstateFive(ply, killer)
 	local reviveRoleCandidates = GetSelectableRoles()
 	local reviveRoles = {}
 
+	local innoTbl = roles.GetByName("Innocent")
+	local traitorTbl = roles.GetByName("Traitor")
+
 	-- make sure innocent and traitor are revive candidate roles
-	for _, v in ipairs(roles.GetList()) do
-		if v.name == INNOCENT or v.name == TRAITOR then
-			reviveRoleCandidates[v] = reviveRoleCandidates[v] or 1
-		end
-	end
+	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
+	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
 	for k, v in pairs(reviveRoleCandidates) do
 		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
