@@ -104,9 +104,8 @@ function JesterWinstateOne(ply, killer)
 	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
 	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
-	for k, v in pairs(reviveRoleCandidates) do
-		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
-		else
+	for k, _ in pairs(reviveRoleCandidates) do
+		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
 	end
@@ -136,9 +135,8 @@ function JesterWinstateTwo(ply, killer)
 		reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
 		reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
-		for k, v in pairs(reviveRoleCandidates) do
-			if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
-			else
+		for k, _ in pairs(reviveRoleCandidates) do
+			if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
 				reviveRoles[#reviveRoles + 1] = k.index
 			end
 		end
@@ -203,9 +201,8 @@ function JesterWinstateFive(ply, killer)
 	reviveRoleCandidates[innoTbl] = reviveRoleCandidates[innoTbl] or 1
 	reviveRoleCandidates[traitorTbl] = reviveRoleCandidates[traitorTbl] or 1
 
-	for k, v in pairs(reviveRoleCandidates) do
-		if k.defaultTeam == rd.defaultTeam or k.defaultTeam == TEAM_JESTER then
-		else
+	for k, _ in pairs(reviveRoleCandidates) do
+		if k.defaultTeam ~= rd.defaultTeam and k.defaultTeam ~= TEAM_JESTER then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
 	end
