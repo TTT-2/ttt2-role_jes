@@ -94,7 +94,7 @@ end
 --Player spawns within three seconds with a random opposite role of the killer
 function JesterWinstateOne(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local reviveRoleCandidates = Table.Copy(GetSelectableRoles())
+	local reviveRoleCandidates = table.Copy(GetSelectableRoles())
 	local reviveRoles = {}
 
 	-- make sure innocent and traitor are revive candidate roles
@@ -124,7 +124,7 @@ function JesterWinstateTwo(ply, killer)
 		if deadply ~= killer or deadply.NOWINASC then return end
 
 		local rd = killer:GetSubRoleData()
-		local reviveRoleCandidates = Table.Copy(GetSelectableRoles())
+		local reviveRoleCandidates = table.Copy(GetSelectableRoles())
 		local reviveRoles = {}
 
 		-- make sure innocent and traitor are revive candidate roles
@@ -189,7 +189,7 @@ end
 --Player respawns within three seconds with a role in an opposing team of the killer and the killer dies
 function JesterWinstateFive(ply, killer)
 	local rd = killer:GetSubRoleData()
-	local reviveRoleCandidates = Table.Copy(GetSelectableRoles())
+	local reviveRoleCandidates = table.Copy(GetSelectableRoles())
 	local reviveRoles = {}
 
 	-- make sure innocent and traitor are revive candidate roles
