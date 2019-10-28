@@ -103,7 +103,7 @@ function JesterWinstateOne(ply, killer)
 	--remove jester from the revive candidate roles
 	reviveRoleCandidates[JESTER] = nil
 
-	for k, _ in pairs(reviveRoleCandidates) do
+	for k in pairs(reviveRoleCandidates) do
 		if k.defaultTeam ~= rd.defaultTeam then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
@@ -133,7 +133,7 @@ function JesterWinstateTwo(ply, killer)
 		--remove jester from the revive candidate roles
 		reviveRoleCandidates[JESTER] = nil
 
-		for k, _ in pairs(reviveRoleCandidates) do
+		for k in pairs(reviveRoleCandidates) do
 			if k.defaultTeam ~= rd.defaultTeam then
 				reviveRoles[#reviveRoles + 1] = k.index
 			end
@@ -198,7 +198,7 @@ function JesterWinstateFive(ply, killer)
 	--remove jester from the revive candidate roles
 	reviveRoleCandidates[JESTER] = nil
 
-	for k, _ in pairs(reviveRoleCandidates) do
+	for k in pairs(reviveRoleCandidates) do
 		if k.defaultTeam ~= rd.defaultTeam then
 			reviveRoles[#reviveRoles + 1] = k.index
 		end
