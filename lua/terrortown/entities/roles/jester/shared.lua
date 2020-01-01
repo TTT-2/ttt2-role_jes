@@ -14,15 +14,15 @@ CreateConVar("ttt2_jes_winpoints", "6", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 if SERVER then
 	include("winstates.lua")
-	
+
 	-- ConVar syncing
-	
+
 	local pickup_allowed = CreateConVar("ttt2_jes_carry", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-	
+
 	hook.Add("TTT2SyncGlobals", "TTT2JesSyncGlobals", function()
 		SetGlobalBool("ttt2_jes_carry", pickup_allowed:GetBool())
 	end)
-	
+
 	cvars.AddChangeCallback(pickup_allowed:GetName(), function(name, old, new)
 		SetGlobalBool("ttt2_jes_carry", tonumber(new) == 1)
 	end, pickup_allowed:GetName())
@@ -38,7 +38,7 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_4", checkbox = true, desc = "Jester winstate 4 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_5", checkbox = true, desc = "Jester winstate 5 (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate_6", checkbox = true, desc = "Jester winstate 6 (Def. 1)"})
-	
+
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_improvised", checkbox = true, desc = "Jester can push other players (Def. 1)"})
 	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_carry", checkbox = true, desc = "Jester can pickup entities with the magneto stick (Def. 1)"})
 end)
@@ -51,16 +51,15 @@ roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
 })
 
 function ROLE:PreInitialize()
-	self.color = Color(245, 48, 155, 255) -- ...
-	self.dkcolor = Color(229, 0, 125, 255) -- ...
-	self.bgcolor = Color(181, 251, 49, 255) -- ...
+	self.color = Color(245, 48, 155, 255)
+
 	self.abbr = "jes" -- abbreviation
 	self.visibleForTraitors = true -- other traitors can see this role / sync them with traitors
 	self.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
 	self.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
 	self.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill
 	self.preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
-	
+
 	self.defaultTeam = TEAM_JESTER -- set/link default team to register it
 	self.defaultEquipment = INNO_EQUIPMENT -- here you can set up your own default equipment
 
@@ -75,8 +74,7 @@ end
 -- if roles loading has finished
 function ROLE:Initialize()
 	if CLIENT then
-		-- setup here is not necessary but if you want to access the role data, you need to start here
-		-- setup basic translation !
+		-- Role specific language elements
 		LANG.AddToLanguage("English", self.name, "Jester")
 		LANG.AddToLanguage("English", self.defaultTeam, "TEAM Jesters")
 		LANG.AddToLanguage("English", "hilite_win_" .. self.defaultTeam, "THE JES WON") -- name of base role of a team -> maybe access with GetBaseRole(ROLE_JESTER) or JESTER.baserole
@@ -89,9 +87,6 @@ function ROLE:Initialize()
 		LANG.AddToLanguage("English", "ttt2_desc_" .. self.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
 The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
 
-		---------------------------------
-
-		-- maybe this language as well...
 		LANG.AddToLanguage("Deutsch", self.name, "Narr")
 		LANG.AddToLanguage("Deutsch", self.defaultTeam, "TEAM Narren")
 		LANG.AddToLanguage("Deutsch", "hilite_win_" .. self.defaultTeam, "THE JES WON")
@@ -117,8 +112,6 @@ if SERVER then
 
 	local pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
-	--------
-	
 	hook.Add("TTT2PlayerPreventPush", "TTT2ToggleJesPushing", function(ply)
 		if ply:GetSubRole() == ROLE_JESTER and not pushing_allowed:GetBool() then
 			return true
@@ -253,7 +246,7 @@ if SERVER then
 				return
 			end
 		end
-		
+
 		if ply:GetSubRole() == ROLE_JESTER and IsValid(attacker) and attacker:IsPlayer() and attacker ~= ply and (not INFECTED or attacker:GetSubRole() ~= ROLE_INFECTED) then
 			--local HeadIndex = ply:LookupBone("ValveBiped.bip01_pelvis")
 			--local HeadPos, HeadAng = ply:GetBonePosition(HeadIndex)

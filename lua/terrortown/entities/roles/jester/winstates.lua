@@ -66,13 +66,13 @@ function JesterWinstate(ply, killer)
 			winstatepick = winstatepick - 1
 		end
 		--[[
-    if winstatepick == 0 and GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
-      JesterWinstateX(ply, killer)
-	  winstatepick = winstatepick - 1
-    elseif GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
-      winstatepick = winstatepick - 1
-    end
-    --]]
+	if winstatepick == 0 and GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
+		JesterWinstateX(ply, killer)
+		winstatepick = winstatepick - 1
+	elseif GetConVar("ttt2_jes_winstate_x"):GetInt() == 1 then
+		winstatepick = winstatepick - 1
+	end
+	--]]
 
 		if ws1 == "0" and ws2 == "0" and ws3 == "0" and ws4 == "0" and ws5 == "0" and ws6 == "0" then
 			RunConsoleCommand("ttt2_jes_winstate", "0")
@@ -219,7 +219,7 @@ end
 --Same as winstate four, unless the killer is a traitor or serialkiller, then jester is killed normally
 function JesterWinstateSix(ply, killer)
 	local rd = killer:GetSubRoleData()
-    local role = rd.index
+	local role = rd.index
 
 	if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
 		return
