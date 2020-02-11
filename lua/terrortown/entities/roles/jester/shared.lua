@@ -74,10 +74,40 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	-- 5: Jester respawns after three seconds with the role of the killer and the killer dies
 	-- 6: Jester respawns within three seconds with a role in an opposing team of the killer and the killer dies
 	-- 7: Like 5, unless the killer is a traitor or serialkiller, then jester is killed normally
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_winstate", slider = true, min = 0, max = 7, decimal = 0, desc = "ttt2_jes_winstate (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_announce", checkbox = true, desc = "ttt2_jes_announce (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_improvised", checkbox = true, desc = "Jester can push other players (Def. 1)"})
-	table.insert(tbl[ROLE_JESTER], {cvar = "ttt2_jes_carry", checkbox = true, desc = "Jester can pickup entities with the magneto stick (Def. 1)"})
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_winstate",
+		combobox = true,
+		desc = "Winstate (Def. 1)",
+		choices = {
+			"0 - Select a random winstate",
+			"1 - Jester wins if he's killed",
+			"2 - Respawn with opposite killer role",
+			"3 - Respawn with opposite killer role after killer death",
+			"4 - Respawn with killer role after killer death",
+			"5 - Respawn with killer role and killer dies",
+			"6 - Respawn with opposite killer role and killer dies",
+			"7 - like 5, unless killer is serialkiller or traitor"
+		},
+		numStart = 0
+	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_announce",
+		checkbox = true,
+		desc = "Announce if a jester is in the round (Def. 1)"
+	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_improvised",
+		checkbox = true,
+		desc = "Jester can push other players (Def. 1)"
+	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_carry",
+		checkbox = true,
+		desc = "Jester can pickup entities with the magneto stick (Def. 1)"
+	})
 end)
 
 hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
