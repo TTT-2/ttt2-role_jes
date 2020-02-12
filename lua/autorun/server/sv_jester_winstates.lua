@@ -35,7 +35,8 @@ end
 
 jesterShouldWin = false
 
-local winstates_death = {
+local winstates_death
+winstates_death = {
 	-- RANDOM WINSTATE
 	[0] = function(ply, killer)
 		-- select a random winstate
@@ -214,10 +215,12 @@ local winstates_death = {
 	end
 }
 
-local winstates_damage = {
+local winstates_damage
+winstates_damage = {
 	-- RANDOM WINSTATE, does nothing when damaged
 	[0] = function(ply, killer)
-
+		-- select a random winstate
+		return winstates_damage[math.random(1, 8)](ply, killer)
 	end,
 
 	-- if the jester is killed, he has won
