@@ -258,14 +258,20 @@ local winstates_damage = {
 }
 
 -- Jester deals no damage to other players
-hook.Add("PlayerTakeDamage", "JesterDealNoDamage", function(ply, dmginfo)
-	local killer = dmginfo:GetAttacker()
-
+hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, amount, dmginfo)
 	if JesterTakeNoDamage(ply, killer) or JesterDealNoDamage(ply, killer) then
-		return true
+		dmginfo:ScaleDamage(0)
+		dmginfo:SetDamage(0)
+
+		return
 	end
 
-	return winstates_damage[GetConVar("ttt2_jes_winstate"):GetInt()](ply, killer)
+	if winstates_damage[GetConVar("ttt2_jes_winstate"):GetInt()](ply, killer) then
+		dmginfo:ScaleDamage(0)
+		dmginfo:SetDamage(0)
+
+		return
+	end
 end)
 
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
