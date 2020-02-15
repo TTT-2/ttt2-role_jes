@@ -32,36 +32,6 @@ function ROLE:PreInitialize()
 	}
 end
 
--- if roles loading has finished
-function ROLE:Initialize()
-	if CLIENT then
-		-- Role specific language elements
-		LANG.AddToLanguage("English", self.name, "Jester")
-		LANG.AddToLanguage("English", self.defaultTeam, "TEAM Jesters")
-		LANG.AddToLanguage("English", "hilite_win_" .. self.defaultTeam, "THE JESTER WON")
-		LANG.AddToLanguage("English", "win_" .. self.defaultTeam, "The Jester has won!")
-		LANG.AddToLanguage("English", "info_popup_" .. self.name, [[You are the JESTER! Make TROUBLE and let 'em kill you!]])
-		LANG.AddToLanguage("English", "body_found_" .. self.abbr, "This was a Jester...")
-		LANG.AddToLanguage("English", "search_role_" .. self.abbr, "This person was a Jester!")
-		LANG.AddToLanguage("English", "ev_win_" .. self.defaultTeam, "The goofy Jester won the round!")
-		LANG.AddToLanguage("English", "target_" .. self.name, "Jester")
-		LANG.AddToLanguage("English", "ttt2_desc_" .. self.name, [[The Jester is visible for any traitor, but not for innocents or other "normal" roles (except custom traitor roles or the Clairvoyant).
-The Jester can't do any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]])
-
-		LANG.AddToLanguage("Deutsch", self.name, "Narr")
-		LANG.AddToLanguage("Deutsch", self.defaultTeam, "TEAM Narren")
-		LANG.AddToLanguage("Deutsch", "hilite_win_" .. self.defaultTeam, "THE JESTER WON")
-		LANG.AddToLanguage("Deutsch", "win_" .. self.defaultTeam, "Der Narr hat gewonnen!")
-		LANG.AddToLanguage("Deutsch", "info_popup_" .. self.name, [[Du bist DER NARR! Stifte Unruhe und geh drauf!]])
-		LANG.AddToLanguage("Deutsch", "body_found_" .. self.abbr, "Er war ein Narr...")
-		LANG.AddToLanguage("Deutsch", "search_role_" .. self.abbr, "Diese Person war ein Narr!")
-		LANG.AddToLanguage("Deutsch", "ev_win_" .. self.defaultTeam, "Der trottelige Narr hat die Runde gewonnen!")
-		LANG.AddToLanguage("Deutsch", "target_" .. self.name, "Narr")
-		LANG.AddToLanguage("Deutsch", "ttt2_desc_" .. self.name, [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
-Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]])
-	end
-end
-
 hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
 
@@ -171,9 +141,9 @@ if SERVER then
 		-- NOTOFY ALL PLAYERS IF THERE IS A JESTER THIS ROUND
 		if cv.announce:GetBool() then
 			if jester_amnt == 0 then
-				LANG.MsgAll("Don't kill the Jester!", nil, MSG_MSTACK_WARN)
+				LANG.MsgAll("ttt2_role_jester_info_no_kill", nil, MSG_MSTACK_WARN)
 			else
-				LANG.MsgAll("There are no Jesters!", nil, MSG_MSTACK_PLAIN)
+				LANG.MsgAll("ttt2_role_jester_info_no_jester", nil, MSG_MSTACK_PLAIN)
 			end
 		end
 
@@ -183,9 +153,9 @@ if SERVER then
 		for _, v in ipairs(player.GetAll()) do
 			if v:GetTeam() == TEAM_TRAITOR then
 				if jester_amnt == 1 then
-					LANG.Msg(v, "'" .. jester_string .. "' is the Jester!", nil, MSG_MSTACK_ROLE)
+					LANG.Msg(v, "ttt2_role_jester_info_jester_single", {player_name = jester_string}, MSG_MSTACK_ROLE)
 				else
-					LANG.Msg(v, "'" .. jester_string .. "' are the Jesters!", nil, MSG_MSTACK_ROLE)
+					LANG.Msg(v, "ttt2_role_jester_info_jester_multiple", {player_names = jester_string}, MSG_MSTACK_ROLE)
 				end
 			end
 		end

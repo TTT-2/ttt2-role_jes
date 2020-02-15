@@ -7,7 +7,7 @@ local function JesterTakeNoDamage(ply, attacker)
 end
 
 local function JesterDealNoDamage(ply, attacker)
-	if not IsValid(ply) or not IsValid(attacker) or attacker:GetSubRole() ~= ROLE_JESTER then return end
+	if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() or attacker:GetSubRole() ~= ROLE_JESTER then return end
 
 	return true -- true to block damage event
 end
@@ -45,7 +45,7 @@ winstates_death = {
 
 	-- if the jester is killed, he has won
 	[1] = function(ply, killer)
-		LANG.MsgAll("'" .. killer:Nick() .. "' killed the Jester...", nil, MSG_MSTACK_PLAIN)
+		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
 
 		jesterShouldWin = true
 
@@ -146,7 +146,7 @@ winstates_death = {
 		local role = killer:GetRole()
 
 		killer:Kill()
-		killer:ChatPrint("You were killed, because you killed the Jester!")
+		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
 		JesterRevive(ply, function(p)
 			p:SetRole(role)
@@ -178,7 +178,7 @@ winstates_death = {
 		end
 
 		killer:Kill()
-		killer:ChatPrint("You were killed, because you killed the Jester!")
+		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
 		-- set random available role
 		JesterRevive(ply, function(p)
@@ -202,7 +202,7 @@ winstates_death = {
 		end
 
 		killer:Kill()
-		killer:ChatPrint("You were killed, because you killed the Jester!")
+		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
 		JesterRevive(ply, function(p)
 			p:SetRole(role)
