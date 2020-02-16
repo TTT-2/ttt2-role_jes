@@ -73,15 +73,11 @@ winstates_death = {
 			end
 		end
 
-		PrintTable(reviveRoleCandidates)
-
 		JesterRevive(ply, function(p)
 			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
 
 			SendFullStateUpdate()
-
-			print(tostring(p:GetRole()))
 		end)
 
 		return true
