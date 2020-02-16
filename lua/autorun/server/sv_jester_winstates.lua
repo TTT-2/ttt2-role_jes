@@ -40,7 +40,7 @@ winstates_death = {
 	-- RANDOM WINSTATE
 	[0] = function(ply, killer)
 		-- select a random winstate
-		return winstates_death[math.random(1, 8)](ply, killer)
+		return winstates_death[math.random(1, 7)](ply, killer)
 	end,
 
 	-- if the jester is killed, he has won
@@ -222,7 +222,7 @@ winstates_damage = {
 	-- RANDOM WINSTATE, does nothing when damaged
 	[0] = function(ply, killer)
 		-- select a random winstate
-		return winstates_damage[math.random(1, 8)](ply, killer)
+		return winstates_damage[math.random(1, 7)](ply, killer)
 	end,
 
 	-- if the jester is killed, he has won
