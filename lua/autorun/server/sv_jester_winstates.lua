@@ -45,7 +45,7 @@ winstates_death = {
 
 	-- if the jester is killed, he has won
 	[1] = function(ply, killer)
-		if not killer:IsPlayer() then return end
+		if not killer:IsPlayer() or killer == ply then return end
 
 		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
 
