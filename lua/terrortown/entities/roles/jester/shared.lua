@@ -138,12 +138,12 @@ if SERVER then
 			end
 		end
 
-		-- NOTOFY ALL PLAYERS IF THERE IS A JESTER THIS ROUND
+		-- NOTIFY ALL PLAYERS IF THERE IS A JESTER THIS ROUND
 		if cv.announce:GetBool() then
 			if jester_amnt == 0 then
-				LANG.MsgAll("ttt2_role_jester_info_no_kill", nil, MSG_MSTACK_WARN)
-			else
 				LANG.MsgAll("ttt2_role_jester_info_no_jester", nil, MSG_MSTACK_PLAIN)
+			else
+				LANG.MsgAll("ttt2_role_jester_info_no_kill", nil, MSG_MSTACK_WARN)
 			end
 		end
 
