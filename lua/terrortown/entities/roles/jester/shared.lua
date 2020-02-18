@@ -150,14 +150,10 @@ if SERVER then
 		if jester_amnt == 0 then return end
 
 		-- NOTIFY TRAITORS ABOUT JESTERS THIS ROUND
-		for _, v in ipairs(player.GetAll()) do
-			if v:GetTeam() == TEAM_TRAITOR then
-				if jester_amnt == 1 then
-					LANG.Msg(v, "ttt2_role_jester_info_jester_single", {player_name = jester_string}, MSG_MSTACK_ROLE)
-				else
-					LANG.Msg(v, "ttt2_role_jester_info_jester_multiple", {player_names = jester_string}, MSG_MSTACK_ROLE)
-				end
-			end
+		if jester_amnt == 1 then
+			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_single", {player_name = jester_string}, MSG_MSTACK_ROLE)
+		else
+			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_multiple", {player_names = jester_string}, MSG_MSTACK_ROLE)
 		end
 	end)
 
