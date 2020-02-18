@@ -151,9 +151,9 @@ if SERVER then
 
 		-- NOTIFY TRAITORS ABOUT JESTERS THIS ROUND
 		if jester_amnt == 1 then
-			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_single", {player_name = jester_string}, MSG_MSTACK_ROLE)
+			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_single", {playername = jester_string}, MSG_MSTACK_ROLE)
 		else
-			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_multiple", {player_names = jester_string}, MSG_MSTACK_ROLE)
+			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_multiple", {playernames = jester_string}, MSG_MSTACK_ROLE)
 		end
 	end)
 
