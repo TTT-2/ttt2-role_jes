@@ -117,7 +117,7 @@ if SERVER then
 	end)
 
 	-- inform other players about the jesters in this round
-	hook.Add("TTT2TellTraitors", "JesterTraitorMsg", function()
+	hook.Add("TTTBeginRound", "JesterTraitorMsg", function()
 		if not GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetBool() then return end
 
 		if GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetInt() > #(player.GetAll()) then return end
