@@ -24,6 +24,15 @@ local function SpawnJesterConfetti(ply)
 	ply:EmitSound("ttt2/birthdayparty.mp3")
 end
 
+local function JesterRevive(ply, fn)
+	ply:Revive(3, function(p)
+		fn(p)
+	end,
+	function(p)
+		return IsValid(p)
+	end) -- revive after 3s
+end
+
 jesterShouldWin = false
 
 local winstates_death
@@ -64,7 +73,7 @@ winstates_death = {
 			end
 		end
 
-		ply:Revive(3, function(p)
+		JesterRevive(ply, function(p)
 			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
 
@@ -99,7 +108,7 @@ winstates_death = {
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:SteamID64())
 
 			-- set random available role
-			ply:Revive(3, function(p)
+			JesterRevive(ply, function(p)
 				p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 				p:SetDefaultCredits()
 
@@ -119,7 +128,7 @@ winstates_death = {
 
 			hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. ply:SteamID64())
 
-			ply:Revive(3, function(p)
+			JesterRevive(ply, function(p)
 				p:SetRole(role)
 				p:SetDefaultCredits()
 
@@ -137,7 +146,7 @@ winstates_death = {
 		killer:Kill()
 		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
-		ply:Revive(3, function(p)
+		JesterRevive(ply, function(p)
 			p:SetRole(role)
 			p:SetDefaultCredits()
 
@@ -170,7 +179,7 @@ winstates_death = {
 		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
 		-- set random available role
-		ply:Revive(3, function(p)
+		JesterRevive(ply, function(p)
 			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
 
@@ -193,7 +202,7 @@ winstates_death = {
 		killer:Kill()
 		LANG.Msg(killer, "ttt2_role_jester_killer_info", nil, MSG_MSTACK_ROLE)
 
-		ply:Revive(3, function(p)
+		JesterRevive(ply, function(p)
 			p:SetRole(role)
 			p:SetDefaultCredits()
 
