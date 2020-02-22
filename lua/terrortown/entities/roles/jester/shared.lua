@@ -7,8 +7,8 @@ end
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
 roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
-		icon = "vgui/ttt/dynamic/roles/icon_jes",
-		color = Color(245, 48, 155, 255)
+	icon = "vgui/ttt/dynamic/roles/icon_jes",
+	color = Color(245, 48, 155, 255)
 })
 
 function ROLE:PreInitialize()
@@ -153,8 +153,8 @@ if SERVER then
 
 	-- HANDLE WINNING HOOK
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
-		if jesterShouldWin then
-			jesterShouldWin = false
+		if JESTER.shouldWin then
+			JESTER.shouldWin = false
 
 			return TEAM_JESTER
 		end

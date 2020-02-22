@@ -33,8 +33,6 @@ local function JesterRevive(ply, fn)
 	end) -- revive after 3s
 end
 
-jesterShouldWin = false
-
 local winstates_death
 winstates_death = {
 	-- if the jester is killed, he has won
@@ -43,7 +41,7 @@ winstates_death = {
 
 		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
 
-		jesterShouldWin = true
+		JESTER.shouldWin = true
 
 		return true
 	end,
@@ -220,6 +218,9 @@ end)
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
 	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or not IsValid(killer) then return end
 
+	-- only handle jester winstates if round is active
+	if GetRoundState() ~= ROUND_ACTIVE then return end
+
 	if winstates_death[JESTER.winstate](ply, killer) then
 		SpawnJesterConfetti(ply)
 	end
@@ -231,5 +232,5 @@ hook.Add("TTTEndRound", "JesterEndRound", function()
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. v:SteamID64())
 	end
 
-	jesterShouldWin = false
+	JESTER.shouldWin = false
 end)
