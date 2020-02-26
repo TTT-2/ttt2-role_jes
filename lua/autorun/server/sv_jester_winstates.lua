@@ -276,7 +276,7 @@ hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, 
 end)
 
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
-	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or not IsValid(killer) then return end
+	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:IsSpec() or not IsValid(killer) then return end
 
 	if winstates_death[GetConVar("ttt2_jes_winstate"):GetInt()](ply, killer) then
 		SpawnJesterConfetti(ply)
