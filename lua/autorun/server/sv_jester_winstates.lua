@@ -33,23 +33,15 @@ local function JesterRevive(ply, fn)
 	end) -- revive after 3s
 end
 
-jesterShouldWin = false
-
 local winstates_death
 winstates_death = {
-	-- RANDOM WINSTATE
-	[0] = function(ply, killer)
-		-- select a random winstate
-		return winstates_death[math.random(1, 7)](ply, killer)
-	end,
-
 	-- if the jester is killed, he has won
 	[1] = function(ply, killer)
 		if not killer:IsPlayer() or killer == ply then return end
 
 		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
 
-		jesterShouldWin = true
+		JESTER.shouldWin = true
 
 		return true
 	end,
@@ -213,61 +205,9 @@ winstates_death = {
 	end
 }
 
-local winstates_damage
-winstates_damage = {
-	-- RANDOM WINSTATE, does nothing when damaged
-	[0] = function(ply, killer)
-		-- select a random winstate
-		return winstates_damage[math.random(1, 7)](ply, killer)
-	end,
-
-	-- if the jester is killed, he has won
-	[1] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns after three seconds with a random opposite role of his killer
-	[2] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns after killer death with a random opposite role
-	[3] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns after killer death with the role of his killer
-	[4] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns after three seconds with the role of the killer and the killer dies
-	[5] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns within three seconds with a role in an opposing team of the killer and the killer dies
-	[6] = function(ply, killer)
-
-	end,
-
-	-- Jester respawns after three seconds with the role of the killer and the killer dies,
-	-- unless the killer is a traitor or serialkiller, then jester is killed normally
-	[7] = function(ply, killer)
-
-	end
-}
-
 -- Jester deals no damage to other players
 hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, amount, dmginfo)
 	if JesterTakeNoDamage(ply, killer) or JesterDealNoDamage(ply, killer) then
-		dmginfo:ScaleDamage(0)
-		dmginfo:SetDamage(0)
-
-		return
-	end
-
-	if winstates_damage[GetConVar("ttt2_jes_winstate"):GetInt()](ply, killer) then
 		dmginfo:ScaleDamage(0)
 		dmginfo:SetDamage(0)
 
@@ -278,7 +218,10 @@ end)
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
 	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:IsSpec() or not IsValid(killer) then return end
 
-	if winstates_death[GetConVar("ttt2_jes_winstate"):GetInt()](ply, killer) then
+	-- only handle jester winstates if round is active
+	if GetRoundState() ~= ROUND_ACTIVE then return end
+
+	if winstates_death[JESTER.winstate](ply, killer) then
 		SpawnJesterConfetti(ply)
 	end
 end)
@@ -289,5 +232,5 @@ hook.Add("TTTEndRound", "JesterEndRound", function()
 		hook.Remove("PostPlayerDeath", "JesterWaitForKillerDeath_" .. v:SteamID64())
 	end
 
-	jesterShouldWin = false
+	JESTER.shouldWin = false
 end)

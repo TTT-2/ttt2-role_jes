@@ -20,3 +20,13 @@ L["ttt2_role_jester_info_no_kill"] = "Töte nicht den Narr!"
 L["ttt2_role_jester_info_no_jester"] = "Es gibt diese Runde keinen Narren!"
 L["ttt2_role_jester_info_jester_single"] = "'{playername}' ist der Narr!"
 L["ttt2_role_jester_info_jester_multiple"] = "'{playernames}' sind die Narren!"
+
+-- WINSTATE LANGS
+L["ttt2_role_jester_winstate_0"] = "Zufällige Narr-Gewinnbedingung aktiv."
+L["ttt2_role_jester_winstate_1"] = "Narr-Gewinnbedingung 1: Du gewinnst, wenn du getötet wirst."
+L["ttt2_role_jester_winstate_2"] = "Narr-Gewinnbedingung 2: Du wirst mit einer gegenteiligen Rolle deines Mörders wiederbelebt."
+L["ttt2_role_jester_winstate_3"] = "Narr-Gewinnbedingung 3: Du wirst mit einer gegenteiligen Rolle deines Mörders wiederbelebt nachdem er gestorben ist."
+L["ttt2_role_jester_winstate_4"] = "Narr-Gewinnbedingung 4: Du wirst mit der Rolle deines Mörders wiederbelebt nachdem er gestorben ist."
+L["ttt2_role_jester_winstate_5"] = "Narr-Gewinnbedingung 5: Du wirst mit der Rolle deines Mörders wiederbelebt und er wird sterben."
+L["ttt2_role_jester_winstate_6"] = "Narr-Gewinnbedingung 6: Du wirst mit einer gegenteiligen Rolle deines Mörders wiederbelebt und er wird sterben."
+L["ttt2_role_jester_winstate_7"] = "Narr-Gewinnbedingung 7: Du wirst mit der Rolle deines Mörders wiederbelebt und er wird sterben, außer dein Mörder ist Serienmörder oder Verräter."

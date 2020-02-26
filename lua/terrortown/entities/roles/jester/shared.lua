@@ -7,8 +7,8 @@ end
 -- creates global var "TEAM_JESTER" and other required things
 -- TEAM_[name], data: e.g. icon, color,...
 roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
-		icon = "vgui/ttt/dynamic/roles/icon_jes",
-		color = Color(245, 48, 155, 255)
+	icon = "vgui/ttt/dynamic/roles/icon_jes",
+	color = Color(245, 48, 155, 255)
 })
 
 function ROLE:PreInitialize()
@@ -74,6 +74,12 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	})
 
 	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_announce_winstate",
+		checkbox = true,
+		desc = "Announce the current winstate to jesters (Def. 1)"
+	})
+
+	table.insert(tbl[ROLE_JESTER], {
 		cvar = "ttt2_jes_carry",
 		checkbox = true,
 		desc = "Jester can pickup entities with the magneto stick (Def. 1)"
@@ -92,8 +98,39 @@ if SERVER then
 	cv.pickup_allowed = CreateConVar("ttt2_jes_carry", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.winstate = CreateConVar("ttt2_jes_winstate", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 	cv.announce = CreateConVar("ttt2_jes_announce", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	cv.announce_winstate = CreateConVar("ttt2_jes_announce_winstate", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
+	local function SetUpWinstate()
+		-- SET WINSTATE AT ROUND BEGIN
+		JESTER.winstate = cv.winstate:GetInt()
+
+		if JESTER.winstate == 0 then
+			JESTER.winstate = math.random(1, 7)
+		end
+
+		-- NOTIFY JESTERS ABOUT THE CURRENT WINSTATE
+		if cv.announce_winstate:GetBool() then
+			local players = player.GetAll()
+			local jester_players = {}
+
+			for i = 1, #players do
+				local ply = players[i]
+
+				if ply:GetSubRole() == ROLE_JESTER then
+					jester_players[#jester_players + 1] = ply
+				end
+			end
+
+			if cv.winstate:GetInt() == 0 then
+				LANG.Msg(jester_players, "ttt2_role_jester_winstate_0", nil, MSG_MSTACK_ROLE)
+			end
+
+			LANG.Msg(jester_players, "ttt2_role_jester_winstate_" .. JESTER.winstate, nil, MSG_MSTACK_ROLE)
+		end
+	end
+
+	-- SYNC CONVAR - GLOBAL BOOL
 	hook.Add("TTT2SyncGlobals", "TTT2JesSyncGlobals", function()
 		SetGlobalBool("ttt2_jes_carry", cv.pickup_allowed:GetBool())
 	end)
@@ -102,15 +139,22 @@ if SERVER then
 		SetGlobalBool("ttt2_jes_carry", tonumber(new) == 1)
 	end, cv.pickup_allowed:GetName())
 
+	-- REACT TO WINSTATE CHANGE
+	cvars.AddChangeCallback(cv.winstate:GetName(), function(name, old, new)
+		SetUpWinstate()
+	end, cv.winstate:GetName())
+
+	-- HANDLE PLAYER PUSH HOOK
 	hook.Add("TTT2PlayerPreventPush", "TTT2ToggleJesPushing", function(ply)
 		if ply:GetSubRole() == ROLE_JESTER and not cv.pushing_allowed:GetBool() then
 			return true
 		end
 	end)
 
+	-- HANDLE WINNING HOOK
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
-		if jesterShouldWin then
-			jesterShouldWin = false
+		if JESTER.shouldWin then
+			JESTER.shouldWin = false
 
 			return TEAM_JESTER
 		end
@@ -126,17 +170,23 @@ if SERVER then
 		local jester_amnt = 0
 		local jester_string = ""
 
-		for _, v in ipairs(player.GetAll()) do
-			if v:GetSubRole() == ROLE_JESTER then
+		local players = player.GetAll()
+		for i = 1, #players do
+			local ply = players[i]
+
+			if ply:GetSubRole() == ROLE_JESTER then
 				if jester_amnt > 0 then
 					jester_string = jester_string .. ", "
 				end
 
-				jester_string = jester_string .. v:Nick()
+				jester_string = jester_string .. ply:Nick()
 
 				jester_amnt = jester_amnt + 1
 			end
 		end
+
+		-- SETUP WINSTATE AND NOTIFY JESTER
+		SetUpWinstate()
 
 		-- NOTIFY ALL PLAYERS IF THERE IS A JESTER THIS ROUND
 		if cv.announce:GetBool() then
