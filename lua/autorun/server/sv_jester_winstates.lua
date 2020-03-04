@@ -216,7 +216,7 @@ hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, 
 end)
 
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
-	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:IsSpec() or not IsValid(killer) then return end
+	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:GetForceSpec() or not IsValid(killer) then return end
 
 	-- only handle jester winstates if round is active
 	if GetRoundState() ~= ROUND_ACTIVE then return end
