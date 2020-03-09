@@ -37,8 +37,6 @@ local winstates_death
 winstates_death = {
 	-- if the jester is killed, he has won
 	[1] = function(ply, killer)
-		if not killer:IsPlayer() or killer == ply then return end
-
 		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
 
 		JESTER.shouldWin = true
@@ -216,7 +214,7 @@ hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, 
 end)
 
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
-	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:GetForceSpec() or not IsValid(killer) then return end
+	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER or ply:GetForceSpec() or not IsValid(killer) or not killer:IsPlayer() or killer == ply then return end
 
 	-- only handle jester winstates if round is active
 	if GetRoundState() ~= ROUND_ACTIVE then return end
