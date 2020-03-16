@@ -220,7 +220,7 @@ hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, kill
 		or not killer:IsPlayer()
 		or killer == ply
 		or GetRoundState() ~= ROUND_ACTIVE
-		or hook.Run("TTT2PreventJesterWinstate", killer)
+		or hook.Run("TTT2PreventJesterWinstate", killer) and JESTER.winstate ~= 1
 	then return end
 
 	if winstates_death[JESTER.winstate](ply, killer) then
