@@ -56,7 +56,8 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 			"4 - Respawn with killer role after killer death",
 			"5 - Respawn with killer role and killer dies",
 			"6 - Respawn with opposite killer role and killer dies",
-			"7 - like 5, unless killer is serialkiller or traitor"
+			"7 - like 5, unless killer is serialkiller or traitor",
+			"8 - like 1, unless killer is serialkiller or traitor"
 		},
 		numStart = 0
 	})
@@ -106,7 +107,7 @@ if SERVER then
 		JESTER.winstate = cv.winstate:GetInt()
 
 		if JESTER.winstate == 0 then
-			JESTER.winstate = math.random(1, 7)
+			JESTER.winstate = math.random(1, 8)
 		end
 
 		-- NOTIFY JESTERS ABOUT THE CURRENT WINSTATE

@@ -200,6 +200,22 @@ winstates_death = {
 		end)
 
 		return true
+	end,
+
+	-- Jester wins unless the killer is a traitor or serialkiller, then jester is killed normally
+	[8] = function(ply, killer)
+		local rd = killer:GetSubRoleData()
+		local role = rd.index
+
+		if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
+			return
+		end
+
+		LANG.MsgAll("ttt2_role_jester_killed_by_player", {nick = killer:Nick()}, MSG_MSTACK_PLAIN)
+
+		JESTER.shouldWin = true
+
+		return true
 	end
 }
 
