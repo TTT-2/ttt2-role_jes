@@ -84,6 +84,18 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 		checkbox = true,
 		desc = "Jester can pickup entities with the magneto stick (Def. 1)"
 	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_ignitedmg",
+		checkbox = true,
+		desc = "Jester receive ignite damage (Def. 1)"
+	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_explosiondmg",
+		checkbox = true,
+		desc = "Jester receive explosion damage (Def. 1)"
+	})
 end)
 
 hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
@@ -100,6 +112,8 @@ if SERVER then
 	cv.announce = CreateConVar("ttt2_jes_announce", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.announce_winstate = CreateConVar("ttt2_jes_announce_winstate", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	cv.ignitedmg = CreateConVar("ttt2_jes_ignitedmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	cv.explosiondmg = CreateConVar("ttt2_jes_explosiondmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	local function SetUpWinstate()
 		-- SET WINSTATE AT ROUND BEGIN

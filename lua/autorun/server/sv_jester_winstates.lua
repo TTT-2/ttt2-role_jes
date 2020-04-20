@@ -205,7 +205,10 @@ winstates_death = {
 
 -- Jester deals no damage to other players
 hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, amount, dmginfo)
-	if JesterTakeNoDamage(ply, killer) or JesterDealNoDamage(ply, killer) then
+	if JesterTakeNoDamage(ply, killer) or JesterDealNoDamage(ply, killer)
+	or not GetConVar("ttt2_jes_ignitedmg"):GetBool() and (ply.ignite_info and dmginfo:IsDamageType(DMG_DIRECT) or dmginfo:IsDamageType(DMG_BURN))
+	or not GetConVar("ttt2_jes_explosiondmg"):GetBool() and dmginfo:IsExplosionDamage()
+	then
 		dmginfo:ScaleDamage(0)
 		dmginfo:SetDamage(0)
 
