@@ -116,8 +116,6 @@ if SERVER then
 	cv.explosiondmg = CreateConVar("ttt2_jes_explosiondmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	function ROLE:GiveRoleLoadout(ply, isRoleChange)
-		print("give role loadout")
-
 		if not cv.ignitedmg:GetBool() then
 			ply:GiveEquipmentItem("item_ttt_nofiredmg")
 		end
