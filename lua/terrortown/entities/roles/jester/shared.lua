@@ -88,13 +88,13 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	table.insert(tbl[ROLE_JESTER], {
 		cvar = "ttt2_jes_ignitedmg",
 		checkbox = true,
-		desc = "Jester receive ignite damage (Def. 1)"
+		desc = "Jester receives fire damage (Def. 1)"
 	})
 
 	table.insert(tbl[ROLE_JESTER], {
 		cvar = "ttt2_jes_explosiondmg",
 		checkbox = true,
-		desc = "Jester receive explosion damage (Def. 1)"
+		desc = "Jester receives explosion damage (Def. 1)"
 	})
 end)
 
@@ -114,6 +114,28 @@ if SERVER then
 	cv.pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.ignitedmg = CreateConVar("ttt2_jes_ignitedmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.explosiondmg = CreateConVar("ttt2_jes_explosiondmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
+	function ROLE:GiveRoleLoadout(ply, isRoleChange)
+		print("give role loadout")
+
+		if not cv.ignitedmg:GetBool() then
+			ply:GiveEquipmentItem("item_ttt_nofiredmg")
+		end
+
+		if not cv.explosiondmg:GetBool() then
+			ply:GiveEquipmentItem("item_ttt_noexplosiondmg")
+		end
+	end
+
+	function ROLE:RemoveRoleLoadout(ply, isRoleChange)
+		if not cv.ignitedmg:GetBool() then
+			ply:RemoveEquipmentItem("item_ttt_nofiredmg")
+		end
+
+		if not cv.explosiondmg:GetBool() then
+			ply:RemoveEquipmentItem("item_ttt_noexplosiondmg")
+		end
+	end
 
 	local function SetUpWinstate()
 		-- SET WINSTATE AT ROUND BEGIN
