@@ -207,7 +207,7 @@ winstates_death = {
 		local rd = killer:GetSubRoleData()
 		local role = rd.index
 
-		if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER then
+		if role == ROLE_TRAITOR or role == ROLE_SERIALKILLER or role == ROLE_INFECTED then
 			return
 		end
 
