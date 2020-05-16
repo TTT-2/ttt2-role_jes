@@ -47,7 +47,7 @@ winstates_death = {
 	-- Jester respawns after three seconds with a random opposite role of his killer
 	[2] = function(ply, killer)
 		local rd = killer:GetSubRoleData()
-		local reviveRoleCandidates = table.Copy(GetSelectableRoles())
+		local reviveRoleCandidates = table.Copy(roleselection.selectableRoles)
 		local reviveRoles = {}
 
 		-- make sure innocent and traitor are revive candidate roles
@@ -79,7 +79,7 @@ winstates_death = {
 			if deadply ~= killer or deadply.NOWINASC then return end
 
 			local rd = killer:GetSubRoleData()
-			local reviveRoleCandidates = table.Copy(GetSelectableRoles())
+			local reviveRoleCandidates = table.Copy(roleselection.selectableRoles)
 			local reviveRoles = {}
 
 			-- make sure innocent and traitor are revive candidate roles
@@ -149,7 +149,7 @@ winstates_death = {
 	-- Jester respawns within three seconds with a role in an opposing team of the killer and the killer dies
 	[6] = function(ply, killer)
 		local rd = killer:GetSubRoleData()
-		local reviveRoleCandidates = table.Copy(GetSelectableRoles())
+		local reviveRoleCandidates = table.Copy(roleselection.selectableRoles)
 		local reviveRoles = {}
 
 		-- make sure innocent and traitor are revive candidate roles
