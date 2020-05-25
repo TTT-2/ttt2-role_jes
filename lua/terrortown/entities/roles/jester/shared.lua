@@ -4,9 +4,7 @@ if SERVER then
 	resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_jes.vmt")
 end
 
--- creates global var "TEAM_JESTER" and other required things
--- TEAM_[name], data: e.g. icon, color,...
-roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
+roles.InitCustomTeam(ROLE.name, {
 	icon = "vgui/ttt/dynamic/roles/icon_jes",
 	color = Color(245, 48, 155, 255)
 })
@@ -14,21 +12,21 @@ roles.InitCustomTeam(ROLE.name, { -- this creates var "TEAM_JESTER"
 function ROLE:PreInitialize()
 	self.color = Color(245, 48, 155, 255)
 
-	self.abbr = "jes" -- abbreviation
-	self.visibleForTraitors = true -- other traitors can see this role / sync them with traitors
-	self.surviveBonus = 0 -- bonus multiplier for every survive while another player was killed
-	self.scoreKillsMultiplier = 1 -- multiplier for kill of player of another team
-	self.scoreTeamKillsMultiplier = -8 -- multiplier for teamkill
-	self.preventWin = true -- set true if role can't win (maybe because of own / special win conditions)
+	self.abbr = "jes"
+	self.visibleForTeam = {TEAM_TRAITOR}
+	self.surviveBonus = 0
+	self.scoreKillsMultiplier = 1
+	self.scoreTeamKillsMultiplier = -8
+	self.preventWin = true
 
-	self.defaultTeam = TEAM_JESTER -- set/link default team to register it
-	self.defaultEquipment = INNO_EQUIPMENT -- here you can set up your own default equipment
+	self.defaultTeam = TEAM_JESTER
+	self.defaultEquipment = INNO_EQUIPMENT
 
 	self.conVarData = {
-		pct = 0.17, -- necessary: percentage of getting this role selected (per player)
-		maximum = 1, -- maximum amount of roles in a round
-		minPlayers = 6, -- minimum amount of players until this role is able to get selected
-		togglable = true -- option to toggle a role for a client if possible (F1 menu)
+		pct = 0.17,
+		maximum = 1,
+		minPlayers = 6,
+		togglable = true
 	}
 end
 
@@ -161,6 +159,13 @@ if SERVER then
 			end
 
 			LANG.Msg(jester_players, "ttt2_role_jester_winstate_" .. JESTER.winstate, nil, MSG_MSTACK_ROLE)
+		end
+
+		-- UPDATE RADAR VISIBILITY
+		if JESTER.winstate == 7 then
+			JESTER.visibleForTeam = {TEAM_TRAITOR, TEAM_SERIALKILLER}
+		else
+			JESTER.visibleForTeam = {TEAM_TRAITOR}
 		end
 	end
 
