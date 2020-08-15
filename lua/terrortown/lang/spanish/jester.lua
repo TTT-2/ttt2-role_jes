@@ -2,7 +2,7 @@ L = LANG.GetLanguageTableReference("Español")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[JESTER.name] = "Jester"
-L[JESTER.defaultTeam] = "TEAM Jesters"
+L[JESTER.defaultTeam] = "Team Jesters"
 L["hilite_win_" .. JESTER.defaultTeam] = "EL JESTER GANA"
 L["win_" .. JESTER.defaultTeam] = "¡El Jester ha ganado!"
 L["info_popup_" .. JESTER.name] = [[¡Eres el Jester! ¡Genera problemas  y has que te maten!]]
