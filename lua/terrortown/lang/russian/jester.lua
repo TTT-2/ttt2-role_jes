@@ -3,7 +3,7 @@ L = LANG.GetLanguageTableReference("Русский")
 -- GENERAL ROLE LANGUAGE STRINGS
 L[JESTER.name] = "Шут"
 L[JESTER.defaultTeam] = "Команда шутов"
-L["hilite_win_" .. JESTER.defaultTeam] = "ШУТ ВЫИГРАЛ"
+L["hilite_win_" .. JESTER.defaultTeam] = "ПОБЕДА ШУТОВ"
 L["win_" .. JESTER.defaultTeam] = "Шут победил!"
 L["info_popup_" .. JESTER.name] = [[Вы шут! Создайте проблемы и позвольте им убить вас!]]
 L["body_found_" .. JESTER.abbr] = "Он был шутом!"
