@@ -67,7 +67,7 @@ winstates_death = {
 		JesterRevive(ply, function(p)
 			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
-
+			p:ResetConfirmPlayer()
 			SendFullStateUpdate()
 		end)
 
@@ -103,7 +103,7 @@ winstates_death = {
 			JesterRevive(ply, function(p)
 				p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 				p:SetDefaultCredits()
-
+				p:ResetConfirmPlayer()
 				SendFullStateUpdate()
 			end)
 		end)
@@ -123,7 +123,7 @@ winstates_death = {
 			JesterRevive(ply, function(p)
 				p:SetRole(role)
 				p:SetDefaultCredits()
-
+				p:ResetConfirmPlayer()
 				SendFullStateUpdate()
 			end)
 		end)
@@ -141,7 +141,7 @@ winstates_death = {
 		JesterRevive(ply, function(p)
 			p:SetRole(role)
 			p:SetDefaultCredits()
-
+			p:ResetConfirmPlayer()
 			SendFullStateUpdate()
 		end)
 
@@ -175,7 +175,7 @@ winstates_death = {
 		JesterRevive(ply, function(p)
 			p:SetRole(reviveRoles[math.random(1, #reviveRoles)])
 			p:SetDefaultCredits()
-
+			p:ResetConfirmPlayer()
 			SendFullStateUpdate()
 		end)
 
@@ -198,7 +198,7 @@ winstates_death = {
 		JesterRevive(ply, function(p)
 			p:SetRole(role)
 			p:SetDefaultCredits()
-
+			p:ResetConfirmPlayer()
 			SendFullStateUpdate()
 		end)
 
