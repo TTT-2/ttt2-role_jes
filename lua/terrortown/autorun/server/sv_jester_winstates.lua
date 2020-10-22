@@ -59,7 +59,7 @@ winstates_death = {
 		reviveRoleCandidates[ROLE_JESTER] = nil
 
 		for k in pairs(reviveRoleCandidates) do
-			local roleData = GetByIndex(k)
+			local roleData = roles.GetByIndex(k)
 			if roleData.defaultTeam ~= rd.defaultTeam then
 				reviveRoles[#reviveRoles + 1] = k
 			end
@@ -93,7 +93,7 @@ winstates_death = {
 			reviveRoleCandidates[ROLE_JESTER] = nil
 
 			for k in pairs(reviveRoleCandidates) do
-				local roleData = GetByIndex(k)
+				local roleData = roles.GetByIndex(k)
 				if roleData.defaultTeam ~= rd.defaultTeam then
 					reviveRoles[#reviveRoles + 1] = k
 				end
@@ -165,7 +165,7 @@ winstates_death = {
 		reviveRoleCandidates[ROLE_JESTER] = nil
 
 		for k in pairs(reviveRoleCandidates) do
-			local roleData = GetByIndex(k)
+			local roleData = roles.GetByIndex(k)
 			if roleData.defaultTeam ~= rd.defaultTeam then
 				reviveRoles[#reviveRoles + 1] = k
 			end
