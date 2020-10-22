@@ -52,15 +52,16 @@ winstates_death = {
 		local reviveRoles = {}
 
 		-- make sure innocent and traitor are revive candidate roles
-		reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
-		reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+		reviveRoleCandidates[ROLE_INNOCENT] = reviveRoleCandidates[ROLE_INNOCENT] or 1
+		reviveRoleCandidates[ROLE_TRAITOR] = reviveRoleCandidates[ROLE_TRAITOR] or 1
 
-		-- remove jester from the revive candidate roles
-		reviveRoleCandidates[JESTER] = nil
+		--remove jester from the revive candidate roles
+		reviveRoleCandidates[ROLE_JESTER] = nil
 
 		for k in pairs(reviveRoleCandidates) do
-			if k.defaultTeam ~= rd.defaultTeam then
-				reviveRoles[#reviveRoles + 1] = k.index
+			local roleData = GetByIndex(k)
+			if roleData.defaultTeam ~= rd.defaultTeam then
+				reviveRoles[#reviveRoles + 1] = k
 			end
 		end
 
@@ -85,15 +86,16 @@ winstates_death = {
 			local reviveRoles = {}
 
 			-- make sure innocent and traitor are revive candidate roles
-			reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
-			reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+			reviveRoleCandidates[ROLE_INNOCENT] = reviveRoleCandidates[ROLE_INNOCENT] or 1
+			reviveRoleCandidates[ROLE_TRAITOR] = reviveRoleCandidates[ROLE_TRAITOR] or 1
 
-			-- remove jester from the revive candidate roles
-			reviveRoleCandidates[JESTER] = nil
+			--remove jester from the revive candidate roles
+			reviveRoleCandidates[ROLE_JESTER] = nil
 
 			for k in pairs(reviveRoleCandidates) do
-				if k.defaultTeam ~= rd.defaultTeam then
-					reviveRoles[#reviveRoles + 1] = k.index
+				local roleData = GetByIndex(k)
+				if roleData.defaultTeam ~= rd.defaultTeam then
+					reviveRoles[#reviveRoles + 1] = k
 				end
 			end
 
@@ -156,15 +158,16 @@ winstates_death = {
 		local reviveRoles = {}
 
 		-- make sure innocent and traitor are revive candidate roles
-		reviveRoleCandidates[INNOCENT] = reviveRoleCandidates[INNOCENT] or 1
-		reviveRoleCandidates[TRAITOR] = reviveRoleCandidates[TRAITOR] or 1
+		reviveRoleCandidates[ROLE_INNOCENT] = reviveRoleCandidates[ROLE_INNOCENT] or 1
+		reviveRoleCandidates[ROLE_TRAITOR] = reviveRoleCandidates[ROLE_TRAITOR] or 1
 
 		--remove jester from the revive candidate roles
-		reviveRoleCandidates[JESTER] = nil
+		reviveRoleCandidates[ROLE_JESTER] = nil
 
 		for k in pairs(reviveRoleCandidates) do
-			if k.defaultTeam ~= rd.defaultTeam then
-				reviveRoles[#reviveRoles + 1] = k.index
+			local roleData = GetByIndex(k)
+			if roleData.defaultTeam ~= rd.defaultTeam then
+				reviveRoles[#reviveRoles + 1] = k
 			end
 		end
 
