@@ -14,9 +14,11 @@ function ROLE:PreInitialize()
 
 	self.abbr = "jes"
 	self.visibleForTeam = {TEAM_TRAITOR}
-	self.surviveBonus = 0
-	self.scoreKillsMultiplier = 1
-	self.scoreTeamKillsMultiplier = -8
+	self.score.surviveBonusMultiplier = 0.5
+	self.score.timelimitMultiplier = -0.5
+	self.score.killsMultiplier = 0
+	self.score.teamKillsMultiplier = -16
+	self.score.bodyFoundMuliplier = 0
 	self.preventWin = true
 
 	self.defaultTeam = TEAM_JESTER
