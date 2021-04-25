@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("italiano")
+L = LANG.GetLanguageTableReference("it")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[JESTER.name] = "Giullare"

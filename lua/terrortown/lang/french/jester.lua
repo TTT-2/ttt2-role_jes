@@ -1,4 +1,4 @@
-local L = LANG.GetLanguageTableReference("french")
+local L = LANG.GetLanguageTableReference("fr")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[JESTER.name] = "Bouffon"
