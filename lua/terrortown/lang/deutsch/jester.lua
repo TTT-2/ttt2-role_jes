@@ -3,7 +3,7 @@ L = LANG.GetLanguageTableReference("deutsch")
 -- GENERAL ROLE LANGUAGE STRINGS
 L[JESTER.name] = "Narr"
 L[JESTER.defaultTeam] = "Team Narren"
-L["hilite_win_" .. JESTER.defaultTeam] = "DIE NARREN GEWINNEN"
+L["hilite_win_" .. JESTER.defaultTeam] = "TEAM NARR GEWANN"
 L["win_" .. JESTER.defaultTeam] = "Der Narr hat gewonnen!"
 L["info_popup_" .. JESTER.name] = [[Du bist der Narr! Stifte Unruhe und lass dich töten!]]
 L["body_found_" .. JESTER.abbr] = "Er war ein Narr..."
