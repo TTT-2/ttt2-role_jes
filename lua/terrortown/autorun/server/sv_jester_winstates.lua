@@ -8,6 +8,7 @@ end
 
 local function JesterDealNoDamage(ply, attacker)
 	if not IsValid(ply) or not IsValid(attacker) or not attacker:IsPlayer() or attacker:GetSubRole() ~= ROLE_JESTER then return end
+	if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end
 
 	return true -- true to block damage event
 end
@@ -227,6 +228,7 @@ hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, kill
 		or killer == ply
 		or GetRoundState() ~= ROUND_ACTIVE
 		or hook.Run("TTT2PreventJesterWinstate", killer) and JESTER.winstate ~= 1
+		or SpecDM and (ply.IsGhost and ply:IsGhost() or (killer.IsGhost and killer:IsGhost()))
 	then return end
 
 	if winstates_death[JESTER.winstate](ply, killer) then
