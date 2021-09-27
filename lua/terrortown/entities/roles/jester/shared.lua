@@ -208,12 +208,24 @@ if SERVER then
 		if GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetInt() > #(player.GetAll()) then return end
 
 		-- GET A LIST OF ALL JESTERS
+		local players = player.GetAll()
+		local jesPlys = {}
+
+		for i = 1, #players do
+			local ply = players[i]
+
+			if ply:GetSubRole() ~= ROLE_JESTER then continue end
+
+			jesPlys[#jesPlys + 1] = ply
+		end
+
+		hook.Run("TTT2JesterModifyList", jesPlys)
+
 		local jester_amnt = 0
 		local jester_string = ""
 
-		local players = player.GetAll()
-		for i = 1, #players do
-			local ply = players[i]
+		for i = 1, #jesPlys do
+			local ply = jesPlys[i]
 
 			if ply:GetSubRole() == ROLE_JESTER then
 				if jester_amnt > 0 then
