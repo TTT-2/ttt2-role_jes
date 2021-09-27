@@ -227,15 +227,13 @@ if SERVER then
 		for i = 1, #jesPlys do
 			local ply = jesPlys[i]
 
-			if ply:GetSubRole() == ROLE_JESTER then
-				if jester_amnt > 0 then
-					jester_string = jester_string .. ", "
-				end
-
-				jester_string = jester_string .. ply:Nick()
-
-				jester_amnt = jester_amnt + 1
+			if jester_amnt > 0 then
+				jester_string = jester_string .. ", "
 			end
+
+			jester_string = jester_string .. ply:Nick()
+
+			jester_amnt = jester_amnt + 1
 		end
 
 		-- SETUP WINSTATE AND NOTIFY JESTER
