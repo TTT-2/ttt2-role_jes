@@ -1,3 +1,10 @@
+resource.AddFile("sound/ttt2/birthdayparty.mp3")
+resource.AddFile("materials/confetti.png")
+
+util.AddNetworkString("NewConfetti")
+
+util.PrecacheSound("ttt2/birthdayparty.mp3")
+
 local function ShouldJesterTakeNoDamage(ply, attacker)
 	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER then return end
 
