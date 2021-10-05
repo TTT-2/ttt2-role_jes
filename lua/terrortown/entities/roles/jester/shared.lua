@@ -14,8 +14,8 @@ function ROLE:PreInitialize()
 
 	self.abbr = "jes"
 	self.visibleForTeam = {TEAM_TRAITOR}
-	self.score.surviveBonusMultiplier = 0.5
-	self.score.timelimitMultiplier = -0.5
+	self.score.surviveBonusMultiplier = -2
+	self.score.timelimitMultiplier = -2
 	self.score.killsMultiplier = 0
 	self.score.teamKillsMultiplier = -16
 	self.score.bodyFoundMuliplier = 0
@@ -35,32 +35,6 @@ end
 hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
 
-	-- WINSTATES
-	-- 0: Selects a random winstate
-	-- 1: Default, if the jester is killed, he has won
-	-- 2: Jester respawns after three seconds with a random opposite role of his killer
-	-- 3: Jester respawns after killer death with a random opposite role
-	-- 4: Jester respawns after killer death with the role of his killer
-	-- 5: Jester respawns after three seconds with the role of the killer and the killer dies
-	-- 6: Jester respawns within three seconds with a role in an opposing team of the killer and the killer dies
-	-- 7: Like 5, unless the killer is a traitor or serialkiller, then jester is killed normally
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_winstate",
-		combobox = true,
-		desc = "Winstate (Def. 1)",
-		choices = {
-			"0 - Select a random winstate",
-			"1 - Jester wins if he's killed",
-			"2 - Respawn with opposite killer role",
-			"3 - Respawn with opposite killer role after killer death",
-			"4 - Respawn with killer role after killer death",
-			"5 - Respawn with killer role and killer dies",
-			"6 - Respawn with opposite killer role and killer dies",
-			"7 - like 5, unless killer is serialkiller or traitor"
-		},
-		numStart = 0
-	})
-
 	table.insert(tbl[ROLE_JESTER], {
 		cvar = "ttt2_jes_announce",
 		checkbox = true,
@@ -71,12 +45,6 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 		cvar = "ttt2_jes_improvised",
 		checkbox = true,
 		desc = "Jester can push other players (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_announce_winstate",
-		checkbox = true,
-		desc = "Announce the current winstate to jesters (Def. 1)"
 	})
 
 	table.insert(tbl[ROLE_JESTER], {
@@ -108,9 +76,7 @@ if SERVER then
 	-- ConVar syncing
 	local cv = {}
 	cv.pickup_allowed = CreateConVar("ttt2_jes_carry", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-	cv.winstate = CreateConVar("ttt2_jes_winstate", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 	cv.announce = CreateConVar("ttt2_jes_announce", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-	cv.announce_winstate = CreateConVar("ttt2_jes_announce_winstate", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.ignitedmg = CreateConVar("ttt2_jes_ignitedmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.explosiondmg = CreateConVar("ttt2_jes_explosiondmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
@@ -135,42 +101,6 @@ if SERVER then
 		end
 	end
 
-	local function SetUpWinstate()
-		-- SET WINSTATE AT ROUND BEGIN
-		JESTER.winstate = cv.winstate:GetInt()
-
-		if JESTER.winstate == 0 then
-			JESTER.winstate = math.random(1, 7)
-		end
-
-		-- NOTIFY JESTERS ABOUT THE CURRENT WINSTATE
-		if cv.announce_winstate:GetBool() then
-			local players = player.GetAll()
-			local jester_players = {}
-
-			for i = 1, #players do
-				local ply = players[i]
-
-				if ply:GetSubRole() == ROLE_JESTER then
-					jester_players[#jester_players + 1] = ply
-				end
-			end
-
-			if cv.winstate:GetInt() == 0 then
-				LANG.Msg(jester_players, "ttt2_role_jester_winstate_0", nil, MSG_MSTACK_ROLE)
-			end
-
-			LANG.Msg(jester_players, "ttt2_role_jester_winstate_" .. JESTER.winstate, nil, MSG_MSTACK_ROLE)
-		end
-
-		-- UPDATE RADAR VISIBILITY
-		if JESTER.winstate == 7 then
-			JESTER.visibleForTeam = {TEAM_TRAITOR, TEAM_SERIALKILLER}
-		else
-			JESTER.visibleForTeam = {TEAM_TRAITOR}
-		end
-	end
-
 	-- SYNC CONVAR - GLOBAL BOOL
 	hook.Add("TTT2SyncGlobals", "TTT2JesSyncGlobals", function()
 		SetGlobalBool("ttt2_jes_carry", cv.pickup_allowed:GetBool())
@@ -179,11 +109,6 @@ if SERVER then
 	cvars.AddChangeCallback(cv.pickup_allowed:GetName(), function(name, old, new)
 		SetGlobalBool("ttt2_jes_carry", tonumber(new) == 1)
 	end, cv.pickup_allowed:GetName())
-
-	-- REACT TO WINSTATE CHANGE
-	cvars.AddChangeCallback(cv.winstate:GetName(), function(name, old, new)
-		SetUpWinstate()
-	end, cv.winstate:GetName())
 
 	-- HANDLE PLAYER PUSH HOOK
 	hook.Add("TTT2PlayerPreventPush", "TTT2ToggleJesPushing", function(ply)
@@ -235,9 +160,6 @@ if SERVER then
 
 			jester_amnt = jester_amnt + 1
 		end
-
-		-- SETUP WINSTATE AND NOTIFY JESTER
-		SetUpWinstate()
 
 		-- NOTIFY ALL PLAYERS IF THERE IS A JESTER THIS ROUND
 		if cv.announce:GetBool() then
