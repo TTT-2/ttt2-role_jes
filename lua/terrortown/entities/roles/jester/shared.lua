@@ -13,8 +13,10 @@ function ROLE:PreInitialize()
 	self.color = Color(245, 48, 155, 255)
 
 	self.abbr = "jes"
-	self.score.surviveBonusMultiplier = -2
-	self.score.timelimitMultiplier = -2
+	self.score.surviveBonusMultiplier = 0
+	self.score.aliveTeammatesBonusMultiplier = 0
+	self.score.survivePenaltyMultiplier = -4
+	self.score.timelimitMultiplier = -4
 	self.score.killsMultiplier = 0
 	self.score.teamKillsMultiplier = -16
 	self.score.bodyFoundMuliplier = 0
