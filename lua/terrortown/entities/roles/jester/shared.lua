@@ -127,8 +127,8 @@ if SERVER then
 
 	-- HANDLE WINNING HOOK
 	hook.Add("TTTCheckForWin", "JesterCheckWin", function()
-		if JESTER.shouldWin then
-			JESTER.shouldWin = false
+		if roles.JESTER.shouldWin then
+			roles.JESTER.shouldWin = false
 
 			return TEAM_JESTER
 		end

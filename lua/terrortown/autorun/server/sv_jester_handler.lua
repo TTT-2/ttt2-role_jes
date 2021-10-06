@@ -20,11 +20,7 @@ local function ShouldJesterDealNoDamage(ply, attacker)
 	return true -- true to block damage event
 end
 
-local function SpawnJesterConfetti(ply)
-	if not IsValid(ply) or ply:GetSubRole() ~= ROLE_JESTER then return end
-
-	if not IsValid(attacker) or attacker == ply then return end
-
+function roles.JESTER.SpawnJesterConfetti(ply)
 	net.Start("NewConfetti")
 	net.WriteEntity(ply)
 	net.Broadcast()
@@ -51,12 +47,11 @@ hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, kill
 		or SpecDM and (ply.IsGhost and ply:IsGhost() or (killer.IsGhost and killer:IsGhost()))
 	then return end
 
-	JESTER.shouldWin = true
-
-	SpawnJesterConfetti(ply)
+	roles.JESTER.shouldWin = true
+	roles.JESTER.SpawnJesterConfetti(ply)
 end)
 
 -- reset hooks at round end
 hook.Add("TTTEndRound", "JesterEndRound", function()
-	JESTER.shouldWin = false
+	roles.JESTER.shouldWin = false
 end)
