@@ -13,7 +13,6 @@ function ROLE:PreInitialize()
 	self.color = Color(245, 48, 155, 255)
 
 	self.abbr = "jes"
-	self.visibleForTeam = {TEAM_TRAITOR}
 	self.score.surviveBonusMultiplier = -2
 	self.score.timelimitMultiplier = -2
 	self.score.killsMultiplier = 0
@@ -22,7 +21,7 @@ function ROLE:PreInitialize()
 	self.preventWin = true
 
 	self.defaultTeam = TEAM_JESTER
-	self.defaultEquipment = INNO_EQUIPMENT
+	self.defaultEquipment = SPECIAL_EQUIPMENT
 
 	self.conVarData = {
 		pct = 0.17,
@@ -64,6 +63,12 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
 		checkbox = true,
 		desc = "Jester receives explosion damage (Def. 1)"
 	})
+
+	table.insert(tbl[ROLE_JESTER], {
+		cvar = "ttt2_jes_exppose_to_all_evils",
+		checkbox = true,
+		desc = "Exposes their role to all evil roles (Def. 0)"
+	})
 end)
 
 hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
@@ -80,6 +85,7 @@ if SERVER then
 	cv.pushing_allowed = CreateConVar("ttt2_jes_improvised", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.ignitedmg = CreateConVar("ttt2_jes_ignitedmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 	cv.explosiondmg = CreateConVar("ttt2_jes_explosiondmg", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+	cv.exposed_to_all_evils = CreateConVar("ttt2_jes_exppose_to_all_evils", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
 	function ROLE:GiveRoleLoadout(ply, isRoleChange)
 		if not cv.ignitedmg:GetBool() then
@@ -126,23 +132,17 @@ if SERVER then
 		end
 	end)
 
+	local function ShouldShowJesterToTeam(ply)
+		return (cv.exposed_to_all_evils:GetBool() and ply:GetTeam() ~= TEAM_INNOCENT and not ply:GetSubRoleData().unknownTeam)
+			or (not cv.exposed_to_all_evils:GetBool() and ply:GetTeam() == TEAM_TRAITOR)
+	end
+
 	-- inform other players about the jesters in this round
-	hook.Add("TTTBeginRound", "JesterTraitorMsg", function()
-		if not GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetBool() then return end
-
-		if GetConVar("ttt_" .. JESTER.name .. "_enabled"):GetInt() > #(player.GetAll()) then return end
-
+	hook.Add("TTTBeginRound", "JesterRoundStartMessage", function()
 		-- GET A LIST OF ALL JESTERS
-		local players = player.GetAll()
-		local jesPlys = {}
-
-		for i = 1, #players do
-			local ply = players[i]
-
-			if ply:GetSubRole() ~= ROLE_JESTER then continue end
-
-			jesPlys[#jesPlys + 1] = ply
-		end
+		local jesPlys = util.GetFilteredPlayers(function(p)
+			return p:GetTeam() == TEAM_JESTER
+		end)
 
 		hook.Run("TTT2JesterModifyList", jesPlys)
 
@@ -173,10 +173,17 @@ if SERVER then
 		if jester_amnt == 0 then return end
 
 		-- NOTIFY TRAITORS ABOUT JESTERS THIS ROUND
-		if jester_amnt == 1 then
-			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_single", {playername = jester_string}, MSG_MSTACK_ROLE)
-		else
-			LANG.Msg(ROLE_TRAITOR, "ttt2_role_jester_info_jester_multiple", {playernames = jester_string}, MSG_MSTACK_ROLE)
+		local plys = player.GetAll()
+		for i = 1, #plys do
+			local ply = plys[i]
+
+			if ply:GetTeam() == TEAM_JESTER or not ShouldShowJesterToTeam(ply) then continue end
+
+			if jester_amnt == 1 then
+				LANG.Msg(ply, "ttt2_role_jester_info_jester_single", {playername = jester_string}, MSG_MSTACK_ROLE)
+			else
+				LANG.Msg(ply, "ttt2_role_jester_info_jester_multiple", {playernames = jester_string}, MSG_MSTACK_ROLE)
+			end
 		end
 	end)
 
@@ -191,5 +198,26 @@ if SERVER then
 		if wep:GetClass() == "weapon_ttt_confgrenade" then
 			return false
 		end
+	end)
+
+	-- Show the roles of the jester to the respective opponents
+	hook.Add("TTT2SpecialRoleSyncing", "TTT2RoleJesterSpecialSync", function(ply, tbl)
+		if GetRoundState() == ROUND_POST or not IsValid(ply) or ply:GetTeam() == TEAM_JESTER
+			or not ShouldShowJesterToTeam(ply)
+		then return end
+
+		for syncPly in pairs(tbl) do
+			if syncPly:GetTeam() ~= TEAM_JESTER or not syncPly:IsTerror() or syncPly == ply then continue end
+
+			tbl[syncPly] = hook.Run("TTT2JesterModifySyncedRole", ply, syncPly) or {syncPly:GetSubRole(), syncPly:GetTeam()}
+		end
+	end)
+
+	hook.Add("TTT2ModifyRadarRole", "TTT2ModifyRadarRoleJester", function(ply, target)
+		if not target:GetTeam() == TEAM_JESTER or not ShouldShowJesterToTeam(ply) then return end
+
+		local roleAndTeam = hook.Run("TTT2JesterModifySyncedRole", ply, syncPly) or {syncPly:GetSubRole(), syncPly:GetTeam()}
+
+		return roleAndTeam[1], roleAndTeam[2]
 	end)
 end

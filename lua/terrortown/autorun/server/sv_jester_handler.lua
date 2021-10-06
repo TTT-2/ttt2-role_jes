@@ -34,12 +34,10 @@ end
 
 -- Jester deals no damage to other players
 hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, amount, dmginfo)
-	if ShouldJesterTakeNoDamage(ply, killer) or ShouldJesterDealNoDamage(ply, killer) then
-		dmginfo:ScaleDamage(0)
-		dmginfo:SetDamage(0)
+	if not ShouldJesterTakeNoDamage(ply, killer) and not ShouldJesterDealNoDamage(ply, killer) then return end
 
-		return
-	end
+	dmginfo:ScaleDamage(0)
+	dmginfo:SetDamage(0)
 end)
 
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
