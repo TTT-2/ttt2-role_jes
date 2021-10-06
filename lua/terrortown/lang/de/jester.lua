@@ -1,16 +1,16 @@
 L = LANG.GetLanguageTableReference("de")
 
 -- GENERAL ROLE LANGUAGE STRINGS
-L[JESTER.name] = "Narr"
-L[JESTER.defaultTeam] = "Team Narren"
-L["hilite_win_" .. JESTER.defaultTeam] = "TEAM NARR GEWANN"
-L["win_" .. JESTER.defaultTeam] = "Der Narr hat gewonnen!"
-L["info_popup_" .. JESTER.name] = [[Du bist der Narr! Stifte Unruhe und lass dich töten!]]
-L["body_found_" .. JESTER.abbr] = "Er war ein Narr..."
-L["search_role_" .. JESTER.abbr] = "Diese Person war ein Narr!"
-L["ev_win_" .. JESTER.defaultTeam] = "Der trottelige Narr hat die Runde gewonnen!"
-L["target_" .. JESTER.name] = "Narr"
-L["ttt2_desc_" .. JESTER.name] = [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
+L[roles.JESTER.name] = "Narr"
+L[roles.JESTER.defaultTeam] = "Team Narren"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "TEAM NARR GEWANN"
+L["win_" .. roles.JESTER.defaultTeam] = "Der Narr hat gewonnen!"
+L["info_popup_" .. roles.JESTER.name] = [[Du bist der Narr! Stifte Unruhe und lass dich töten!]]
+L["body_found_" .. roles.JESTER.abbr] = "Er war ein Narr..."
+L["search_role_" .. roles.JESTER.abbr] = "Diese Person war ein Narr!"
+L["ev_win_" .. roles.JESTER.defaultTeam] = "Der trottelige Narr hat die Runde gewonnen!"
+L["target_" .. roles.JESTER.name] = "Narr"
+L["ttt2_desc_" .. roles.JESTER.name] = [[Der Narr ist für alle Verräter (und Serienkiller) sichtbar, aber nicht für Unschuldige oder andere "normale" Rollen (außer spezielle Varräter-Rollen oder den Hellseher).
 Der Narr kann keinen Schaden anrichten und sich auch nicht selbst umbringen. Doch wenn er stirbt, GEWINNT er allein. Also töte NICHT den Narr!]]
 
 -- OTHER ROLE LANGUAGE STRINGS

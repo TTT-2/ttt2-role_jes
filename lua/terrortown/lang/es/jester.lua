@@ -1,16 +1,16 @@
 L = LANG.GetLanguageTableReference("es")
 
 -- GENERAL ROLE LANGUAGE STRINGS
-L[JESTER.name] = "Jester"
-L[JESTER.defaultTeam] = "Team Jesters"
-L["hilite_win_" .. JESTER.defaultTeam] = "EL JESTER GANA"
-L["win_" .. JESTER.defaultTeam] = "¡El Jester ha ganado!"
-L["info_popup_" .. JESTER.name] = [[¡Eres el Jester! ¡Genera problemas  y has que te maten!]]
-L["body_found_" .. JESTER.abbr] = "¡Era un Jester!"
-L["search_role_" .. JESTER.abbr] = "Esta persona era un Jester."
-L["ev_win_" .. JESTER.defaultTeam] = "¡El torpe bufón ha ganado la ronda!"
-L["target_" .. JESTER.name] = "Jester"
-L["ttt2_desc_" .. JESTER.name] = [[El Jester es visible a los demás traidores, pero no para los inocentes o roles "normales" (Exceptuando roles específicos de traidor y el Clarividente).
+L[roles.JESTER.name] = "Jester"
+L[roles.JESTER.defaultTeam] = "Team Jesters"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "EL roles.JESTER GANA"
+L["win_" .. roles.JESTER.defaultTeam] = "¡El Jester ha ganado!"
+L["info_popup_" .. roles.JESTER.name] = [[¡Eres el Jester! ¡Genera problemas  y has que te maten!]]
+L["body_found_" .. roles.JESTER.abbr] = "¡Era un Jester!"
+L["search_role_" .. roles.JESTER.abbr] = "Esta persona era un Jester."
+L["ev_win_" .. roles.JESTER.defaultTeam] = "¡El torpe bufón ha ganado la ronda!"
+L["target_" .. roles.JESTER.name] = "Jester"
+L["ttt2_desc_" .. roles.JESTER.name] = [[El Jester es visible a los demás traidores, pero no para los inocentes o roles "normales" (Exceptuando roles específicos de traidor y el Clarividente).
 El Jester no inflige ningún daño ni puede suicidarse. Si de alguna manera muere, ganará. ¡No le apuntes a la cabeza!]]
 
 -- OTHER ROLE LANGUAGE STRINGS

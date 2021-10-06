@@ -1,16 +1,16 @@
 local L = LANG.GetLanguageTableReference("fr")
 
 -- GENERAL ROLE LANGUAGE STRINGS
-L[JESTER.name] = "Bouffon"
-L[JESTER.defaultTeam] = "Team Bouffon"
-L["hilite_win_" .. JESTER.defaultTeam] = "LE BOUFFON A GAGNÉ"
-L["win_" .. JESTER.defaultTeam] = "Le Bouffon a gagné!"
-L["info_popup_" .. JESTER.name] = [[Vous êtes le Bouffon ! Faites du grabuge et laissez-les vous tuer!]]
-L["body_found_" .. JESTER.abbr] = "C'était un Bouffon!"
-L["search_role_" .. JESTER.abbr] = "Cette personne était un Bouffon!"
-L["ev_win_" .. JESTER.defaultTeam] = "Le Bouffon loufoque a gagné la manche!"
-L["target_" .. JESTER.name] = "Bouffon"
-L["ttt2_desc_" .. JESTER.name] = [[Le Bouffon est visible pour tout les traître, mais pas pour les innocents ou  les autres rôles "normaux"  (à l'exception des rôles de traîtres personnalisé ou du Clairvoyant).
+L[roles.JESTER.name] = "Bouffon"
+L[roles.JESTER.defaultTeam] = "Team Bouffon"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "LE BOUFFON A GAGNÉ"
+L["win_" .. roles.JESTER.defaultTeam] = "Le Bouffon a gagné!"
+L["info_popup_" .. roles.JESTER.name] = [[Vous êtes le Bouffon ! Faites du grabuge et laissez-les vous tuer!]]
+L["body_found_" .. roles.JESTER.abbr] = "C'était un Bouffon!"
+L["search_role_" .. roles.JESTER.abbr] = "Cette personne était un Bouffon!"
+L["ev_win_" .. roles.JESTER.defaultTeam] = "Le Bouffon loufoque a gagné la manche!"
+L["target_" .. roles.JESTER.name] = "Bouffon"
+L["ttt2_desc_" .. roles.JESTER.name] = [[Le Bouffon est visible pour tout les traître, mais pas pour les innocents ou  les autres rôles "normaux"  (à l'exception des rôles de traîtres personnalisé ou du Clairvoyant).
 Le bouffon ne peut pas faire de dégâts ni se suicider. Mais s'il meurt, il GAGNERA. Alors ne tuez pas le Bouffon!]]
 
 -- OTHER ROLE LANGUAGE STRINGS

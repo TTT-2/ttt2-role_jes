@@ -1,16 +1,16 @@
 L = LANG.GetLanguageTableReference("ru")
 
 -- GENERAL ROLE LANGUAGE STRINGS
-L[JESTER.name] = "Шут"
-L[JESTER.defaultTeam] = "Команда шутов"
-L["hilite_win_" .. JESTER.defaultTeam] = "ПОБЕДА ШУТОВ"
-L["win_" .. JESTER.defaultTeam] = "Шут победил!"
-L["info_popup_" .. JESTER.name] = [[Вы шут! Создайте проблемы и позвольте им убить вас!]]
-L["body_found_" .. JESTER.abbr] = "Он был шутом!"
-L["search_role_" .. JESTER.abbr] = "Этот человек был шутом!"
-L["ev_win_" .. JESTER.defaultTeam] = "Глупый шут выиграл раунд!"
-L["target_" .. JESTER.name] = "Шут"
-L["ttt2_desc_" .. JESTER.name] = [[Шут виден для любого предателя, но не для невинных или других "нормальных" ролей (кроме особых ролей предателя или ясновидящего).
+L[roles.JESTER.name] = "Шут"
+L[roles.JESTER.defaultTeam] = "Команда шутов"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "ПОБЕДА ШУТОВ"
+L["win_" .. roles.JESTER.defaultTeam] = "Шут победил!"
+L["info_popup_" .. roles.JESTER.name] = [[Вы шут! Создайте проблемы и позвольте им убить вас!]]
+L["body_found_" .. roles.JESTER.abbr] = "Он был шутом!"
+L["search_role_" .. roles.JESTER.abbr] = "Этот человек был шутом!"
+L["ev_win_" .. roles.JESTER.defaultTeam] = "Глупый шут выиграл раунд!"
+L["target_" .. roles.JESTER.name] = "Шут"
+L["ttt2_desc_" .. roles.JESTER.name] = [[Шут виден для любого предателя, но не для невинных или других "нормальных" ролей (кроме особых ролей предателя или ясновидящего).
 Шут не может нанести урон или убить себя. Но если он умрёт, он ВЫИГРАЕТ. Так что не убивайте шута!]]
 
 -- OTHER ROLE LANGUAGE STRINGS
