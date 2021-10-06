@@ -3,7 +3,7 @@ L = LANG.GetLanguageTableReference("es")
 -- GENERAL ROLE LANGUAGE STRINGS
 L[roles.JESTER.name] = "Jester"
 L[roles.JESTER.defaultTeam] = "Team Jesters"
-L["hilite_win_" .. roles.JESTER.defaultTeam] = "EL roles.JESTER GANA"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "EL JESTER GANA"
 L["win_" .. roles.JESTER.defaultTeam] = "¡El Jester ha ganado!"
 L["info_popup_" .. roles.JESTER.name] = [[¡Eres el Jester! ¡Genera problemas  y has que te maten!]]
 L["body_found_" .. roles.JESTER.abbr] = "¡Era un Jester!"
@@ -14,19 +14,14 @@ L["ttt2_desc_" .. roles.JESTER.name] = [[El Jester es visible a los demás traid
 El Jester no inflige ningún daño ni puede suicidarse. Si de alguna manera muere, ganará. ¡No le apuntes a la cabeza!]]
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["ttt2_role_jester_killed_by_player"] = "¡{nick} asesinó al Jester!"
-L["ttt2_role_jester_killer_info"] = "¡Fuiste asesinado porque mataste al Jester!"
 L["ttt2_role_jester_info_no_kill"] = "¡No mates al Jester!"
 L["ttt2_role_jester_info_no_jester"] = "¡No apareció un Jester esta ronda!"
 L["ttt2_role_jester_info_jester_single"] = "¡'{playername}' es el Jester!"
 L["ttt2_role_jester_info_jester_multiple"] = "¡'{playernames}' son los Jesters!"
 
--- WINSTATE LANGS
-L["ttt2_role_jester_winstate_0"] = "Condición de victoria al azar activa."
-L["ttt2_role_jester_winstate_1"] = "Condición de Victoria (Jester) 1: Ganarás si mueres."
-L["ttt2_role_jester_winstate_2"] = "Condición de Victoria (Jester) 2: Reaparecerás con el rol contrario de tu asesino."
-L["ttt2_role_jester_winstate_3"] = "Condición de Victoria (Jester) 3: Reaparecerás con el rol contrario al de tu asesino cuando este muera."
-L["ttt2_role_jester_winstate_4"] = "Condición de Victoria (Jester) 4: Reaparecerás con el rol de tu asesino cuando este muera."
-L["ttt2_role_jester_winstate_5"] = "Condición de Victoria (Jester) 5: Reaparecerás con el rol de tu asesino y este morirá."
-L["ttt2_role_jester_winstate_6"] = "Condición de Victoria (Jester) 6: Reaparecerás con el rol contrario al de tu asesino y este morirá."
-L["ttt2_role_jester_winstate_7"] = "Condición de Victoria (Jester) 7: Reaparecerás con el rol de tu asesino y este morirá, al menos que este sea un AsesinoSerial o un traidor."
+--L["title_event_jester_kill"] = "A Jester was killed"
+--L["desc_event_jester_kill"] = "{jester} the Jester was killed by a triggerhappy {killer} ({role} / {team})."
+--L["tooltip_jester_kill_score_jester"] = "Jester kill bonus: {score}"
+--L["jester_kill_score_jester"] = "Jester kill bonus:"
+--L["tooltip_jester_kill_score_killer"] = "Jester kill penalty: {score}"
+--L["jester_kill_score_killer"] = "Jester kill penalty:"

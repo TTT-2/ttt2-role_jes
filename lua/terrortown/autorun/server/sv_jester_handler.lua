@@ -1,5 +1,6 @@
 resource.AddFile("sound/ttt2/birthdayparty.mp3")
 resource.AddFile("materials/confetti.png")
+resource.AddFile("materials/vgui/ttt/vskin/events/jester_kill.vmt")
 
 util.AddNetworkString("NewConfetti")
 
@@ -49,6 +50,8 @@ hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, kill
 
 	roles.JESTER.shouldWin = true
 	roles.JESTER.SpawnJesterConfetti(ply)
+
+	events.Trigger(EVENT_JESTER_KILL, ply, killer)
 end)
 
 -- reset hooks at round end

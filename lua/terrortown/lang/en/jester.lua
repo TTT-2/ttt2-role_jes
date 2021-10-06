@@ -3,7 +3,7 @@ L = LANG.GetLanguageTableReference("en")
 -- GENERAL ROLE LANGUAGE STRINGS
 L[roles.JESTER.name] = "Jester"
 L[roles.JESTER.defaultTeam] = "Team Jester"
-L["hilite_win_" .. roles.JESTER.defaultTeam] = "TEAM roles.JESTER WON"
+L["hilite_win_" .. roles.JESTER.defaultTeam] = "TEAM JESTER WON"
 L["win_" .. roles.JESTER.defaultTeam] = "The Jester has won!"
 L["info_popup_" .. roles.JESTER.name] = [[You are the Jester! Make trouble and let 'em kill you!]]
 L["body_found_" .. roles.JESTER.abbr] = "They were a Jester!"
@@ -14,19 +14,14 @@ L["ttt2_desc_" .. roles.JESTER.name] = [[The Jester is visible for any traitor, 
 The Jester can't deal any damage or kill himself. But if he dies, he will WIN. So don't kill the Jester!]]
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["ttt2_role_jester_killed_by_player"] = "{nick} killed the Jester!"
-L["ttt2_role_jester_killer_info"] = "You were killed, because you killed the Jester!"
 L["ttt2_role_jester_info_no_kill"] = "Don't kill the Jester!"
 L["ttt2_role_jester_info_no_jester"] = "There is no Jester in this round!"
 L["ttt2_role_jester_info_jester_single"] = "'{playername}' is the Jester!"
 L["ttt2_role_jester_info_jester_multiple"] = "'{playernames}' are the Jesters!"
 
--- WINSTATE LANGS
-L["ttt2_role_jester_winstate_0"] = "Random jester winstate selection active."
-L["ttt2_role_jester_winstate_1"] = "Jester winstate 1: You will win if you are killed."
-L["ttt2_role_jester_winstate_2"] = "Jester winstate 2: You will respawn with the opposite role of your killer."
-L["ttt2_role_jester_winstate_3"] = "Jester winstate 3: You will respawn with the opposite role of your killer after they died."
-L["ttt2_role_jester_winstate_4"] = "Jester winstate 4: You will respawn with the role of your killer after they died."
-L["ttt2_role_jester_winstate_5"] = "Jester winstate 5: You will respawn with the role of your killer and your killer will die."
-L["ttt2_role_jester_winstate_6"] = "Jester winstate 6: You will respawn with the opposite role of your killer and your killer will die."
-L["ttt2_role_jester_winstate_7"] = "Jester winstate 7: You will respawn with the role of your killer and your killer will die, unless your killer is a serialkiller or traitor."
+L["title_event_jester_kill"] = "A Jester was killed"
+L["desc_event_jester_kill"] = "{jester} the Jester was killed by a triggerhappy {killer} ({role} / {team})."
+L["tooltip_jester_kill_score_jester"] = "Jester kill bonus: {score}"
+L["jester_kill_score_jester"] = "Jester kill bonus:"
+L["tooltip_jester_kill_score_killer"] = "Jester kill penalty: {score}"
+L["jester_kill_score_killer"] = "Jester kill penalty:"

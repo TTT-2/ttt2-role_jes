@@ -14,19 +14,14 @@ L["ttt2_desc_" .. roles.JESTER.name] = [[Il Giullare è visibile per tutti i tra
 Il Jester non può fare danno o uccidersi. Ma se muore, vince. Quindi non uccidere il Giullare!]]
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["ttt2_role_jester_killed_by_player"] = "{nick} ha ucciso il Giullare!"
-L["ttt2_role_jester_killer_info"] = "Sei morto, perché hai ucciso il Giullare!"
 L["ttt2_role_jester_info_no_kill"] = "Non uccidere il Giullare!"
 L["ttt2_role_jester_info_no_jester"] = "Non c'è nessun Giullare questo round!"
 L["ttt2_role_jester_info_jester_single"] = "'{playername}' è il Giullare!"
 L["ttt2_role_jester_info_jester_multiple"] = "'{playernames}' sono i Giullare!"
 
--- WINSTATE LANGS
-L["ttt2_role_jester_winstate_0"] = "Condizione di vittoria per i Giullare random."
-L["ttt2_role_jester_winstate_1"] = "Condizione di vittoria Giullare 1: Vincerai se sarai ucciso."
-L["ttt2_role_jester_winstate_2"] = "Condizione di vittoria Giullare 2: Respawnerai con il ruolo opposto a quello del tuo assassino."
-L["ttt2_role_jester_winstate_3"] = "Condizione di vittoria Giullare 3: Respawnerai con il ruolo opposto a quello del tuo assassino dopo la sua morte."
-L["ttt2_role_jester_winstate_4"] = "Condizione di vittoria Giullare 4: Respawnerai con il ruolo del tuo assassino."
-L["ttt2_role_jester_winstate_5"] = "Condizione di vittoria Giullare 5: Respawnerai con il ruolo del tuo assassino e il tuo assassino morirà."
-L["ttt2_role_jester_winstate_6"] = "Condizione di vittoria Giullare 6: Respawnerai con il ruolo opposto a quello del tuo assassino e il tuo assassino morirà."
-L["ttt2_role_jester_winstate_7"] = "Condizione di vittoria Giullare 7: Respawnerai con il ruolo opposto a quello del tuo assassino e il tuo assassino morirà, almeno che non sia un Serial Killer o un Traditore."
+--L["title_event_jester_kill"] = "A Jester was killed"
+--L["desc_event_jester_kill"] = "{jester} the Jester was killed by a triggerhappy {killer} ({role} / {team})."
+--L["tooltip_jester_kill_score_jester"] = "Jester kill bonus: {score}"
+--L["jester_kill_score_jester"] = "Jester kill bonus:"
+--L["tooltip_jester_kill_score_killer"] = "Jester kill penalty: {score}"
+--L["jester_kill_score_killer"] = "Jester kill penalty:"
