@@ -37,6 +37,13 @@ hook.Add("PlayerTakeDamage", "JesterNoDamage", function(ply, inflictor, killer, 
 	dmginfo:SetDamage(0)
 end)
 
+-- Jester deals no damage to ankhs
+hook.Add("TTT2PharaohPreventDamageToAnkh", "TTT2PharaohPreventDamageToAnkhJester", function(attacker)
+	if attacker:GetSubRole() == ROLE_JESTER then
+		return true
+	end
+end)
+
 hook.Add("TTT2PostPlayerDeath", "JesterPostDeath", function(ply, inflictor, killer)
 	if not IsValid(ply)
 		or ply:GetSubRole() ~= ROLE_JESTER
