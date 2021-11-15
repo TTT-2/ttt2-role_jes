@@ -65,3 +65,9 @@ end)
 hook.Add("TTTEndRound", "JesterEndRound", function()
 	roles.JESTER.shouldWin = false
 end)
+
+hook.Add("TTT2CanBeHitmanTarget", "TTT2JesterNoHitmanTarget", function(hitman, ply)
+	if ply:GetSubRole() == ROLE_JESTER then
+		return false
+	end
+end)
