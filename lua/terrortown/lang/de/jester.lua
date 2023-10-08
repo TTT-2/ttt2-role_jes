@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("de")
+local L = LANG.GetLanguageTableReference("de")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[roles.JESTER.name] = "Narr"
@@ -25,3 +25,10 @@ L["tooltip_jester_kill_score_jester"] = "Narrenmordbonus: {score}"
 L["jester_kill_score_jester"] = "Narrenmordbonus:"
 L["tooltip_jester_kill_score_killer"] = "Narrenmordstrafe: {score}"
 L["jester_kill_score_killer"] = "Narrenmordstrafe:"
+
+L["label_jes_announce"] = "Bekanntgeben, ob ein Narr in der Runde ist"
+L["label_jes_improvised"] = "Narr kann andere Spieler schubsen"
+L["label_jes_carry"] = "Narr kann Gegenstände mit dem Magneto Stick aufheben"
+L["label_jes_ignitedmg"] = "Narr bekommt Feuerschaden"
+L["label_jes_explosiondmg"] = "Narr bekommt Explosionsschaden"
+L["label_jes_exppose_to_all_evils"] = "Entlarvt Rolle zu allen bösen Rollen"

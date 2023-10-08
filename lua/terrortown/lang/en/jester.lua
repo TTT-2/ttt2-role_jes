@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("en")
+local L = LANG.GetLanguageTableReference("en")
 
 -- GENERAL ROLE LANGUAGE STRINGS
 L[roles.JESTER.name] = "Jester"
@@ -25,3 +25,10 @@ L["tooltip_jester_kill_score_jester"] = "Jester kill bonus: {score}"
 L["jester_kill_score_jester"] = "Jester kill bonus:"
 L["tooltip_jester_kill_score_killer"] = "Jester kill penalty: {score}"
 L["jester_kill_score_killer"] = "Jester kill penalty:"
+
+L["label_jes_announce"] = "Announce if a Jester is in the round"
+L["label_jes_improvised"] = "Jester can push other players"
+L["label_jes_carry"] = "Jester can pickup entities with the magneto stick"
+L["label_jes_ignitedmg"] = "Jester receives fire damage"
+L["label_jes_explosiondmg"] = "Jester receives explosion damage"
+L["label_jes_exppose_to_all_evils"] = "Exposes their role to all evil roles"

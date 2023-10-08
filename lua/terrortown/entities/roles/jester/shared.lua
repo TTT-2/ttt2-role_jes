@@ -33,46 +33,6 @@ function ROLE:PreInitialize()
 	}
 end
 
-hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicJesCVars", function(tbl)
-	tbl[ROLE_JESTER] = tbl[ROLE_JESTER] or {}
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_announce",
-		checkbox = true,
-		desc = "Announce if a jester is in the round (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_improvised",
-		checkbox = true,
-		desc = "Jester can push other players (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_carry",
-		checkbox = true,
-		desc = "Jester can pickup entities with the magneto stick (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_ignitedmg",
-		checkbox = true,
-		desc = "Jester receives fire damage (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_explosiondmg",
-		checkbox = true,
-		desc = "Jester receives explosion damage (Def. 1)"
-	})
-
-	table.insert(tbl[ROLE_JESTER], {
-		cvar = "ttt2_jes_exppose_to_all_evils",
-		checkbox = true,
-		desc = "Exposes their role to all evil roles (Def. 0)"
-	})
-end)
-
 hook.Add("TTT2PlayerPreventPickupEnt", "TTT2ToggleJesPickupEnt", function(ply)
 	if ply:GetSubRole() == ROLE_JESTER and not GetGlobalBool("ttt2_jes_carry", false) then
 		return true
@@ -224,4 +184,40 @@ if SERVER then
 			return roleAndTeam[1], roleAndTeam[2]
 		end
 	end)
+end
+
+if CLIENT then
+	function ROLE:AddToSettingsMenu(parent)
+		local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_announce",
+			label = "label_jes_announce"
+		})
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_improvised",
+			label = "label_jes_improvised"
+		})
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_carry",
+			label = "label_jes_carry"
+		})
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_ignitedmg",
+			label = "label_jes_ignitedmg"
+		})
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_explosiondmg",
+			label = "label_jes_explosiondmg"
+		})
+
+		form:MakeCheckBox({
+			serverConvar = "ttt2_jes_exppose_to_all_evils",
+			label = "label_jes_exppose_to_all_evils"
+		})
+	end
 end
