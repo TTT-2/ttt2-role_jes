@@ -95,6 +95,8 @@ if SERVER then
 	end)
 
 	local function ShouldShowJesterToTeam(ply)
+		local overrideShow = hook.Run("TTT2JesterShouldShow", ply)
+		if overrideShow ~= nil then return overrideShow end
 		return (cv.exposed_to_all_evils:GetBool() and ply:GetTeam() ~= TEAM_INNOCENT and not ply:GetSubRoleData().unknownTeam)
 			or (not cv.exposed_to_all_evils:GetBool() and ply:GetTeam() == TEAM_TRAITOR)
 	end
