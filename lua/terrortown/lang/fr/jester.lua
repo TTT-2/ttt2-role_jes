@@ -8,10 +8,10 @@ L["win_" .. roles.JESTER.defaultTeam] = "Les Bouffons ont gagné !"
 L["info_popup_" .. roles.JESTER.name] = [[Vous êtes le Bouffon ! Faites du grabuge et laissez-les vous tuer !]]
 L["body_found_" .. roles.JESTER.abbr] = "C'était un Bouffon !"
 L["search_role_" .. roles.JESTER.abbr] = "C'était un Bouffon !"
-L["ev_win_" .. roles.JESTER.defaultTeam] = "Lea Bouffona loufoques ont gagné la partie !"
+L["ev_win_" .. roles.JESTER.defaultTeam] = "Les Bouffons loufoques ont gagné la partie !"
 L["target_" .. roles.JESTER.name] = "Bouffon"
-L["ttt2_desc_" .. roles.JESTER.name] = [[Le Bouffon est visible pour tout les traître, mais pas pour les innocents ou  les autres rôles "normaux"  (à l'exception des rôles de traîtres personnalisé ou du Clairvoyant).
-Le bouffon ne peut pas faire de dégâts ni se suicider. Mais s'il meurt, il GAGNERA. Alors ne tuez pas le Bouffon !]]
+L["ttt2_desc_" .. roles.JESTER.name] = [[Les Bouffons sont visibles pour tous les traîtres, mais pas pour les innocents ou  les autres rôles "normaux"  (à l'exception des rôles de traîtres personnalisé ou du Clairvoyant).
+Les bouffons ne peuvent se pas faire de dégâts ni se suicider. Mais s'il meurt, il GAGNERA. Alors ne tuez pas les Bouffons !]]
 
 -- OTHER ROLE LANGUAGE STRINGS
 L["ttt2_role_jester_info_no_kill"] = "Ne tuez pas le Bouffon !"
