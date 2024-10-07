@@ -105,6 +105,11 @@ if SERVER then
 
 	-- inform other players about the jesters in this round
 	hook.Add("TTTBeginRound", "JesterRoundStartMessage", function()
+		-- jester is not enabled so we don't want to notify players at all
+		if not GetConVar("ttt_jester_enabled"):GetBool() then
+			return
+		end
+
 		-- GET A LIST OF ALL JESTERS
 		local jesPlys = util.GetFilteredPlayers(function(p)
 			return p:GetTeam() == TEAM_JESTER
